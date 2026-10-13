@@ -1,81 +1,200 @@
 ---
+// Y5Leads pricing: the standard rate on the left, and a pack picker on the right
+// whose receipt shows exactly what each pack costs and saves. Figures come from
+// leadPricing in site.ts (keep in step with the app's credit packs).
 import { leadPricing, aed, site } from '../config/site';
 interface Props {
-  compact?: boolean;
   more?: boolean;
 }
-const { compact = false, more = false } = Astro.props;
+const { more = false } = Astro.props;
 const { perLead, vat, packs } = leadPricing;
-const rows = packs.map((p) => {
-  const price = p.credits * (1 - p.discount / 100);
-  return { ...p, leads: Math.floor(p.credits / perLead), price, perLeadNet: perLead * (1 - p.discount / 100) };
+const rows = packs.map((p, i) => {
+  const before = p.credits;
+  const save = Math.round(before * p.discount / 100);
+  const pay = before - save;
+  const tax = Math.round(pay * vat / 100);
+  return {
+    ...p, key: p.name.toLowerCase(), last: i === packs.length - 1,
+    leads: Math.floor(p.credits / perLead), before, save, pay, tax, total: pay + tax,
+    each: perLead * (1 - p.discount / 100),
+  };
 });
+const start = rows[1] ?? rows[0];
+const fmt = (n: number) => n.toLocaleString('en-US');
 ---
-<section class:list={['section pricing', { compact }]} id="pricing">
+<section class="pricing forest on-dark" id="pricing" data-pricing>
   <div class="container">
-    <div class="section-head">
+    <div class="head">
       <div>
         <div class="kicker" data-reveal>Y5Leads pricing</div>
-        <h2 data-reveal>Pay per lead. <span class="accent">Save as you grow.</span></h2>
+        <h2 data-reveal>One price per lead. <span class="accent">Bigger packs, bigger savings.</span></h2>
       </div>
-      <p class="lede" data-reveal>
-        Buy credits and spend them only on the leads you unlock. One credit is one dirham, and the more credits you
-        buy at once, the bigger the discount.
-      </p>
+      <p class="lede" data-reveal>Credits are only spent when you unlock a lead. One credit is one dirham.</p>
     </div>
 
     <div class="grid">
-      <article class="std" data-reveal>
+      <article class="rate" data-reveal>
         <span class="label">Standard rate</span>
-        <p class="big">{aed(perLead)}<small> per lead</small></p>
+        <p class="big"><small>AED</small>{perLead}</p>
+        <p class="per">per lead you unlock</p>
         <ul>
           <li>Leads matched to your projects</li>
-          <li>Unlock only the leads you want</li>
+          <li>Names hidden until you unlock</li>
           <li>Bad lead? Report it for a refund</li>
           <li>Email alert when new leads arrive</li>
         </ul>
-        <a class="btn btn-primary" href="/contact?interest=y5leads">Start with Y5Leads</a>
+        <p class="fine">{vat}% VAT is added at checkout.</p>
       </article>
 
-      {rows.map((r, i) => (
-        <article class:list={['pack', { best: i === rows.length - 1 }]} data-reveal data-reveal-delay={`${(i + 1) * 0.08}s`}>
-          <div class="pack-top">
-            <span class="label">{r.name}</span>
-            <span class="off">{r.discount}% off</span>
+      <div class="picker" data-reveal data-reveal-delay=".1s">
+        <div class="packs" role="radiogroup" aria-label="Credit packs">
+          {rows.map((r) => (
+            <button
+              type="button" role="radio" class="pack" data-pack={r.key}
+              aria-checked={r.key === start.key ? 'true' : 'false'} tabindex={r.key === start.key ? 0 : -1}
+              data-credits={fmt(r.credits) + (r.last ? '+' : '')} data-leads={r.leads} data-before={aed(r.before)}
+              data-discount={r.discount} data-save={'−' + aed(r.save)} data-pay={aed(r.pay)} data-tax={aed(r.tax)}
+              data-total={aed(r.total)} data-each={aed(r.each)} data-name={r.name}
+            >
+              <span class="off">{r.discount}% off</span>
+              <b>{r.name}</b>
+              <span class="cr">{fmt(r.credits)}{r.last ? '+' : ''} credits</span>
+              <span class="ld">about {r.leads} leads</span>
+            </button>
+          ))}
+        </div>
+
+        <div class="meter" aria-hidden="true">
+          <div class="fill" data-fill style={`width: ${(start.discount / rows[rows.length - 1].discount) * 100}%`}></div>
+          {rows.map((r) => <span class="tick" style={`left: ${(r.discount / rows[rows.length - 1].discount) * 100}%`}>{r.discount}%</span>)}
+        </div>
+
+        <div class="receipt" aria-live="polite">
+          <div class="r-head">
+            <span><b data-out="name">{start.name}</b> pack</span>
+            <span class="each">Each lead <b data-out="each">{aed(start.each)}</b></span>
           </div>
-          <p class="credits">{r.credits.toLocaleString('en-US')}{i === rows.length - 1 ? '+' : ''} <small>credits</small></p>
-          <p class="price">{aed(r.price)}</p>
-          <p class="meta">About {r.leads} leads at {aed(r.perLeadNet)} each</p>
-        </article>
-      ))}
+          <dl>
+            <div><dt>Credits</dt><dd data-out="credits">{fmt(start.credits)}</dd></div>
+            <div><dt>Leads it unlocks</dt><dd>about <span data-out="leads">{start.leads}</span></dd></div>
+            <div><dt>Price at the standard rate</dt><dd data-out="before">{aed(start.before)}</dd></div>
+            <div class="save"><dt>Pack discount (<span data-out="discount">{start.discount}</span>%)</dt><dd data-out="save">−{aed(start.save)}</dd></div>
+            <div class="sub"><dt>You pay</dt><dd data-out="pay">{aed(start.pay)}</dd></div>
+            <div><dt>VAT {vat}%</dt><dd data-out="tax">{aed(start.tax)}</dd></div>
+            <div class="total"><dt>Total</dt><dd data-out="total">{aed(start.total)}</dd></div>
+          </dl>
+          <div class="actions">
+            <a class="btn btn-primary" href="/contact?interest=y5leads">Get started <span aria-hidden="true">→</span></a>
+            <a class="btn btn-glass" href={site.logins.find((l) => l.label === 'Y5Leads')!.href}>Buy in the app</a>
+          </div>
+        </div>
+        <p class="note">Need more than {fmt(rows[rows.length - 1].credits)} credits or a custom rate? <a href={site.cta.href}>Talk to us</a>.</p>
+      </div>
     </div>
-    <p class="note">Prices exclude {vat}% VAT. Need a bigger volume or a custom rate? <a href={site.cta.href}>Talk to us</a>.</p>
-    {more && <div class="more" data-reveal><a class="btn btn-dark" href="/y5leads">Explore Y5Leads <span aria-hidden="true">→</span></a></div>}
+
+    {more && <div class="more" data-reveal><a class="btn btn-glass" href="/y5leads">Everything about Y5Leads <span aria-hidden="true">→</span></a></div>}
   </div>
 </section>
 
+<script>
+  document.querySelectorAll<HTMLElement>('[data-pricing]').forEach((root) => {
+    const packs = [...root.querySelectorAll<HTMLButtonElement>('[data-pack]')];
+    const max = Math.max(...packs.map((p) => Number(p.dataset.discount)));
+    const fill = root.querySelector<HTMLElement>('[data-fill]');
+    const out = (k: string, v: string) => root.querySelectorAll<HTMLElement>(`[data-out="${k}"]`).forEach((el) => { el.textContent = v; });
+    const pick = (b: HTMLButtonElement) => {
+      packs.forEach((p) => { const on = p === b; p.setAttribute('aria-checked', String(on)); p.tabIndex = on ? 0 : -1; });
+      const d = b.dataset;
+      out('name', d.name!); out('each', d.each!); out('credits', d.credits!); out('leads', d.leads!);
+      out('before', d.before!); out('discount', d.discount!); out('save', d.save!); out('pay', d.pay!);
+      out('tax', d.tax!); out('total', d.total!);
+      if (fill) fill.style.width = `${(Number(d.discount) / max) * 100}%`;
+    };
+    packs.forEach((b, i) => {
+      b.addEventListener('click', () => pick(b));
+      b.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        const next = packs[(i + step + packs.length) % packs.length];
+        pick(next); next.focus();
+      });
+    });
+  });
+</script>
+
 <style>
-  .grid { display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
-  .std, .pack { border-radius: var(--radius-md); padding: 28px; display: flex; flex-direction: column; gap: 10px; }
-  .std { background: var(--forest-glow), var(--forest); color: var(--on-dark); }
-  .std .label { color: var(--lime); }
-  .label { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--green-ink); }
-  .big { font-family: var(--font-display); font-size: clamp(36px, 4vw, 52px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
-  .big small { font-size: 16px; font-weight: 500; color: var(--on-dark-muted); letter-spacing: 0; }
-  ul { list-style: none; display: grid; gap: 8px; margin: 10px 0 18px; color: var(--on-dark-muted); font-size: 15px; }
-  li::before { content: '✓'; color: var(--lime); margin-right: 10px; font-weight: 700; }
-  .std .btn { margin-top: auto; align-self: flex-start; }
-  .pack { background: var(--white); border: 1px solid var(--gray-200); }
-  .pack.best { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
-  .pack-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .off { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--green-tint); color: var(--green-ink); }
-  .credits { font-family: var(--font-display); font-size: 30px; font-weight: 600; letter-spacing: -.02em; margin-top: 10px; font-variant-numeric: tabular-nums; }
-  .credits small { font-size: 15px; font-weight: 500; color: var(--gray-500); letter-spacing: 0; }
-  .price { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .meta { margin-top: auto; font-size: 14px; color: var(--gray-500); }
+  .pricing { padding-block: var(--section); position: relative; overflow: hidden; }
+  .head { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 20px 56px; align-items: end; margin-bottom: clamp(32px, 4vw, 52px); }
+  .head h2 { max-width: 17ch; }
+  .grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px; align-items: stretch; }
+
+  .rate {
+    position: relative; overflow: hidden; border-radius: var(--radius-lg); padding: clamp(28px, 3vw, 40px);
+    background: var(--gradient); color: #0B1A10; display: flex; flex-direction: column;
+  }
+  .rate::after {
+    content: ''; position: absolute; right: -40px; bottom: -50px; width: 260px; height: 120px;
+    background: url('/images/brand/logomark.svg') center / contain no-repeat; opacity: .12; filter: brightness(0);
+  }
+  .label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .big { font-family: var(--font-display); font-weight: 700; font-size: clamp(72px, 8vw, 120px); line-height: .9; letter-spacing: -.05em; margin-top: 18px; display: flex; align-items: flex-start; gap: 8px; }
+  .big small { font-size: .26em; letter-spacing: 0; margin-top: .45em; }
+  .per { font-weight: 600; margin-top: 8px; }
+  .rate ul { list-style: none; display: grid; gap: 10px; margin: 28px 0 24px; font-weight: 500; }
+  .rate li { display: flex; gap: 10px; align-items: baseline; }
+  .rate li::before { content: ''; width: 18px; height: 18px; flex: none; border-radius: 50%; transform: translateY(3px); background: #0B1A10 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-5' fill='none' stroke='%23A6E72A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat; }
+  .fine { margin-top: auto; font-size: 13px; color: #1D3320; }
+
+  .picker {
+    border-radius: var(--radius-lg); padding: clamp(18px, 2.4vw, 28px); display: flex; flex-direction: column; gap: 18px;
+    background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+  }
+  .packs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .pack {
+    position: relative; text-align: left; cursor: pointer; font: inherit; color: var(--white);
+    display: grid; gap: 2px; padding: 16px; border-radius: 18px;
+    background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .12);
+    transition: background .25s, border-color .25s, transform .25s var(--ease-out);
+  }
+  .pack:hover { border-color: rgba(255, 255, 255, .3); transform: translateY(-2px); }
+  .pack[aria-checked='true'] { background: rgba(166, 231, 42, .12); border-color: var(--lime); box-shadow: inset 0 0 0 1px var(--lime); }
+  .pack:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+  .off { justify-self: start; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--lime); color: #0B1A10; margin-bottom: 8px; }
+  .pack b { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
+  .cr { font-size: 14px; color: var(--on-dark-muted); font-variant-numeric: tabular-nums; }
+  .ld { font-size: 12.5px; color: var(--on-dark-faint); }
+
+  .meter { position: relative; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, .1); margin: 4px 6px 18px; }
+  .fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--green), var(--lime)); transition: width .6s var(--ease-out); box-shadow: 0 0 14px rgba(166, 231, 42, .5); }
+  .tick { position: absolute; top: 12px; transform: translateX(-100%); font-size: 11px; font-weight: 600; color: var(--on-dark-faint); }
+
+  .receipt { border-radius: 18px; background: #F4F7F3; color: var(--ink); padding: 20px 22px; display: grid; gap: 12px; }
+  .r-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px dashed var(--gray-300); }
+  .r-head b { font-family: var(--font-display); font-size: 20px; }
+  .each { font-size: 14px; color: var(--gray-500); }
+  .each b { font-family: var(--font-display); font-size: 18px; color: var(--green-ink); }
+  dl { display: grid; gap: 7px; font-variant-numeric: tabular-nums; }
+  dl div { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+  dt { color: var(--gray-500); }
+  dd { font-weight: 500; }
+  .save dd, .save dt { color: var(--green-ink); font-weight: 600; }
+  .sub { padding-top: 7px; border-top: 1px solid var(--gray-200); }
+  .sub dt, .sub dd { color: var(--ink); font-weight: 600; }
+  .total { padding-top: 9px; border-top: 1px solid var(--gray-300); }
+  .total dt, .total dd { color: var(--ink); font-family: var(--font-display); font-weight: 700; font-size: 20px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .actions .btn-glass { color: var(--ink); background: var(--white); border-color: var(--gray-300); }
+  .note { font-size: 13.5px; color: var(--on-dark-faint); }
+  .note a { color: var(--lime); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
   .more { margin-top: 28px; display: flex; justify-content: center; }
-  .note { margin-top: 20px; font-size: 14px; color: var(--gray-500); }
-  .note a { color: var(--green-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .std { grid-column: 1 / -1; } }
-  @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
+
+  @media (max-width: 960px) {
+    .head, .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .packs { grid-template-columns: 1fr; }
+    .pack { grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; }
+    .off { grid-row: span 3; margin: 0; }
+  }
 </style>
