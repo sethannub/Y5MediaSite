@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/home/Hero.astro';
+import HeroSplit from '../components/home/HeroSplit.astro';
 import ClientStrip from '../components/home/ClientStrip.astro';
-import Products from '../components/home/Products.astro';
+import ProductSwitch from '../components/home/ProductSwitch.astro';
 import Journey from '../components/Journey.astro';
 import WifiPhone from '../components/mocks/WifiPhone.astro';
 import LeadsApp from '../components/mocks/LeadsApp.astro';
 import Venues from '../components/home/Venues.astro';
-import Reporting from '../components/home/Reporting.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
 import LeadPricing from '../components/LeadPricing.astro';
 import Industries from '../components/home/Industries.astro';
 import Why from '../components/home/Why.astro';
@@ -15,44 +15,55 @@ import CtaBand from '../components/CtaBand.astro';
 import { wifiSteps, leadSteps } from '../config/content';
 import { site } from '../config/site';
 const leadsLogin = site.logins.find((l) => l.label === 'Y5Leads')!.href;
+
+const leadFeatures = [
+  { title: 'Matched to your projects', text: 'Leads that fit your projects’ area and budget are delivered to your dashboard.' },
+  { title: 'Unlock only what you want', text: 'New leads arrive blurred. Pay for the ones worth calling, nothing else.' },
+  { title: 'Bad lead? Get credits back', text: 'Report a wrong lead and our team refunds your credits once it’s approved.' },
+];
 ---
 <BaseLayout>
-  <Hero />
+  <HeroSplit />
   <ClientStrip />
-  <Products />
 
-  <Journey
-    id="wifi-journey"
-    kicker="How WiFi Marketing works"
-    title="Advertising that meets people"
-    accent="where they connect."
-    text="Your ad plays on the WiFi login screen in malls, cafés, homes and staff accommodation. Here’s what happens next."
-    steps={wifiSteps}
-    cta={{ label: 'Explore WiFi Marketing', href: '/wifi-marketing' }}
-    secondary={{ label: 'Plan a campaign', href: '/contact?interest=wifi' }}
-  >
-    <WifiPhone slot="stage" />
-  </Journey>
+  <ProductSwitch>
+    <Fragment slot="wifi">
+      <Journey
+        id="wifi-journey"
+        kicker="How WiFi Marketing works"
+        title="Advertising that meets people"
+        accent="where they connect."
+        text="Your ad plays on the WiFi login screen. Here’s what happens next."
+        steps={wifiSteps}
+        tone="light"
+        cta={{ label: 'Explore WiFi Marketing', href: '/wifi-marketing' }}
+        secondary={{ label: 'Plan a campaign', href: '/contact?interest=wifi' }}
+      >
+        <WifiPhone slot="stage" />
+      </Journey>
+      <Venues cta={{ label: 'Explore WiFi Marketing', href: '/wifi-marketing' }} />
+    </Fragment>
 
-  <Journey
-    id="lead-journey"
-    kicker="How Y5Leads works"
-    title="From interest to an enquiry"
-    accent="your team can call."
-    text="Buyers looking for property are matched to your projects and land in your Y5Leads dashboard, ready to unlock."
-    steps={leadSteps}
-    tone="light"
-    flip
-    stageKind="app"
-    cta={{ label: 'Explore Y5Leads', href: '/y5leads' }}
-    secondary={{ label: 'Log in to Y5Leads', href: leadsLogin }}
-  >
-    <LeadsApp slot="stage" />
-  </Journey>
+    <Fragment slot="y5leads">
+      <Journey
+        id="lead-journey"
+        kicker="How Y5Leads works"
+        title="From interest to an enquiry"
+        accent="your team can call."
+        text="Buyers looking for property are matched to your projects and land in your Y5Leads dashboard."
+        steps={leadSteps}
+        tone="light"
+        stageKind="app"
+        cta={{ label: 'Explore Y5Leads', href: '/y5leads' }}
+        secondary={{ label: 'Log in to Y5Leads', href: leadsLogin }}
+      >
+        <LeadsApp slot="stage" />
+      </Journey>
+      <FeatureGrid kicker="Inside Y5Leads" title="Pay for leads," accent="not for noise." items={leadFeatures} />
+      <LeadPricing more />
+    </Fragment>
+  </ProductSwitch>
 
-  <Venues cta={{ label: 'Explore WiFi Marketing', href: '/wifi-marketing' }} />
-  <Reporting />
-  <LeadPricing more />
   <Industries />
   <Why />
   <CtaBand />

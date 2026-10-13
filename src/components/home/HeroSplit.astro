@@ -1,0 +1,109 @@
+---
+// The home page opener: one half per product, each with its own photo.
+// The half under the pointer widens a little; on phones they stack.
+import { products } from '../../config/site';
+
+const sides = [
+  {
+    key: 'wifi',
+    who: 'For brands and advertisers',
+    name: products.wifi.name,
+    line: 'Your ad on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.',
+    img: '/images/venues/malls-audience-02.jpg',
+    facts: ['Banner and video ads', 'Location targeting', 'Impression and click reports'],
+    primary: { label: 'Explore WiFi Marketing', href: products.wifi.href },
+    secondary: { label: 'See how it works', href: '/#how-it-works' },
+  },
+  {
+    key: 'leads',
+    who: 'For real estate agencies',
+    name: products.leads.name,
+    line: 'Property buyer leads matched to your projects. Unlock only the ones you want, then call.',
+    img: '/images/industries/real-estate-ad-cmapaigns.jpg',
+    facts: ['From AED 250 a lead', 'Matched to your projects', 'Refunds for bad leads'],
+    primary: { label: 'Explore Y5Leads', href: products.leads.href },
+    secondary: { label: 'See how it works', href: '/#how-it-works' },
+  },
+];
+---
+<section class="split on-dark" aria-labelledby="split-title">
+  <div class="intro">
+    <p class="kicker">Y5Media · Dubai</p>
+    <h1 id="split-title">Two ways to grow. <span class="accent">Pick yours.</span></h1>
+  </div>
+
+  <div class="halves">
+    {sides.map((s, i) => (
+      <article class:list={['half', s.key]}>
+        <img src={s.img} alt="" width="1200" height="750" fetchpriority={i === 0 ? 'high' : 'auto'} />
+        <div class="tint" aria-hidden="true"></div>
+        <div class="content">
+          <span class="who">{s.who}</span>
+          <h2>{s.name}</h2>
+          <p class="line">{s.line}</p>
+          <ul class="facts">{s.facts.map((f) => <li>{f}</li>)}</ul>
+          <div class="buttons">
+            <a class="btn btn-primary" href={s.primary.href}>{s.primary.label} <span aria-hidden="true">→</span></a>
+            <a class="btn btn-glass" href={s.secondary.href} data-pick={s.key === 'wifi' ? 'wifi' : 'y5leads'}>{s.secondary.label}</a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .split { position: relative; background: var(--forest-glow), var(--forest); color: var(--on-dark); padding: 96px 12px 12px; }
+  .intro {
+    position: relative; z-index: 2; text-align: center; padding: 28px var(--gutter) 30px;
+    display: grid; justify-items: center; gap: 4px;
+  }
+  .intro .kicker { margin-bottom: 8px; }
+  .intro h1 { font-size: clamp(34px, 4.4vw, 60px); line-height: 1.02; animation: up .9s var(--ease-out) both; }
+
+  .halves { display: flex; gap: 12px; height: clamp(560px, 74vh, 760px); }
+  .half {
+    position: relative; flex: 1; min-width: 0; border-radius: var(--radius-lg); overflow: hidden;
+    transition: flex .7s var(--ease-out);
+    animation: up 1s var(--ease-out) both;
+  }
+  .half.leads { animation-delay: .12s; }
+  @media (hover: hover) and (min-width: 961px) {
+    .halves:hover .half { flex: .82; }
+    .halves:hover .half:hover { flex: 1.18; }
+  }
+  .half img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 1.2s var(--ease-out); }
+  .half:hover img { transform: scale(1); }
+  .tint { position: absolute; inset: 0; }
+  .wifi .tint { background: linear-gradient(180deg, rgba(11, 38, 27, .35) 0%, rgba(11, 38, 27, .7) 40%, rgba(8, 25, 15, .97) 75%); }
+  .leads .tint { background: linear-gradient(180deg, rgba(4, 18, 28, .15) 0%, rgba(6, 26, 30, .6) 40%, rgba(4, 16, 20, .97) 75%); }
+
+  .content {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(24px, 3.4vw, 48px);
+    display: grid; gap: 12px; justify-items: start;
+  }
+  .who {
+    font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    padding: 6px 12px; border-radius: 999px; color: var(--white);
+    background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+  h2 { font-size: clamp(38px, 4.6vw, 68px); line-height: .98; }
+  .leads h2 { color: var(--white); }
+  .wifi h2 { color: var(--lime); }
+  .line { max-width: 40ch; color: var(--on-dark-muted); font-size: var(--text-lg); }
+  .facts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 8px; }
+  .facts li {
+    font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 999px; color: var(--white);
+    background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14);
+  }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  @keyframes up { from { opacity: 0; transform: translateY(24px); } }
+
+  @media (max-width: 960px) {
+    .split { padding: 84px 8px 8px; }
+    .halves { flex-direction: column; height: auto; gap: 8px; }
+    .half { min-height: 520px; }
+  }
+</style>
