@@ -67,6 +67,8 @@ p { text-wrap: pretty; }
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
 }
 .btn-glass:hover { border-color: rgba(255, 255, 255, .32); }
+.btn-ghost { border-color: rgba(255, 255, 255, .28); color: var(--white); }
+.btn-ghost:hover { border-color: rgba(255, 255, 255, .6); }
 .btn-outline { border-color: var(--gray-300); color: var(--ink); background: var(--white); }
 .btn-outline:hover { border-color: var(--ink); }
 .btn-sm { padding: 11px 18px; font-size: 14px; }
