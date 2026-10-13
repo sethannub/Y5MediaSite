@@ -10,7 +10,6 @@ import CtaBand from '../components/CtaBand.astro';
 import { site, products, leadPricing, aed } from '../config/site';
 import { leadSteps } from '../config/content';
 
-const login = site.logins.find((l) => l.label === 'Y5Leads')!;
 
 const features = [
   { title: 'Matched to your projects', text: 'Add your projects with their area and budget range. Leads that fit are delivered to you.' },
@@ -42,7 +41,7 @@ function perLeadText() { return aed(leadPricing.perLead); }
   >
     <Fragment slot="buttons">
       <a class="btn btn-primary" href="/contact?interest=y5leads">Get started</a>
-      <a class="btn btn-glass" href={login.href}>Log in to Y5Leads</a>
+      <a class="btn btn-glass" href="#pricing">See pricing</a>
     </Fragment>
     <div class="price-card" slot="side">
       <small>Standard rate</small>
@@ -51,6 +50,8 @@ function perLeadText() { return aed(leadPricing.perLead); }
       <a href="#pricing">See pricing <span aria-hidden="true">→</span></a>
     </div>
   </PageHero>
+
+  <LeadSource />
 
   <Journey
     id="lead-journey"
@@ -63,12 +64,11 @@ function perLeadText() { return aed(leadPricing.perLead); }
     stageKind="wide"
     stepMs={5200}
     cta={{ label: 'Get started', href: '/contact?interest=y5leads' }}
-    secondary={{ label: 'Log in to Y5Leads', href: login.href }}
+    secondary={{ label: 'See pricing', href: '#pricing' }}
   >
     <ClaimFilm slot="stage" />
   </Journey>
 
-  <LeadSource />
 
   <FeatureGrid kicker="Inside Y5Leads" title="Built for busy" accent="sales teams." items={features} tone="white" />
 

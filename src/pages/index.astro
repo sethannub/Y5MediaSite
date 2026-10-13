@@ -12,8 +12,6 @@ import Industries from '../components/home/Industries.astro';
 import Why from '../components/home/Why.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { wifiSteps, leadSteps } from '../config/content';
-import { site } from '../config/site';
-const leadsLogin = site.logins.find((l) => l.label === 'Y5Leads')!.href;
 
 ---
 <BaseLayout>
@@ -37,6 +35,7 @@ const leadsLogin = site.logins.find((l) => l.label === 'Y5Leads')!.href;
   </div>
 
   <div id="product-y5leads" data-product="y5leads" hidden>
+    <LeadSource />
     <Journey
       id="lead-journey"
       kicker="How Y5Leads works"
@@ -48,11 +47,10 @@ const leadsLogin = site.logins.find((l) => l.label === 'Y5Leads')!.href;
       stageKind="wide"
       stepMs={5200}
       cta={{ label: 'Get started', href: '/contact?interest=y5leads' }}
-      secondary={{ label: 'Log in to Y5Leads', href: leadsLogin }}
+      secondary={{ label: 'See pricing', href: '#pricing' }}
     >
       <ClaimFilm slot="stage" />
     </Journey>
-    <LeadSource />
     <LeadPricing more />
   </div>
 

@@ -55,8 +55,17 @@ const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, sta
       )}
     </div>
 
-    <div class:list={['stage', stageKind]} id={`${id}-stage`} role="tabpanel" aria-live="polite" data-reveal>
-      <slot name="stage" />
+    <div class="stage-col" data-reveal>
+      <div class:list={['stage', stageKind]} id={`${id}-stage`} role="tabpanel" aria-live="polite">
+        <slot name="stage" />
+      </div>
+      {stageKind === 'wide' && (
+        <div class="stepper">
+          <button type="button" class="nav-btn" data-prev aria-label="Previous step"><span aria-hidden="true">←</span> Previous</button>
+          <span class="count" data-count>1 / {steps.length}</span>
+          <button type="button" class="nav-btn next" data-next aria-label="Next step">Next <span aria-hidden="true">→</span></button>
+        </div>
+      )}
     </div>
   </div>
 </section>
@@ -85,6 +94,7 @@ const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, sta
         s.classList.toggle('is-active', n === current);
         s.setAttribute('aria-hidden', String(n !== current));
       });
+      if (count) count.textContent = `${current + 1} / ${tabs.length}`;
       root.style.setProperty('--step-ms', `${STEP_MS}ms`);
       root.classList.remove('is-ticking');
       void root.offsetWidth;
@@ -97,6 +107,10 @@ const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, sta
       root.classList.add('is-ticking');
       timer = window.setInterval(() => show(current + 1), STEP_MS);
     };
+
+    const count = root.querySelector<HTMLElement>('[data-count]');
+    root.querySelector('[data-prev]')?.addEventListener('click', () => { stop(); paused = true; show(current - 1); });
+    root.querySelector('[data-next]')?.addEventListener('click', () => { stop(); paused = true; show(current + 1); });
 
     tabs.forEach((t, i) => {
       t.addEventListener('click', () => { stop(); paused = true; show(i); });
@@ -171,6 +185,15 @@ const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, sta
   .wide .txt small { font-size: 14px; }
   .wide .ctas { margin-top: 20px; }
   .wide .stage { min-height: 0; }
+  .stepper { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+  .nav-btn {
+    font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; padding: 10px 18px; border-radius: 999px;
+    background: var(--white); color: var(--ink); border: 1px solid var(--gray-300); transition: border-color .2s, transform .2s var(--ease-out);
+  }
+  .nav-btn:hover { border-color: var(--ink); transform: translateY(-1px); }
+  .nav-btn.next { background: var(--forest); color: var(--white); border-color: var(--forest); }
+  .nav-btn.next:hover { background: #12402D; }
+  .count { font-size: 14px; font-weight: 600; color: var(--gray-500); font-variant-numeric: tabular-nums; }
   @media (max-width: 960px) {
     .grid { grid-template-columns: 1fr; }
     .flip .copy { order: 0; }
