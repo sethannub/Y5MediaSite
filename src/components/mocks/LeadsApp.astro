@@ -67,7 +67,7 @@
 
 <style>
   .app {
-    width: min(560px, 100%); aspect-ratio: 560 / 440; display: grid; grid-template-columns: 56px minmax(0, 1fr);
+    width: min(560px, 100%); min-height: 480px; display: grid; grid-template-columns: 56px minmax(0, 1fr);
     border-radius: 22px; overflow: hidden; background: #0B261B;
     box-shadow: 0 0 0 1px rgba(20, 33, 26, .08), 0 40px 80px -30px rgba(11, 38, 27, .45);
   }
@@ -145,7 +145,7 @@
   @keyframes toast { 10% { opacity: 1; transform: translateY(-4px); } 80% { opacity: 1; } 100% { opacity: 1; } }
 
   @media (max-width: 520px) {
-    .app { aspect-ratio: auto; min-height: 430px; grid-template-columns: 1fr; }
+    .app { min-height: 460px; grid-template-columns: 1fr; }
     .side { display: none; }
     .main { margin: 8px; }
   }
