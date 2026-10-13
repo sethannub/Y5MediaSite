@@ -2,8 +2,9 @@
 import { leadPricing, aed, site } from '../config/site';
 interface Props {
   compact?: boolean;
+  more?: boolean;
 }
-const { compact = false } = Astro.props;
+const { compact = false, more = false } = Astro.props;
 const { perLead, vat, packs } = leadPricing;
 const rows = packs.map((p) => {
   const price = p.credits * (1 - p.discount / 100);
@@ -49,6 +50,7 @@ const rows = packs.map((p) => {
       ))}
     </div>
     <p class="note">Prices exclude {vat}% VAT. Need a bigger volume or a custom rate? <a href={site.cta.href}>Talk to us</a>.</p>
+    {more && <div class="more" data-reveal><a class="btn btn-dark" href="/y5leads">Explore Y5Leads <span aria-hidden="true">→</span></a></div>}
   </div>
 </section>
 
@@ -71,6 +73,7 @@ const rows = packs.map((p) => {
   .credits small { font-size: 15px; font-weight: 500; color: var(--gray-500); letter-spacing: 0; }
   .price { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
   .meta { margin-top: auto; font-size: 14px; color: var(--gray-500); }
+  .more { margin-top: 28px; display: flex; justify-content: center; }
   .note { margin-top: 20px; font-size: 14px; color: var(--gray-500); }
   .note a { color: var(--green-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .std { grid-column: 1 / -1; } }

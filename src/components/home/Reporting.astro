@@ -20,6 +20,7 @@
         <div class="body">
           <h3>WiFi Marketing reports</h3>
           <p>Visits, impressions and clicks by day and week, plus the devices, operating systems and phone models that saw your ad.</p>
+          <a class="go" href="/wifi-marketing">Explore WiFi Marketing <span aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -30,6 +31,7 @@
         <div class="body">
           <h3>The Y5Leads dashboard</h3>
           <p>Your credits, projects, new leads and everything you’ve unlocked, with an email the moment new leads arrive.</p>
+          <a class="go" href="/y5leads">Explore Y5Leads <span aria-hidden="true">→</span></a>
         </div>
       </article>
     </div>
@@ -49,6 +51,8 @@
   .leads .main { width: 150%; max-width: none; }
   .body { padding: 28px clamp(24px, 3vw, 36px) 32px; display: grid; gap: 8px; }
   .body p { color: var(--gray-500); }
+  .go { margin-top: 8px; font-weight: 600; color: var(--green-ink); width: fit-content; }
+  .go:hover { text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 860px) {
     .panels { grid-template-columns: 1fr; }
     .shot { height: 300px; padding: 24px 24px 0; }

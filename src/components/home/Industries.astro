@@ -1,5 +1,9 @@
 ---
 import { industries } from '../../config/content';
+interface Props {
+  links?: boolean;
+}
+const { links = true } = Astro.props;
 ---
 <section class="section industries" id="industries">
   <div class="container">
@@ -27,13 +31,17 @@ import { industries } from '../../config/content';
         </li>
       ))}
     </ul>
+    {links && <div class="more" data-reveal>
+      <a class="btn btn-dark" href="/wifi-marketing">Explore WiFi Marketing <span aria-hidden="true">→</span></a>
+      <a class="btn btn-outline" href="/y5leads">Explore Y5Leads <span aria-hidden="true">→</span></a>
+    </div>}
   </div>
 </section>
 
 <style>
+  .more { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
   .grid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
   .tile { position: relative; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 4 / 3; color: var(--white); }
-  .tile.both { grid-row: span 2; aspect-ratio: auto; }
   img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out); }
   .tile:hover img { transform: scale(1.04); }
   .shade { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(11, 38, 27, .88)); }
@@ -46,6 +54,6 @@ import { industries } from '../../config/content';
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   }
   .chips .lead { background: var(--green); color: #0B1A10; border-color: transparent; }
-  @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile.both { grid-row: auto; aspect-ratio: 4 / 3; grid-column: 1 / -1; } }
+  @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
 </style>

@@ -45,11 +45,12 @@ const features = [
     text="Four steps, from the moment someone connects to the numbers in your report."
     steps={wifiSteps}
     tone="light"
+    cta={{ label: 'Plan a campaign', href: '/contact?interest=wifi' }}
   >
     <WifiPhone slot="stage" />
   </Journey>
 
-  <Venues />
+  <Venues cta={{ label: 'Plan a campaign', href: '/contact?interest=wifi' }} />
 
   <FeatureGrid
     kicker="What you get"
@@ -78,7 +79,7 @@ const features = [
     </div>
   </section>
 
-  <Industries />
+  <Industries links={false} />
   <CtaBand title="Put your brand on the screen people check first." text={`Tell us who you want to reach and when. We’ll come back with venues, formats and a price. Or call us on ${site.contact.phone}.`} />
 </BaseLayout>
 

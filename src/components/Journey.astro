@@ -17,8 +17,10 @@ interface Props {
   tone?: 'dark' | 'light';
   flip?: boolean;
   stageKind?: 'phone' | 'app';
+  cta?: { label: string; href: string };
+  secondary?: { label: string; href: string };
 }
-const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, stageKind = 'phone' } = Astro.props;
+const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, stageKind = 'phone', cta, secondary } = Astro.props;
 ---
 <section id={id} class:list={['journey section', tone === 'dark' ? 'forest on-dark' : 'light', { flip }]} data-journey>
   <div class="container grid">
@@ -43,6 +45,13 @@ const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, sta
           </li>
         ))}
       </ol>
+
+      {cta && (
+        <div class="ctas" data-reveal>
+          <a class="btn btn-primary" href={cta.href}>{cta.label} <span aria-hidden="true">→</span></a>
+          {secondary && <a class:list={['btn', tone === 'dark' ? 'btn-glass' : 'btn-outline']} href={secondary.href}>{secondary.label}</a>}
+        </div>
+      )}
     </div>
 
     <div class:list={['stage', stageKind]} id={`${id}-stage`} role="tabpanel" aria-live="polite" data-reveal>
@@ -113,6 +122,7 @@ const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, sta
   .light { background: var(--white); }
   h2 { margin-bottom: 18px; }
 
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
   .steps { list-style: none; margin-top: 36px; display: grid; gap: 6px; }
   .step {
     width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px;

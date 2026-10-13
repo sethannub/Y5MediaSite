@@ -59,6 +59,8 @@ function perLeadText() { return aed(leadPricing.perLead); }
     steps={leadSteps}
     tone="light"
     stageKind="app"
+    cta={{ label: 'Get started', href: '/contact?interest=y5leads' }}
+    secondary={{ label: 'Log in to Y5Leads', href: login.href }}
   >
     <LeadsApp slot="stage" />
   </Journey>

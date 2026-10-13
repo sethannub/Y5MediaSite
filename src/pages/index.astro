@@ -13,6 +13,8 @@ import Industries from '../components/home/Industries.astro';
 import Why from '../components/home/Why.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { wifiSteps, leadSteps } from '../config/content';
+import { site } from '../config/site';
+const leadsLogin = site.logins.find((l) => l.label === 'Y5Leads')!.href;
 ---
 <BaseLayout>
   <Hero />
@@ -26,6 +28,8 @@ import { wifiSteps, leadSteps } from '../config/content';
     accent="where they connect."
     text="Your ad plays on the WiFi login screen in malls, cafés, homes and staff accommodation. Here’s what happens next."
     steps={wifiSteps}
+    cta={{ label: 'Explore WiFi Marketing', href: '/wifi-marketing' }}
+    secondary={{ label: 'Plan a campaign', href: '/contact?interest=wifi' }}
   >
     <WifiPhone slot="stage" />
   </Journey>
@@ -40,13 +44,15 @@ import { wifiSteps, leadSteps } from '../config/content';
     tone="light"
     flip
     stageKind="app"
+    cta={{ label: 'Explore Y5Leads', href: '/y5leads' }}
+    secondary={{ label: 'Log in to Y5Leads', href: leadsLogin }}
   >
     <LeadsApp slot="stage" />
   </Journey>
 
-  <Venues />
+  <Venues cta={{ label: 'Explore WiFi Marketing', href: '/wifi-marketing' }} />
   <Reporting />
-  <LeadPricing />
+  <LeadPricing more />
   <Industries />
   <Why />
   <CtaBand />
