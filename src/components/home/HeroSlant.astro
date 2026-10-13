@@ -1,5 +1,5 @@
 ---
-// Hero option A (CEO idea 1): the two products split by a steep slanted divider.
+// Hero option A (CEO idea 1): the two products split corner to corner.
 // Each side's copy sits where that side is widest: Y5Ads top left, Y5Leads
 // bottom right. Hovering a side swings the slant towards the other one.
 import { products } from '../../config/site';
@@ -39,16 +39,16 @@ import { products } from '../../config/site';
 </section>
 
 <style>
-  @property --top { syntax: '<percentage>'; inherits: true; initial-value: 66%; }
-  @property --bot { syntax: '<percentage>'; inherits: true; initial-value: 34%; }
+  @property --top { syntax: '<percentage>'; inherits: true; initial-value: 100%; }
+  @property --bot { syntax: '<percentage>'; inherits: true; initial-value: 0%; }
 
   .slant {
-    --top: 66%; --bot: 34%;
+    --top: 100%; --bot: 0%;
     position: relative; height: 100svh; min-height: 700px; max-height: 1000px; overflow: hidden; background: #08190f;
     transition: --top .9s var(--ease-out), --bot .9s var(--ease-out);
   }
-  .slant:has(.ads:hover) { --top: 72%; --bot: 40%; }
-  .slant:has(.leads:hover) { --top: 60%; --bot: 28%; }
+  .slant:has(.ads:hover) { --top: 100%; --bot: 8%; }
+  .slant:has(.leads:hover) { --top: 92%; --bot: 0%; }
 
   .pane { position: absolute; inset: 0; overflow: hidden; display: block; color: inherit; }
   .ads { background: #8CC63F; color: #0B1A10; clip-path: polygon(0 0, var(--top) 0, var(--bot) 100%, 0 100%); }
@@ -66,18 +66,18 @@ import { products } from '../../config/site';
 
   /* Photos stay in the background: a soft tint on the lime side, a dark wash on the green side */
   .photo { position: absolute; top: 0; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease-out); }
-  .ads .photo { left: 0; width: 70%; mix-blend-mode: multiply; opacity: .16; -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 85%); mask-image: linear-gradient(180deg, #000 30%, transparent 85%); }
-  .leads .photo { right: 0; width: 75%; opacity: .3; mix-blend-mode: luminosity; -webkit-mask-image: linear-gradient(0deg, #000 20%, transparent 80%); mask-image: linear-gradient(0deg, #000 20%, transparent 80%); }
+  .ads .photo { left: 0; width: 70%; mix-blend-mode: multiply; opacity: .16; -webkit-mask-image: linear-gradient(135deg, #000 20%, transparent 60%); mask-image: linear-gradient(135deg, #000 20%, transparent 60%); }
+  .leads .photo { right: 0; width: 75%; opacity: .3; mix-blend-mode: luminosity; -webkit-mask-image: linear-gradient(315deg, #000 30%, transparent 75%); mask-image: linear-gradient(315deg, #000 30%, transparent 75%); }
   .pane:hover .photo { transform: scale(1.04); }
 
-  .copy { position: absolute; z-index: 2; width: min(500px, 34vw); display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
-  .ads .copy { left: clamp(28px, 6vw, 96px); top: clamp(110px, 16vh, 150px); }
-  .leads .copy { right: clamp(28px, 6vw, 96px); bottom: clamp(48px, 9vh, 88px); }
+  .copy { position: absolute; z-index: 2; width: min(460px, 30vw); display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .ads .copy { left: clamp(28px, 6vw, 96px); top: clamp(100px, 14vh, 140px); }
+  .leads .copy { right: clamp(28px, 6vw, 96px); bottom: clamp(40px, 7vh, 72px); width: min(500px, 34vw); }
   .who { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
   .ads .who { color: #1F3D0B; }
   .leads .who { color: var(--lime); }
-  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 4.2vw, 64px); line-height: 1; letter-spacing: -.035em; }
-  .copy p { font-size: 18px; line-height: 1.55; max-width: 42ch; font-weight: 500; }
+  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(36px, 3.7vw, 58px); line-height: 1; letter-spacing: -.035em; }
+  .copy p { font-size: 17px; line-height: 1.5; max-width: 40ch; font-weight: 500; }
   .ads .copy p { color: #1D3320; }
   .leads .copy p { color: #D5E3DA; }
   .facts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -91,12 +91,12 @@ import { products } from '../../config/site';
 
   /* Y5Ads: a phone rising from the bottom edge, where the lime side narrows */
   .phone {
-    position: absolute; left: clamp(28px, 6vw, 96px); bottom: -150px; width: 230px; height: 470px; border-radius: 38px; background: #0A0F0C; padding: 9px;
+    position: absolute; left: 38.5%; top: 10%; width: 165px; height: 340px; border-radius: 30px; background: #0A0F0C; padding: 8px;
     transform: rotate(-4deg); box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .3), 0 40px 70px -26px rgba(0, 0, 0, .55);
-    transition: transform .9s var(--ease-out), bottom .9s var(--ease-out);
+    transition: transform .9s var(--ease-out);
   }
-  .ads:hover .phone { bottom: -120px; transform: rotate(-2deg); }
-  .screen { height: 100%; border-radius: 30px; overflow: hidden; background: #fff; padding: 34px 11px 11px; display: flex; flex-direction: column; gap: 8px; }
+  .ads:hover .phone { transform: rotate(-2deg) translateY(-6px); }
+  .screen { height: 100%; border-radius: 25px; overflow: hidden; background: #fff; padding: 34px 11px 11px; display: flex; flex-direction: column; gap: 8px; }
   .bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 10.5px; font-weight: 600; color: #46544B; }
   .bar .dot { width: 6px; height: 6px; border-radius: 50%; background: #75B630; }
   .ad { position: relative; flex: 1; border-radius: 15px; overflow: hidden; color: #fff; min-height: 0; }
@@ -111,7 +111,7 @@ import { products } from '../../config/site';
 
   /* Y5Leads: the real leads list in the top corner, where the green side narrows */
   .list {
-    position: absolute; right: -3%; top: clamp(96px, 13vh, 130px); width: 34%; max-width: none; border-radius: 14px;
+    position: absolute; right: -2%; top: 21%; width: 30%; max-width: none; border-radius: 14px;
     box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 40px 80px -30px rgba(0, 0, 0, .7);
     transform: perspective(1600px) rotateY(-12deg) rotateX(3deg); transform-origin: right center;
     -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent); mask-image: linear-gradient(180deg, #000 55%, transparent);
