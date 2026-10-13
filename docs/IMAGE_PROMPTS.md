@@ -9,16 +9,11 @@ placeholder is swapped for the image.
 
 > Editorial documentary photography, Dubai, natural light, real people mid-action, shallow depth of field, 35mm lens, subtle cool-green colour grade, no text, no logos, no watermarks, photorealistic.
 
-## Most useful next (home page opener)
-
-The two halves of the home page opener are the first thing people see. They use the
-y5media.net photos for now: the mall (1200×750) and the Burj skyline (767×767). Both are
-small for a half-screen panel, so they look soft on large screens.
+## Needed now (placeholders on the site)
 
 | Where | File | Size | Prompt |
 |---|---|---|---|
-| Opener, WiFi Marketing half | `public/images/hero/wifi.jpg` | 2000×1500 | A young woman in a bright Dubai shopping mall atrium looking at her phone as she connects to WiFi, shoppers and glass balconies softly blurred behind her, afternoon light from the skylight, empty space at the bottom for text. |
-| Opener, Y5Leads half | `public/images/hero/y5leads.jpg` | 2000×1500 | A property agent in a modern Dubai sales gallery on a phone call, a scale model of residential towers on the table, city towers at dusk through floor-to-ceiling windows, empty space at the bottom for text. |
+| Home, "Two solutions", Y5Leads card | `public/images/products/y5leads.jpg` | 1600×1000 (16:10) | A property sales agent at a modern Dubai office desk on a phone call, looking at a laptop, city towers through the window, calm and focused. |
 
 ## Optional upgrades (the site uses the current y5media.net photos today)
 
