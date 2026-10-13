@@ -1,43 +1,57 @@
 ---
 // Hero option A (CEO idea 1): the two products split corner to corner.
-// At rest only the two names show. Hovering (or focusing) a side swings the
-// divider towards the other one, brings in that side's visual, and unfolds
-// its description and button. Touch screens, with no hover, see everything.
+// At rest only the two names show, each in its own corner. Hovering (or
+// focusing) a side swings the divider so that side takes most of the screen,
+// and lays it out like a full hero: copy on one side, its visual on the other.
+// Touch screens, with no hover, see the details straight away.
 import { products } from '../../config/site';
 ---
 <section class="slant on-dark" aria-label="Choose a product">
   <a class="pane ads" href={products.wifi.href}>
     <img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" fetchpriority="high" />
-    <div class="copy">
-      <h2 class="name">Y5Ads</h2>
-      <div class="more"><div class="more-in">
-        <span class="who">WiFi advertising</span>
-        <p class="line">Be seen the moment people connect.</p>
-        <p>Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
-        <ul class="facts"><li>Banner &amp; video</li><li>Location targeting</li><li>Live reports</li></ul>
-        <span class="pick">Explore Y5Ads <span aria-hidden="true">→</span></span>
-      </div></div>
+    <span class="rest" aria-hidden="true">Y5Ads</span>
+    <div class="detail">
+      <span class="who">WiFi advertising</span>
+      <h2>Y5Ads</h2>
+      <p class="line">Be seen the moment people connect.</p>
+      <p>Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
+      <ul class="facts"><li>Banner &amp; video</li><li>Location targeting</li><li>Live reports</li></ul>
+      <span class="pick">Explore Y5Ads <span aria-hidden="true">→</span></span>
     </div>
-    <div class="phone" aria-hidden="true"><div class="screen">
-      <div class="bar"><span class="dot"></span>Free WiFi · Level 2</div>
-      <div class="ad"><img src="/images/people/ad-coffee.webp" alt="" width="600" height="800" /><span class="tag">Ad</span><span class="txt"><small>Today only</small><b>Any coffee, AED 12</b></span></div>
-      <div class="go">Get the offer</div>
-      <div class="skip">Continue to the internet</div>
-    </div></div>
+    <div class="visual" aria-hidden="true">
+      <div class="phone"><div class="screen">
+        <div class="bar"><span class="dot"></span>Free WiFi · Level 2</div>
+        <div class="ad"><img src="/images/people/ad-coffee.webp" alt="" width="600" height="800" /><span class="tag">Ad</span><span class="txt"><small>Today only</small><b>Any coffee, AED 12</b></span></div>
+        <div class="go">Get the offer</div>
+        <div class="skip">Continue to the internet</div>
+      </div></div>
+      <div class="stat">
+        <small>Impressions this week</small>
+        <b>48,210</b>
+        <div class="spark">{[30, 42, 38, 55, 50, 68, 80, 74, 92].map((h) => <i style={`--h:${h}%`}></i>)}</div>
+        <span>1,936 clicks · 4.0% CTR</span>
+      </div>
+    </div>
   </a>
 
   <a class="pane leads" href={products.leads.href}>
     <img class="photo" src="/images/hero/y5leads.webp" alt="" width="1800" height="1125" />
-    <img class="list" src="/images/y5leads/claim-1-leads.webp" alt="" width="1920" height="1200" aria-hidden="true" />
-    <div class="copy">
-      <div class="more"><div class="more-in">
-        <span class="who">Property leads</span>
-        <p class="line">Property buyers, ready to call.</p>
-        <p>Leads matched to your projects from our own UAE database. Unlock only the ones you want, from AED 250 each.</p>
-        <ul class="facts"><li>Matched to your projects</li><li>Pay per lead</li><li>Refunds for bad leads</li></ul>
-        <span class="pick">Explore Y5Leads <span aria-hidden="true">→</span></span>
-      </div></div>
-      <h2 class="name">Y5Leads</h2>
+    <span class="rest" aria-hidden="true">Y5Leads</span>
+    <div class="detail">
+      <span class="who">Property leads</span>
+      <h2>Y5Leads</h2>
+      <p class="line">Property buyers, ready to call.</p>
+      <p>Leads matched to your projects from our own UAE database. Unlock only the ones you want, from AED 250 each.</p>
+      <ul class="facts"><li>Matched to your projects</li><li>Pay per lead</li><li>Refunds for bad leads</li></ul>
+      <span class="pick">Explore Y5Leads <span aria-hidden="true">→</span></span>
+    </div>
+    <div class="visual" aria-hidden="true">
+      <img class="list" src="/images/y5leads/claim-1-leads.webp" alt="" width="1920" height="1200" />
+      <div class="unlock">
+        <span class="dot"></span>
+        <div><small>New lead · Creek Vista</small><b>AED 2M – 3M</b></div>
+        <span class="btn-u">Unlock · 250</span>
+      </div>
     </div>
   </a>
 
@@ -53,10 +67,10 @@ import { products } from '../../config/site';
     --top: 100%; --bot: 0%;
     --ease: cubic-bezier(.22, 1, .36, 1);
     position: relative; height: 100svh; min-height: 700px; max-height: 1000px; overflow: hidden; background: #08190f;
-    transition: --top .9s var(--ease), --bot .9s var(--ease);
+    transition: --top 1s var(--ease), --bot 1s var(--ease);
   }
-  .slant:has(.ads:is(:hover, :focus-visible)) { --top: 100%; --bot: 22%; }
-  .slant:has(.leads:is(:hover, :focus-visible)) { --top: 78%; --bot: 0%; }
+  .slant:has(.ads:is(:hover, :focus-visible)) { --top: 100%; --bot: 68%; }
+  .slant:has(.leads:is(:hover, :focus-visible)) { --top: 32%; --bot: 0%; }
 
   .pane { position: absolute; inset: 0; overflow: hidden; display: block; color: inherit; outline: none; }
   .ads { background: #8CC63F; color: #0B1A10; clip-path: polygon(0 0, var(--top) 0, var(--bot) 100%, 0 100%); }
@@ -76,41 +90,45 @@ import { products } from '../../config/site';
   .ads .photo { left: 0; width: 70%; mix-blend-mode: multiply; opacity: .14; -webkit-mask-image: linear-gradient(135deg, #000 20%, transparent 60%); mask-image: linear-gradient(135deg, #000 20%, transparent 60%); }
   .leads .photo { right: 0; width: 75%; opacity: .26; mix-blend-mode: luminosity; -webkit-mask-image: linear-gradient(315deg, #000 30%, transparent 75%); mask-image: linear-gradient(315deg, #000 30%, transparent 75%); }
   .pane:is(:hover, :focus-visible) .photo { transform: scale(1.05); }
-  .ads:is(:hover, :focus-visible) .photo { opacity: .2; }
 
-  /* ---------- Copy: the name, then a block that unfolds on hover ---------- */
-  .copy { position: absolute; z-index: 2; width: min(480px, 32vw); display: flex; flex-direction: column; }
-  .ads .copy { left: clamp(28px, 6vw, 96px); top: clamp(120px, 17vh, 160px); }
-  .leads .copy { right: clamp(28px, 6vw, 96px); bottom: clamp(48px, 9vh, 88px); align-items: flex-end; text-align: right; }
-  .name {
-    font-family: var(--font-display); font-weight: 700; font-size: clamp(76px, 9vw, 148px); line-height: .88; letter-spacing: -.055em;
-    transition: font-size .7s var(--ease), opacity .4s;
+  /* ---------- At rest: just the names, each in its own corner ---------- */
+  .rest {
+    position: absolute; z-index: 2; font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(80px, 9.5vw, 156px); line-height: .88; letter-spacing: -.055em;
+    transition: opacity .45s, transform .9s var(--ease);
   }
-  .leads .name { color: var(--white); }
-  .pane:is(:hover, :focus-visible) .name { font-size: clamp(56px, 6vw, 96px); }
+  .ads .rest { left: clamp(28px, 6vw, 96px); top: clamp(120px, 17vh, 160px); }
+  .leads .rest { right: clamp(28px, 6vw, 96px); bottom: clamp(48px, 9vh, 88px); color: var(--white); }
+  .ads:is(:hover, :focus-visible) .rest { opacity: 0; transform: translateY(-30px); }
+  .leads:is(:hover, :focus-visible) .rest { opacity: 0; transform: translateY(30px); }
+  .slant:has(.ads:is(:hover, :focus-visible)) .leads .rest { opacity: 0; transform: translateX(60px); }
+  .slant:has(.leads:is(:hover, :focus-visible)) .ads .rest { opacity: 0; transform: translateX(-60px); }
 
-  .more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s var(--ease); }
-  .more-in { overflow: hidden; display: flex; flex-direction: column; gap: 14px; }
-  .ads .more-in { padding-top: 18px; align-items: flex-start; }
-  .leads .more-in { padding-bottom: 18px; align-items: flex-end; }
-  .pane:is(:hover, :focus-visible) .more { grid-template-rows: 1fr; }
-  .more-in > * { opacity: 0; transform: translateY(14px); transition: opacity .45s, transform .6s var(--ease); }
-  .pane:is(:hover, :focus-visible) .more-in > * { opacity: 1; transform: none; }
-  .pane:is(:hover, :focus-visible) .more-in > :nth-child(1) { transition-delay: .12s; }
-  .pane:is(:hover, :focus-visible) .more-in > :nth-child(2) { transition-delay: .18s; }
-  .pane:is(:hover, :focus-visible) .more-in > :nth-child(3) { transition-delay: .24s; }
-  .pane:is(:hover, :focus-visible) .more-in > :nth-child(4) { transition-delay: .3s; }
-  .pane:is(:hover, :focus-visible) .more-in > :nth-child(5) { transition-delay: .36s; }
+  /* ---------- On hover: the side lays out like a full hero ---------- */
+  .detail {
+    position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); width: min(470px, 31vw);
+    display: flex; flex-direction: column; align-items: flex-start; gap: 14px; pointer-events: none;
+  }
+  .ads .detail { left: clamp(28px, 6vw, 96px); }
+  .leads .detail { left: 35%; }
+  .detail > * { opacity: 0; transform: translateY(18px); transition: opacity .4s, transform .6s var(--ease); }
+  .pane:is(:hover, :focus-visible) .detail > * { opacity: 1; transform: none; }
+  .pane:is(:hover, :focus-visible) .detail > :nth-child(1) { transition-delay: .2s; }
+  .pane:is(:hover, :focus-visible) .detail > :nth-child(2) { transition-delay: .26s; }
+  .pane:is(:hover, :focus-visible) .detail > :nth-child(3) { transition-delay: .32s; }
+  .pane:is(:hover, :focus-visible) .detail > :nth-child(4) { transition-delay: .38s; }
+  .pane:is(:hover, :focus-visible) .detail > :nth-child(5) { transition-delay: .44s; }
+  .pane:is(:hover, :focus-visible) .detail > :nth-child(6) { transition-delay: .5s; }
 
   .who { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
   .ads .who { color: #1F3D0B; }
   .leads .who { color: var(--lime); }
+  .detail h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(60px, 6.4vw, 104px); line-height: .9; letter-spacing: -.05em; }
   .line { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.15; letter-spacing: -.02em; }
-  .more p:not(.line) { font-size: 17px; line-height: 1.5; font-weight: 500; max-width: 40ch; }
-  .ads .more p:not(.line) { color: #1D3320; }
-  .leads .more p:not(.line) { color: #D5E3DA; }
+  .detail p:not(.line) { font-size: 17px; line-height: 1.5; font-weight: 500; max-width: 40ch; }
+  .ads .detail p:not(.line) { color: #1D3320; }
+  .leads .detail p:not(.line) { color: #D5E3DA; }
   .facts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-  .leads .facts { justify-content: flex-end; }
   .facts li { font-size: 13px; font-weight: 600; padding: 7px 13px; border-radius: 999px; }
   .ads .facts li { background: rgba(11, 26, 16, .1); border: 1px solid rgba(11, 26, 16, .18); }
   .leads .facts li { background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16); }
@@ -118,59 +136,81 @@ import { products } from '../../config/site';
   .ads .pick { background: #0B1A10; color: #fff; }
   .leads .pick { background: var(--lime); color: #0B1A10; }
 
-  /* ---------- Visuals: hidden at rest, they move in on hover ---------- */
-  .phone {
-    position: absolute; left: 40%; top: 12%; width: 175px; height: 360px; border-radius: 32px; background: #0A0F0C; padding: 8px;
-    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .3), 0 40px 70px -26px rgba(0, 0, 0, .55);
-    opacity: 0; transform: translateY(80px) rotate(8deg) scale(.92);
-    transition: opacity .5s, transform .9s var(--ease);
-  }
-  .ads:is(:hover, :focus-visible) .phone { opacity: 1; transform: translateY(0) rotate(-4deg); transition-delay: .15s; }
-  .screen { height: 100%; border-radius: 25px; overflow: hidden; background: #fff; padding: 34px 11px 11px; display: flex; flex-direction: column; gap: 8px; }
-  .bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 10.5px; font-weight: 600; color: #46544B; }
-  .bar .dot { width: 6px; height: 6px; border-radius: 50%; background: #75B630; }
-  .ad { position: relative; flex: 1; border-radius: 15px; overflow: hidden; color: #fff; min-height: 0; }
-  .ad img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .ad::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, .7)); }
-  .tag { position: absolute; z-index: 1; top: 8px; left: 8px; font-size: 9px; font-weight: 700; background: rgba(0, 0, 0, .5); padding: 2px 6px; border-radius: 5px; }
-  .txt { position: absolute; z-index: 1; left: 11px; right: 11px; bottom: 11px; display: grid; }
-  .txt small { font-size: 9.5px; opacity: .9; }
-  .txt b { font-family: var(--font-display); font-size: 19px; line-height: 1.05; }
-  .go { text-align: center; background: #14211A; color: #fff; border-radius: 10px; padding: 10px; font-size: 11px; font-weight: 600; }
-  .skip { text-align: center; font-size: 10px; color: #5E6E64; }
+  .visual { position: absolute; inset: 0; pointer-events: none; }
 
-  .list {
-    position: absolute; right: -2%; top: 11%; width: 27%; max-width: none; border-radius: 14px;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 40px 80px -30px rgba(0, 0, 0, .7);
-    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent); mask-image: linear-gradient(180deg, #000 55%, transparent);
-    opacity: 0; transform: perspective(1600px) translateX(120px) rotateY(-24deg);
+  /* Y5Ads: the phone and a stats card, centre right of the lime side */
+  .phone {
+    position: absolute; left: 44%; top: 50%; width: 210px; height: 430px; margin-top: -215px; border-radius: 36px; background: #0A0F0C; padding: 9px;
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .3), 0 50px 80px -28px rgba(0, 0, 0, .55);
+    opacity: 0; transform: translateY(90px) rotate(8deg) scale(.92);
     transition: opacity .5s, transform 1s var(--ease);
   }
-  .leads:is(:hover, :focus-visible) .list { opacity: 1; transform: perspective(1600px) translateX(0) rotateY(-10deg) rotateX(2deg); transition-delay: .15s; }
+  .ads:is(:hover, :focus-visible) .phone { opacity: 1; transform: rotate(-4deg); transition-delay: .2s; }
+  .screen { height: 100%; border-radius: 28px; overflow: hidden; background: #fff; padding: 36px 12px 12px; display: flex; flex-direction: column; gap: 9px; }
+  .bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; font-weight: 600; color: #46544B; }
+  .bar .dot { width: 6px; height: 6px; border-radius: 50%; background: #75B630; }
+  .ad { position: relative; flex: 1; border-radius: 16px; overflow: hidden; color: #fff; min-height: 0; }
+  .ad img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ad::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, .7)); }
+  .tag { position: absolute; z-index: 1; top: 9px; left: 9px; font-size: 9px; font-weight: 700; background: rgba(0, 0, 0, .5); padding: 2px 6px; border-radius: 5px; }
+  .txt { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 12px; display: grid; }
+  .txt small { font-size: 10px; opacity: .9; }
+  .txt b { font-family: var(--font-display); font-size: 22px; line-height: 1.05; }
+  .go { text-align: center; background: #14211A; color: #fff; border-radius: 11px; padding: 11px; font-size: 12px; font-weight: 600; }
+  .skip { text-align: center; font-size: 10.5px; color: #5E6E64; }
+  .stat {
+    position: absolute; left: calc(44% + 170px); top: 56%; width: 230px; padding: 16px 18px; border-radius: 18px; display: grid; gap: 4px;
+    background: rgba(255, 255, 255, .72); border: 1px solid rgba(255, 255, 255, .9); color: #0B1A10;
+    box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    opacity: 0; transform: translateX(-30px); transition: opacity .5s, transform .9s var(--ease);
+  }
+  .ads:is(:hover, :focus-visible) .stat { opacity: 1; transform: none; transition-delay: .45s; }
+  .stat small, .stat span { font-size: 12px; color: #2F4A1A; }
+  .stat b { font-family: var(--font-display); font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .spark { display: flex; align-items: flex-end; gap: 4px; height: 34px; }
+  .spark i { flex: 1; height: var(--h); border-radius: 3px; background: linear-gradient(180deg, #2F9A3A, #0B261B); }
 
-  /* The other side steps back while one is open */
-  .slant:has(.ads:is(:hover, :focus-visible)) .leads .name,
-  .slant:has(.leads:is(:hover, :focus-visible)) .ads .name { opacity: .45; }
+  /* Y5Leads: the real leads list, large on the right */
+  .list {
+    position: absolute; right: -6%; top: 50%; width: 38%; max-width: none; border-radius: 16px;
+    margin-top: calc(-38vw * .625 / 2);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 50px 90px -30px rgba(0, 0, 0, .7);
+    opacity: 0; transform: perspective(1800px) translateX(140px) rotateY(-26deg);
+    transition: opacity .5s, transform 1.1s var(--ease);
+  }
+  .leads:is(:hover, :focus-visible) .list { opacity: 1; transform: perspective(1800px) rotateY(-12deg) rotateX(2deg); transition-delay: .2s; }
+  .unlock {
+    position: absolute; right: 22%; top: calc(50% + 9vw); display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .07)); border: 1px solid rgba(255, 255, 255, .22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 24px 50px -20px rgba(0, 0, 0, .6); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    opacity: 0; transform: translateY(20px); transition: opacity .5s, transform .9s var(--ease);
+  }
+  .leads:is(:hover, :focus-visible) .unlock { opacity: 1; transform: none; transition-delay: .5s; }
+  .unlock .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
+  .unlock small { display: block; font-size: 11.5px; color: var(--on-dark-muted); }
+  .unlock b { font-family: var(--font-display); font-size: 17px; }
+  .btn-u { font-size: 12px; font-weight: 700; padding: 8px 12px; border-radius: 999px; background: var(--lime); color: #0B1A10; }
 
-  /* No hover (phones, tablets): show everything */
+  /* No hover (phones, tablets): details straight away */
   @media (hover: none) {
-    .more { grid-template-rows: 1fr; }
-    .more-in > * { opacity: 1; transform: none; }
-    .phone { opacity: 1; transform: rotate(-4deg); }
-    .list { opacity: 1; transform: perspective(1600px) rotateY(-10deg); }
+    .rest { display: none; }
+    .detail > * { opacity: 1; transform: none; }
+    .phone, .stat, .list, .unlock { opacity: 1; transform: none; }
+  }
+  @media (max-width: 1100px) and (hover: hover) {
+    .detail { width: min(420px, 34vw); }
+    .stat { display: none; }
   }
   @media (max-width: 960px) {
     .slant { height: auto; max-height: none; display: grid; padding-top: 70px; }
-    .pane { position: relative; clip-path: none; min-height: 480px; }
-    .seam, .or, .phone, .list { display: none; }
+    .pane { position: relative; clip-path: none; min-height: 520px; }
+    .seam, .or, .visual, .rest { display: none; }
     .ads .photo, .leads .photo { width: 100%; }
-    .copy { position: absolute; left: 24px !important; right: 24px !important; top: auto !important; bottom: 40px !important; width: auto; align-items: flex-start !important; text-align: left !important; }
-    .leads .copy { flex-direction: column-reverse; }
-    .leads .more-in, .leads .facts { align-items: flex-start; justify-content: flex-start; }
-    .name { font-size: 64px !important; }
+    .detail { position: relative; top: auto; left: auto !important; transform: none; width: auto; padding: 48px 24px; }
+    .detail > * { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .slant { transition: none; }
-    .more, .more-in > *, .phone, .list, .name, .photo { transition: none !important; }
+    .detail > *, .phone, .stat, .list, .unlock, .rest, .photo { transition: none !important; }
   }
 </style>
