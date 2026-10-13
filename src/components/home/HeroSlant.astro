@@ -1,0 +1,106 @@
+---
+// Hero option A (CEO idea 1): the two products split by a slanted divider.
+// Hovering a side moves the slant towards the other one.
+import { products } from '../../config/site';
+---
+<section class="slant" aria-label="Choose a product">
+  <a class="pane ads" href={products.wifi.href} aria-label="Explore Y5Ads">
+    <img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" fetchpriority="high" />
+    <div class="art" aria-hidden="true">
+      <div class="phone"><div class="screen">
+        <div class="bar">Free WiFi · Level 2</div>
+        <div class="ad"><img src="/images/people/ad-coffee.webp" alt="" width="600" height="800" /><span><small>Today only</small><b>Any coffee, AED 12</b></span></div>
+        <div class="go">Get the offer</div>
+      </div></div>
+    </div>
+    <div class="copy">
+      <span class="who">For brands and advertisers</span>
+      <h2>Y5Ads</h2>
+      <p>Your ad on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
+      <span class="pick">Explore Y5Ads <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+
+  <a class="pane leads" href={products.leads.href} aria-label="Explore Y5Leads">
+    <img class="photo" src="/images/hero/y5leads.webp" alt="" width="1800" height="1125" />
+    <div class="art" aria-hidden="true">
+      <img class="list" src="/images/y5leads/claim-1-leads.webp" alt="" width="1920" height="1200" />
+    </div>
+    <div class="copy">
+      <span class="who">For real estate agencies</span>
+      <h2>Y5Leads</h2>
+      <p>Property buyer leads matched to your projects. Unlock only the ones you want, then call.</p>
+      <span class="pick">Explore Y5Leads <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+
+  <div class="seam" aria-hidden="true"></div>
+</section>
+
+<style>
+  @property --top { syntax: '<percentage>'; inherits: true; initial-value: 58%; }
+  @property --bot { syntax: '<percentage>'; inherits: true; initial-value: 42%; }
+
+  .slant {
+    --top: 58%; --bot: 42%;
+    position: relative; height: 100svh; min-height: 640px; max-height: 1000px; overflow: hidden; background: #08190f;
+    transition: --top .9s var(--ease-out), --bot .9s var(--ease-out);
+  }
+  .slant:has(.ads:hover) { --top: 66%; --bot: 50%; }
+  .slant:has(.leads:hover) { --top: 50%; --bot: 34%; }
+
+  .pane { position: absolute; inset: 0; overflow: hidden; display: block; color: inherit; }
+  .ads { background: #8CC63F; color: #0B1A10; clip-path: polygon(0 0, var(--top) 0, var(--bot) 100%, 0 100%); }
+  .leads { background: radial-gradient(700px 500px at 100% 0%, rgba(116, 222, 128, .18), transparent 70%), var(--forest); color: var(--white); clip-path: polygon(var(--top) 0, 100% 0, 100% 100%, var(--bot) 100%); }
+  .seam {
+    position: absolute; inset: 0; pointer-events: none; background: var(--lime);
+    clip-path: polygon(calc(var(--top) - .15%) 0, calc(var(--top) + .15%) 0, calc(var(--bot) + .15%) 100%, calc(var(--bot) - .15%) 100%);
+    filter: drop-shadow(0 0 12px rgba(166, 231, 42, .8));
+  }
+
+  .photo { position: absolute; top: 0; height: 100%; width: 60%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+  .ads .photo { left: 0; mix-blend-mode: multiply; opacity: .4; -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent); mask-image: linear-gradient(90deg, #000 40%, transparent); }
+  .leads .photo { right: 0; mix-blend-mode: luminosity; opacity: .3; -webkit-mask-image: linear-gradient(270deg, #000 40%, transparent); mask-image: linear-gradient(270deg, #000 40%, transparent); }
+  .pane:hover .photo { transform: scale(1.04); }
+
+  .copy { position: absolute; bottom: clamp(48px, 10vh, 96px); width: min(460px, 36vw); display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .ads .copy { left: clamp(28px, 5vw, 80px); }
+  .leads .copy { right: clamp(28px, 5vw, 80px); align-items: flex-end; text-align: right; }
+  .who { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .leads .who { color: var(--lime); }
+  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 6vw, 96px); line-height: .92; letter-spacing: -.045em; }
+  .copy p { font-size: var(--text-lg); line-height: 1.5; max-width: 40ch; }
+  .leads .copy p { color: var(--on-dark-muted); }
+  .pick { margin-top: 6px; font-weight: 600; font-size: 15px; padding: 14px 24px; border-radius: 999px; border: 2px solid currentColor; transition: background .2s, color .2s; }
+  .ads:hover .pick { background: #0B1A10; color: #8CC63F; }
+  .leads:hover .pick { background: var(--white); color: var(--forest); }
+
+  .art { position: absolute; inset: 0; pointer-events: none; }
+  .phone {
+    position: absolute; left: 30%; top: 14%; width: 190px; height: 390px; border-radius: 32px; background: #0A0F0C; padding: 8px;
+    transform: rotate(-6deg); box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .25), 0 40px 70px -26px rgba(0, 0, 0, .6);
+  }
+  .screen { height: 100%; border-radius: 25px; overflow: hidden; background: #fff; padding: 30px 10px 10px; display: flex; flex-direction: column; gap: 8px; }
+  .bar { text-align: center; font-size: 10px; font-weight: 600; color: #46544B; }
+  .ad { position: relative; flex: 1; border-radius: 14px; overflow: hidden; color: #fff; }
+  .ad img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ad span { position: absolute; left: 10px; right: 10px; bottom: 10px; display: grid; text-shadow: 0 2px 10px rgba(0, 0, 0, .6); }
+  .ad small { font-size: 9px; }
+  .ad b { font-family: var(--font-display); font-size: 18px; line-height: 1.05; }
+  .go { text-align: center; background: #14211A; color: #fff; border-radius: 10px; padding: 9px; font-size: 11px; font-weight: 600; }
+  .list {
+    position: absolute; right: -6%; top: 16%; width: 46%; max-width: none; border-radius: 14px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 50px 90px -30px rgba(0, 0, 0, .7);
+    transform: perspective(1600px) rotateY(-14deg) rotateX(4deg);
+    -webkit-mask-image: linear-gradient(90deg, #000 60%, transparent); mask-image: linear-gradient(90deg, #000 60%, transparent);
+  }
+
+  @media (max-width: 960px) {
+    .slant { height: auto; max-height: none; display: grid; padding-top: 70px; }
+    .pane { position: relative; clip-path: none; min-height: 460px; }
+    .seam, .art { display: none; }
+    .photo { width: 100%; }
+    .copy { position: absolute; left: 24px !important; right: 24px !important; width: auto; align-items: flex-start !important; text-align: left !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { .slant { transition: none; } }
+</style>

@@ -58,8 +58,8 @@ export const industries = [
 export const reasons = [
   { title: 'Targeted reach', text: 'Reach people in the places that matter to you, from malls and cafés to homes and staff accommodation.' },
   { title: 'Built around results', text: 'Every campaign starts from a clear goal: more people seeing your brand, more visits, or more enquiries.' },
-  { title: 'Numbers you can check', text: 'Impressions, clicks and devices for WiFi Marketing. Every lead and every credit for Y5Leads.' },
-  { title: 'Use one or both', text: 'Run WiFi Marketing, Y5Leads, or both together, based on your audience and budget.' },
+  { title: 'Numbers you can check', text: 'Impressions, clicks and devices for Y5Ads. Every lead and every credit for Y5Leads.' },
+  { title: 'Use one or both', text: 'Run Y5Ads, Y5Leads, or both together, based on your audience and budget.' },
 ];
 
 export const wifiSteps = [

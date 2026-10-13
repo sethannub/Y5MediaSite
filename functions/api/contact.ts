@@ -5,8 +5,8 @@
 import { EmailMessage } from 'cloudflare:email';
 
 // Keep in step with src/components/ContactForm.astro
-const INTERESTS = ['wifi', 'y5leads', 'both', 'other'];
-const INTEREST_LABEL: Record<string, string> = { wifi: 'WiFi Marketing', y5leads: 'Y5Leads', both: 'Both', other: 'Something else' };
+const INTERESTS = ['y5ads', 'y5leads', 'both', 'other'];
+const INTEREST_LABEL: Record<string, string> = { y5ads: 'Y5Ads', y5leads: 'Y5Leads', both: 'Both', other: 'Something else' };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const MAX_BODY_BYTES = 20_000;
 

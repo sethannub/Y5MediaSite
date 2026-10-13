@@ -1,0 +1,105 @@
+---
+// Hero option B (CEO idea 2): two diagonals cross the screen, corner to corner.
+// Left wedge Y5Ads, right wedge Y5Leads, the Y5Media mark in a circle where
+// they meet. Hovering a side pushes the crossing point towards the other one.
+import { products } from '../../config/site';
+---
+<section class="cross on-dark" aria-label="Choose a product">
+  <div class="wedge top" aria-hidden="true"></div>
+  <div class="wedge bottom" aria-hidden="true"></div>
+
+  <a class="wedge ads" href={products.wifi.href} aria-label="Explore Y5Ads">
+    <img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" fetchpriority="high" />
+    <div class="copy">
+      <span class="who">For brands</span>
+      <h2>Y5Ads</h2>
+      <p>Your ad on the WiFi login screen across the UAE.</p>
+      <span class="pick">Explore Y5Ads <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+
+  <a class="wedge leads" href={products.leads.href} aria-label="Explore Y5Leads">
+    <img class="photo" src="/images/hero/y5leads.webp" alt="" width="1800" height="1125" />
+    <div class="copy">
+      <span class="who">For real estate</span>
+      <h2>Y5Leads</h2>
+      <p>Property buyer leads, matched to your projects.</p>
+      <span class="pick">Explore Y5Leads <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+
+
+  <div class="headline">
+    <span class="kicker">Y5Media · Dubai</span>
+    <h1>Two ways to grow. <span class="accent">Pick yours.</span></h1>
+  </div>
+
+  <p class="hint" aria-hidden="true"><span>← Brands</span><span>Real estate →</span></p>
+
+  <div class="hub" aria-hidden="true">
+    <img src="/images/brand/logomark.svg" alt="" width="96" height="44" />
+    <span>Media</span>
+  </div>
+</section>
+
+<style>
+  @property --cx { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+
+  .cross {
+    --cx: 50%;
+    position: relative; height: 100svh; min-height: 680px; max-height: 1000px; overflow: hidden; background: var(--lime); color: var(--white);
+    transition: --cx .9s var(--ease-out);
+  }
+  .cross:has(.ads:hover) { --cx: 58%; }
+  .cross:has(.leads:hover) { --cx: 42%; }
+
+  .wedge { position: absolute; inset: 0; display: block; overflow: hidden; color: inherit; }
+  .top { clip-path: polygon(4px 0, calc(100% - 4px) 0, var(--cx) calc(50% - 4px)); background: radial-gradient(60% 80% at 50% 0%, rgba(116, 222, 128, .2), transparent 70%), #0B261B; }
+  .bottom { clip-path: polygon(4px 100%, var(--cx) calc(50% + 4px), calc(100% - 4px) 100%); background: radial-gradient(60% 80% at 50% 100%, rgba(116, 222, 128, .14), transparent 70%), #08190f; }
+  .ads { clip-path: polygon(0 4px, calc(var(--cx) - 4px) 50%, 0 calc(100% - 4px)); background: #8CC63F; color: #0B1A10; }
+  .leads { clip-path: polygon(100% 4px, 100% calc(100% - 4px), calc(var(--cx) + 4px) 50%); background: radial-gradient(600px 500px at 100% 50%, rgba(116, 222, 128, .2), transparent 70%), #0F3123; }
+
+  .photo { position: absolute; top: 0; height: 100%; width: 55%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+  .ads .photo { left: 0; mix-blend-mode: multiply; opacity: .45; }
+  .leads .photo { right: 0; mix-blend-mode: luminosity; opacity: .35; }
+  .wedge:hover .photo { transform: scale(1.05); }
+
+  .copy { position: absolute; top: 50%; transform: translateY(-50%); width: min(330px, 26vw); display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .ads .copy { left: clamp(24px, 4vw, 64px); }
+  .leads .copy { right: clamp(24px, 4vw, 64px); align-items: flex-end; text-align: right; }
+  .who { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .leads .who { color: var(--lime); }
+  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 5vw, 80px); line-height: .92; letter-spacing: -.045em; }
+  .copy p { font-size: 16px; line-height: 1.5; }
+  .leads .copy p { color: var(--on-dark-muted); }
+  .pick { margin-top: 6px; font-weight: 600; font-size: 14px; padding: 12px 20px; border-radius: 999px; border: 2px solid currentColor; transition: background .2s, color .2s; }
+  .ads:hover .pick { background: #0B1A10; color: #8CC63F; }
+  .leads:hover .pick { background: var(--white); color: var(--forest); }
+
+  .headline { position: absolute; z-index: 2; top: clamp(96px, 13vh, 130px); left: 50%; transform: translateX(-50%); text-align: center; pointer-events: none; width: min(640px, 60vw); }
+  .headline .kicker { justify-content: center; margin-bottom: 10px; }
+  .headline h1 { font-size: clamp(28px, 3.2vw, 46px); line-height: 1.05; }
+  .hint { position: absolute; z-index: 2; bottom: clamp(28px, 6vh, 56px); left: 50%; transform: translateX(-50%); display: flex; gap: 120px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--on-dark-faint); pointer-events: none; }
+
+  .hub {
+    position: absolute; z-index: 3; left: var(--cx); top: 50%; transform: translate(-50%, -50%);
+    width: clamp(132px, 13vw, 176px); aspect-ratio: 1; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; gap: 6px; pointer-events: none;
+    background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .22), rgba(255, 255, 255, .06) 60%), rgba(11, 38, 27, .78);
+    border: 1px solid rgba(255, 255, 255, .25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 0 0 10px rgba(166, 231, 42, .12), 0 30px 60px -20px rgba(0, 0, 0, .7);
+    backdrop-filter: blur(16px) saturate(1.3); -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  }
+  .hub img { width: 52%; height: auto; }
+  .hub span { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-display); font-weight: 700; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+
+  @media (max-width: 960px) {
+    .cross { height: auto; max-height: none; display: grid; padding-top: 70px; background: #071610; }
+    .top, .bottom, .hint { display: none; }
+    .wedge.ads, .wedge.leads { position: relative; clip-path: none; min-height: 420px; }
+    .copy { left: 24px !important; right: 24px !important; width: auto; align-items: flex-start !important; text-align: left !important; }
+    .headline { position: relative; top: auto; left: auto; transform: none; width: auto; padding: 28px 24px; order: -1; }
+    .hub { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .cross { transition: none; } }
+</style>

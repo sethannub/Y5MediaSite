@@ -4,7 +4,7 @@ export const site = {
   name: 'Y5Media',
   tagline: 'WiFi advertising and lead generation in the UAE',
   description:
-    'Y5Media helps brands reach people across the UAE with WiFi Marketing in malls, cafés, homes and staff accommodation, and delivers property buyer leads through Y5Leads.',
+    'Y5Media helps brands reach people across the UAE with Y5Ads in malls, cafés, homes and staff accommodation, and delivers property buyer leads through Y5Leads.',
 
   analytics: {
     ga4Id: (import.meta.env.PUBLIC_GA4_ID as string | undefined) ?? '',
@@ -14,7 +14,8 @@ export const site = {
   indexable: false,
 
   nav: [
-    { label: 'WiFi Marketing', href: '/#wifi' },
+    { label: 'Home', href: '/' },
+    { label: 'Y5Ads', href: '/#y5ads' },
     { label: 'Y5Leads', href: '/#y5leads' },
     { label: 'Industries', href: '/#industries' },
     { label: 'Contact', href: '/contact' },
@@ -24,7 +25,7 @@ export const site = {
 
   logins: [
     { label: 'Y5Leads', note: 'Property leads', href: 'https://leads.y5media.net/login' },
-    { label: 'WiFi Marketing', note: 'Campaign reports', href: '' as string }, // TODO: WiFi platform login URL
+    { label: 'Y5Ads', note: 'Campaign reports', href: '' as string }, // TODO: WiFi platform login URL
   ],
 
   contact: {
@@ -39,8 +40,8 @@ export const site = {
 
 export const products = {
   wifi: {
-    name: 'WiFi Marketing',
-    href: '/wifi-marketing',
+    name: 'Y5Ads',
+    href: '/y5ads',
     tagline: 'Reach people where they connect',
     summary:
       'Your banner or video plays on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE. People see it the moment they connect, tap through to your site, and you watch the results come in.',

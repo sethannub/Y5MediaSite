@@ -7,24 +7,24 @@ import { products } from '../../config/site';
 ---
 <section class="split" data-split data-picked="none" aria-label="Choose a product">
 
-  <article class="pane wifi" data-pane="wifi">
+  <article class="pane wifi" data-pane="y5ads">
     <img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" fetchpriority="high" />
 
     <div class="closed">
       <span class="who">For brands and advertisers</span>
       <h2 class="name">WiFi<br />Marketing</h2>
       <p>Your ad on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
-      <a class="pick" href={products.wifi.href} data-open="wifi">Discover WiFi Marketing <span aria-hidden="true">→</span></a>
+      <a class="pick" href={products.wifi.href} data-open="y5ads">Discover Y5Ads <span aria-hidden="true">→</span></a>
     </div>
 
     <div class="opened">
       <button type="button" class="back" data-back>← Back</button>
-      <span class="who">WiFi Marketing</span>
+      <span class="who">Y5Ads</span>
       <h1>Advertising that meets people where they connect.</h1>
       <p>Your banner or video plays on the WiFi login screen. People see it the moment they connect, tap through to your site, and you watch impressions and clicks come in.</p>
       <div class="buttons">
-        <a class="btn btn-dark" href="/contact?interest=wifi">Plan a campaign <span aria-hidden="true">→</span></a>
-        <a class="btn btn-line" href="#product-wifi">See how it works ↓</a>
+        <a class="btn btn-dark" href="/contact?interest=y5ads">Plan a campaign <span aria-hidden="true">→</span></a>
+        <a class="btn btn-line" href="#product-y5ads">See how it works ↓</a>
       </div>
     </div>
 
@@ -45,9 +45,9 @@ import { products } from '../../config/site';
       <div class="stat"><small>Impressions this week</small><b>48,210</b><span>1,936 clicks · 4.0% CTR</span></div>
     </div>
 
-    <button type="button" class="strip" data-open="wifi" aria-label="Open WiFi Marketing">
+    <button type="button" class="strip" data-open="y5ads" aria-label="Open Y5Ads">
       <span class="arrow" aria-hidden="true">›</span>
-      <span class="label">WiFi Marketing</span>
+      <span class="label">Y5Ads</span>
     </button>
   </article>
 
@@ -115,7 +115,7 @@ import { products } from '../../config/site';
 
     const fromHash = () => {
       const h = location.hash.slice(1);
-      if (h === 'wifi' || h === 'y5leads') set(h, false);
+      if (h === 'y5ads' || h === 'y5leads') set(h, false);
       else if (!h) set('none', false);
     };
     window.addEventListener('hashchange', fromHash);
@@ -139,7 +139,7 @@ import { products } from '../../config/site';
   .leads { background: radial-gradient(700px 500px at 100% 0%, rgba(116, 222, 128, .18), transparent 70%), var(--forest); color: var(--white); }
 
   [data-picked='none'] .pane:hover { flex-grow: 1.22; }
-  [data-picked='wifi'] .leads, [data-picked='y5leads'] .wifi { flex-grow: 0; flex-basis: var(--strip); }
+  [data-picked='y5ads'] .leads, [data-picked='y5leads'] .wifi { flex-grow: 0; flex-basis: var(--strip); }
 
   .photo {
     position: absolute; right: 0; top: 0; height: 100%; width: 72%; object-fit: cover;
@@ -225,12 +225,12 @@ import { products } from '../../config/site';
   .wifi .label { transform: rotate(180deg); }
 
   /* Opened and collapsed states */
-  [data-picked='wifi'] .wifi .closed, [data-picked='y5leads'] .leads .closed { display: none; }
-  [data-picked='wifi'] .wifi .opened, [data-picked='y5leads'] .leads .opened { display: flex; animation: enter .8s var(--ease-out) both .25s; }
-  [data-picked='wifi'] .leads > :not(.strip), [data-picked='y5leads'] .wifi > :not(.strip) { opacity: 0; pointer-events: none; transition: opacity .3s; }
-  [data-picked='wifi'] .leads .strip, [data-picked='y5leads'] .wifi .strip { display: flex; animation: fade .5s .4s both; }
-  [data-picked='wifi'] .phone { right: 15%; bottom: calc(100% - 130px - 600px); width: 290px; height: 600px; transform: rotate(0deg); }
-  [data-picked='wifi'] .stat { opacity: 1; transform: none; transition-delay: .5s; }
+  [data-picked='y5ads'] .wifi .closed, [data-picked='y5leads'] .leads .closed { display: none; }
+  [data-picked='y5ads'] .wifi .opened, [data-picked='y5leads'] .leads .opened { display: flex; animation: enter .8s var(--ease-out) both .25s; }
+  [data-picked='y5ads'] .leads > :not(.strip), [data-picked='y5leads'] .wifi > :not(.strip) { opacity: 0; pointer-events: none; transition: opacity .3s; }
+  [data-picked='y5ads'] .leads .strip, [data-picked='y5leads'] .wifi .strip { display: flex; animation: fade .5s .4s both; }
+  [data-picked='y5ads'] .phone { right: 15%; bottom: calc(100% - 130px - 600px); width: 290px; height: 600px; transform: rotate(0deg); }
+  [data-picked='y5ads'] .stat { opacity: 1; transform: none; transition-delay: .5s; }
   [data-picked='y5leads'] .list { opacity: 0; }
   [data-picked='y5leads'] .dash { opacity: 1; transform: none; transition-delay: .35s; }
   @keyframes enter { from { opacity: 0; transform: translateY(26px); } }
@@ -243,8 +243,8 @@ import { products } from '../../config/site';
     .opened { padding-top: 40px !important; }
     .pane { flex-basis: 50svh; min-height: 420px; }
     [data-picked='none'] .pane:hover { flex-grow: 1; }
-    [data-picked='wifi'] .leads, [data-picked='y5leads'] .wifi { flex: 0 0 64px; min-height: 64px; }
-    [data-picked='wifi'] .wifi, [data-picked='y5leads'] .leads { flex: 0 0 auto; min-height: 0; }
+    [data-picked='y5ads'] .leads, [data-picked='y5leads'] .wifi { flex: 0 0 64px; min-height: 64px; }
+    [data-picked='y5ads'] .wifi, [data-picked='y5leads'] .leads { flex: 0 0 auto; min-height: 0; }
     .closed { bottom: 32px; }
     .opened { position: relative; left: auto; top: auto; width: auto; padding: 110px 24px 40px; }
     .art { display: none; }
@@ -252,7 +252,7 @@ import { products } from '../../config/site';
     .strip { flex-direction: row; }
     .wifi .photo { opacity: .3; }
     .leads .photo { opacity: .22; }
-    [data-picked='wifi'] .wifi .photo, [data-picked='y5leads'] .leads .photo { opacity: .14; }
+    [data-picked='y5ads'] .wifi .photo, [data-picked='y5leads'] .leads .photo { opacity: .14; }
     .label { writing-mode: horizontal-tb; transform: none !important; }
   }
   @media (prefers-reduced-motion: reduce) {
