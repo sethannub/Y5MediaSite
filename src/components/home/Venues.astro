@@ -21,7 +21,7 @@ const { title = 'Where people see your ad', cta } = Astro.props;
     <div class="grid">
       {venues.map((v, i) => (
         <article class="venue" data-reveal data-reveal-delay={`${i * 0.08}s`}>
-          <img src={v.img} alt="" width="1024" height="640" loading="lazy" />
+          <img src={v.img} alt="" width="1200" height="825" loading="lazy" />
           <div class="body">
             <h3>{v.name}</h3>
             <p><b>Who you reach</b>{v.audience}</p>

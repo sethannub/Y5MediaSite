@@ -22,37 +22,37 @@ export const clients = [
 export const venues = [
   {
     name: 'Shopping malls',
-    img: '/images/venues/malls-audience-02.jpg',
+    img: '/images/venues/malls.webp',
     audience: 'Families, shoppers and tourists, mostly aged 18 to 45, middle to high income.',
     why: 'Catch attention during relaxed shopping trips with bright, visual ads.',
   },
   {
     name: 'Residential homes',
-    img: '/images/venues/home-family-audience.jpg',
+    img: '/images/venues/homes.webp',
     audience: 'Professionals aged 25 to 50, including staff of major UAE employers, with stable incomes.',
     why: 'A personal setting where your message gets full attention.',
   },
   {
     name: 'Coffee shops',
-    img: '/images/venues/coffee-shops-audience.jpg',
+    img: '/images/venues/cafes.webp',
     audience: 'Office workers, freelancers and friends meeting up, mostly aged 20 to 40.',
     why: 'A relaxed audience that responds well to premium and lifestyle brands.',
   },
   {
     name: 'Staff accommodation',
-    img: '/images/venues/labour-camps.jpg',
+    img: '/images/venues/staff.webp',
     audience: 'Workers in construction, manufacturing and logistics.',
     why: 'Long time online every day on mobile, ideal for clear, direct offers.',
   },
 ];
 
 export const industries = [
-  { name: 'Real Estate', img: '/images/industries/real-estate-ad-cmapaigns.jpg', both: true },
-  { name: 'Retail & E-commerce', img: '/images/industries/retail-ad-campaigns.jpg' },
-  { name: 'Banking & Finance', img: '/images/industries/banks-ad-campaigns.jpg' },
-  { name: 'Healthcare', img: '/images/industries/healthcare-ads.jpg' },
-  { name: 'Education', img: '/images/industries/education-ad-campaigns.jpg' },
-  { name: 'B2B & Corporate', img: '/images/industries/corporate-office-ad-campaigns.jpg' },
+  { name: 'Real Estate', img: '/images/industries/real-estate.webp', both: true },
+  { name: 'Retail & E-commerce', img: '/images/industries/retail.webp' },
+  { name: 'Banking & Finance', img: '/images/industries/finance.webp' },
+  { name: 'Healthcare', img: '/images/industries/healthcare.webp' },
+  { name: 'Education', img: '/images/industries/education.webp' },
+  { name: 'B2B & Corporate', img: '/images/industries/corporate.webp' },
 ];
 
 export const reasons = [

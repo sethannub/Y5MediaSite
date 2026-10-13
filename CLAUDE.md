@@ -46,7 +46,11 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
   journeys show.
 - `functions/api/contact.ts`: the contact form handler (Cloudflare Pages Function, Email
   Routing). Setup is the same as emailaat's `docs/CONTACT_FORM.md`.
-- `docs/IMAGE_PROMPTS.md`: images still to generate.
+- `docs/PHOTO_SOURCES.md`: where every stock photo came from (Unsplash and Pexels, free licences,
+  no credit required). Photos are cropped WebP files in `public/images/{hero,venues,industries,people}`.
+- `public/images/y5leads/claim-*.webp`: real screenshots of the Y5Leads app (local test account,
+  sample leads) used by the claim animation (`ClaimFilm.astro`). Retake them if the app's look changes.
+- `docs/IMAGE_PROMPTS.md`: prompts for any images still to generate.
 
 ## Open items
 
