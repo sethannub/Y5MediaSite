@@ -115,3 +115,7 @@ html.motion [data-reveal].is-in { opacity: 1; transform: none; }
     transition-duration: .01ms !important;
   }
 }
+
+/* ---------- Home: a product's sections fade up when its side is picked ---------- */
+[data-product]:not([hidden]) { animation: product-in .8s var(--ease-out) both .2s; }
+@keyframes product-in { from { opacity: 0; transform: translateY(32px); } }

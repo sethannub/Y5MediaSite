@@ -8,7 +8,7 @@ import { products } from '../../config/site';
 <section class="split" data-split data-picked="none" aria-label="Choose a product">
 
   <article class="pane wifi" data-pane="wifi">
-    <img class="photo" src="/images/venues/malls-audience-02.jpg" alt="" width="1200" height="750" fetchpriority="high" />
+    <img class="photo" src="/images/hero/wifi.jpg" alt="" width="1200" height="750" fetchpriority="high" />
 
     <div class="closed">
       <span class="who">For brands and advertisers</span>
@@ -46,7 +46,7 @@ import { products } from '../../config/site';
   </article>
 
   <article class="pane leads" data-pane="y5leads">
-    <img class="photo" src="/images/industries/real-estate-ad-cmapaigns.jpg" alt="" width="767" height="767" />
+    <img class="photo" src="/images/hero/y5leads.jpg" alt="" width="767" height="767" />
 
     <div class="closed">
       <span class="who">For real estate agencies</span>
@@ -247,6 +247,9 @@ import { products } from '../../config/site';
     .art { display: none; }
     .photo { width: 100%; -webkit-mask-image: linear-gradient(180deg, transparent, #000 60%); mask-image: linear-gradient(180deg, transparent, #000 60%); }
     .strip { flex-direction: row; }
+    .wifi .photo { opacity: .3; }
+    .leads .photo { opacity: .22; }
+    [data-picked='wifi'] .wifi .photo, [data-picked='y5leads'] .leads .photo { opacity: .14; }
     .label { writing-mode: horizontal-tb; transform: none !important; }
   }
   @media (prefers-reduced-motion: reduce) {

@@ -6,7 +6,6 @@ import Journey from '../components/Journey.astro';
 import WifiPhone from '../components/mocks/WifiPhone.astro';
 import LeadsApp from '../components/mocks/LeadsApp.astro';
 import Venues from '../components/home/Venues.astro';
-import FeatureGrid from '../components/FeatureGrid.astro';
 import LeadPricing from '../components/LeadPricing.astro';
 import Industries from '../components/home/Industries.astro';
 import Why from '../components/home/Why.astro';
@@ -15,11 +14,6 @@ import { wifiSteps, leadSteps } from '../config/content';
 import { site } from '../config/site';
 const leadsLogin = site.logins.find((l) => l.label === 'Y5Leads')!.href;
 
-const leadFeatures = [
-  { title: 'Matched to your projects', text: 'Leads that fit your projects’ area and budget are delivered to your dashboard.' },
-  { title: 'Unlock only what you want', text: 'New leads arrive blurred. Pay for the ones worth calling, nothing else.' },
-  { title: 'Bad lead? Get credits back', text: 'Report a wrong lead and our team refunds your credits once it’s approved.' },
-];
 ---
 <BaseLayout>
   <HomeSplit />
@@ -56,7 +50,6 @@ const leadFeatures = [
     >
       <LeadsApp slot="stage" />
     </Journey>
-    <FeatureGrid kicker="Inside Y5Leads" title="Pay for leads," accent="not for noise." items={leadFeatures} />
     <LeadPricing more />
   </div>
 

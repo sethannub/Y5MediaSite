@@ -60,10 +60,11 @@
 
 <style>
   .phone {
-    width: min(300px, 78vw); aspect-ratio: 300 / 610; position: relative;
+    width: min(330px, 80vw); aspect-ratio: 300 / 610; position: relative;
     border-radius: 46px; padding: 12px; background: #0A0F0C;
     box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .14), 0 40px 80px -30px rgba(0, 0, 0, .7), inset 0 0 0 2px #1B2620;
   }
+  @media (max-width: 600px) { .phone { width: min(270px, 74vw); } }
   .notch { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 92px; height: 26px; border-radius: 20px; background: #000; z-index: 2; }
   .screen { position: relative; height: 100%; border-radius: 36px; overflow: hidden; background: #F4F7F3; color: #14211A; display: grid; }
   .s { padding: 54px 18px 18px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; }
