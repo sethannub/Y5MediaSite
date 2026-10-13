@@ -1,0 +1,96 @@
+---
+// Where Y5Leads leads come from: Y5Media's own 360 marketing platform and its
+// first-party UAE real estate database, not third-party ad platforms.
+const flow = [
+  { k: 'Source', t: 'Y5Media 360 marketing platform', d: 'Our own platform, run by our team in Dubai.' },
+  { k: 'Data', t: 'Years of UAE real estate data', d: 'A first-party database built over years of operations in the UAE property market.' },
+  { k: 'Match', t: 'Matched to your project', d: 'Each lead is matched by area and budget.' },
+  { k: 'Delivered', t: 'Your Y5Leads list', d: 'Ready to unlock, call and follow up.' },
+];
+---
+<section class="section source" id="lead-source">
+  <div class="container grid">
+    <div class="copy">
+      <div class="kicker" data-reveal>Where our leads come from</div>
+      <h2 data-reveal>First-party leads from our own <span class="accent">360° platform.</span></h2>
+      <p class="lede" data-reveal>
+        Our leads are generated through the Y5Media 360 marketing platform, using a database collected over several
+        years of operations in the UAE real estate market.
+      </p>
+      <ul class="points">
+        <li data-reveal>
+          <b>Our own platform</b>
+          <span>Every lead comes through the Y5Media 360 marketing platform, not from an outside lead seller.</span>
+        </li>
+        <li data-reveal>
+          <b>Built in the UAE market</b>
+          <span>Years of operations in UAE real estate stand behind the database the leads come from.</span>
+        </li>
+        <li class="not" data-reveal>
+          <b>Not from Google or Meta ads</b>
+          <span>Our leads aren’t sourced from third-party advertising platforms like Google and Meta.</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="diagram" data-reveal data-reveal-delay=".1s" aria-label="How a lead reaches you">
+      <ol class="flow">
+        {flow.map((f, i) => (
+          <li style={`--i:${i}`}>
+            <span class="node">{f.k}</span>
+            <div><b>{f.t}</b><small>{f.d}</small></div>
+          </li>
+        ))}
+      </ol>
+      <div class="excluded">
+        <span class="ex-label">Not a lead source</span>
+        <span class="chip">Google Ads</span>
+        <span class="chip">Meta ads</span>
+        <span class="chip">Third-party ad platforms</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .source { background: var(--white); }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+  h2 { margin-bottom: 18px; max-width: 15ch; }
+  .points { list-style: none; display: grid; gap: 4px; margin-top: 28px; }
+  .points li { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 14px; padding: 14px 0; border-top: 1px solid var(--gray-200); }
+  .points li::before {
+    content: ''; grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; margin-top: 2px;
+    background: var(--green-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-5' fill='none' stroke='%232F6B00' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px no-repeat;
+  }
+  .points li.not::before { background: #FDECEC url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5 5l6 6M11 5l-6 6' fill='none' stroke='%23B42318' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E") center / 16px no-repeat; }
+  .points b { font-family: var(--font-display); font-size: 18px; font-weight: 600; }
+  .points span { color: var(--gray-500); font-size: 15.5px; }
+
+  .diagram {
+    border-radius: var(--radius-lg); padding: clamp(24px, 3vw, 36px); display: grid; gap: 22px;
+    background: var(--forest-glow), var(--forest); color: var(--on-dark);
+  }
+  .flow { list-style: none; display: grid; gap: 0; position: relative; }
+  .flow li { position: relative; display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 0; }
+  .flow li + li::before {
+    content: ''; position: absolute; left: 47px; top: -12px; height: 24px; width: 2px;
+    background: linear-gradient(180deg, rgba(166, 231, 42, .15), var(--lime));
+  }
+  .node {
+    justify-self: stretch; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 9px 6px; border-radius: 12px; color: var(--lime);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .04));
+    border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
+  }
+  .flow li:first-child .node { background: var(--lime); color: #0B1A10; border-color: transparent; }
+  .flow b { display: block; font-family: var(--font-display); font-weight: 600; font-size: 18px; }
+  .flow small { display: block; font-size: 13.5px; color: var(--on-dark-muted); margin-top: 2px; }
+  html.motion .diagram.is-in .flow li { animation: step-in .7s var(--ease-out) both; animation-delay: calc(var(--i) * .15s + .2s); }
+  @keyframes step-in { from { opacity: 0; transform: translateX(-14px); } }
+
+  .excluded { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 18px; border-top: 1px dashed rgba(255, 255, 255, .2); }
+  .ex-label { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--on-dark-faint); margin-right: 4px; }
+  .chip { font-size: 13px; padding: 6px 12px; border-radius: 999px; color: var(--on-dark-muted); border: 1px solid rgba(255, 255, 255, .18); text-decoration: line-through; text-decoration-color: #F87171; text-decoration-thickness: 2px; }
+
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>

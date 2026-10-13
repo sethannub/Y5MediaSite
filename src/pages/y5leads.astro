@@ -5,6 +5,7 @@ import Journey from '../components/Journey.astro';
 import ClaimFilm from '../components/mocks/ClaimFilm.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
 import LeadPricing from '../components/LeadPricing.astro';
+import LeadSource from '../components/LeadSource.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { site, products, leadPricing, aed } from '../config/site';
 import { leadSteps } from '../config/content';
@@ -21,6 +22,7 @@ const features = [
 ];
 
 const faqs = [
+  { q: 'Where do the leads come from?', a: 'From the Y5Media 360 marketing platform, using a database we have built over several years of operations in the UAE real estate market. We don’t source leads from third-party advertising platforms like Google or Meta.' },
   { q: 'What is a credit?', a: `Credits are how you pay for leads. One credit is one dirham, and a lead costs ${perLeadText()} at the standard rate. Buy credits in a pack and the discount applies straight away.` },
   { q: 'Do I pay for every lead I receive?', a: 'No. Leads arrive blurred and cost nothing until you choose to unlock them.' },
   { q: 'What happens if a lead is wrong?', a: 'Use the Report button on the lead and tell us what was wrong. Our team reviews every report, and approved reports get the credits back.' },
@@ -65,6 +67,8 @@ function perLeadText() { return aed(leadPricing.perLead); }
   >
     <ClaimFilm slot="stage" />
   </Journey>
+
+  <LeadSource />
 
   <FeatureGrid kicker="Inside Y5Leads" title="Built for busy" accent="sales teams." items={features} tone="white" />
 

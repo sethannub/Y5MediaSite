@@ -7,6 +7,7 @@ import WifiPhone from '../components/mocks/WifiPhone.astro';
 import ClaimFilm from '../components/mocks/ClaimFilm.astro';
 import Venues from '../components/home/Venues.astro';
 import LeadPricing from '../components/LeadPricing.astro';
+import LeadSource from '../components/LeadSource.astro';
 import Industries from '../components/home/Industries.astro';
 import Why from '../components/home/Why.astro';
 import CtaBand from '../components/CtaBand.astro';
@@ -51,6 +52,7 @@ const leadsLogin = site.logins.find((l) => l.label === 'Y5Leads')!.href;
     >
       <ClaimFilm slot="stage" />
     </Journey>
+    <LeadSource />
     <LeadPricing more />
   </div>
 
