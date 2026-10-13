@@ -14,8 +14,8 @@ export const site = {
   indexable: false,
 
   nav: [
-    { label: 'WiFi Marketing', href: '/wifi-marketing' },
-    { label: 'Y5Leads', href: '/y5leads' },
+    { label: 'WiFi Marketing', href: '/#wifi' },
+    { label: 'Y5Leads', href: '/#y5leads' },
     { label: 'Industries', href: '/#industries' },
     { label: 'Contact', href: '/contact' },
   ],

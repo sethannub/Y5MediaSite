@@ -35,6 +35,11 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
 
 - `src/config/site.ts`: company details, navigation, logins, product summaries and pricing.
 - `src/config/content.ts`: client logos, venues, industries, reasons, and the journey steps.
+- `src/components/home/HomeSplit.astro`: the home page opener, a split screen (approved 13 Oct 2026,
+  after the Dribbble "Split Screen Interaction" shot). WiFi Marketing is the lime half, Y5Leads the
+  deep green half. Picking one opens it in place, the other collapses to a strip, and that
+  product's sections (`[data-product]` in `index.astro`) show below. `/#wifi` and `/#y5leads`
+  open a side directly; the nav links use them.
 - `src/components/Journey.astro`: the step-by-step journey. It plays while in view, and
   picking a step stops it. With reduced motion it never auto-plays.
 - `src/components/mocks/`: the HTML phone (WiFi Marketing) and app (Y5Leads) screens the

@@ -1,0 +1,254 @@
+---
+// The home page opener: one half per product. Picking a half opens it in place
+// (it widens, the other collapses to a strip that switches back), and that
+// product's sections appear below. Without JavaScript the buttons are plain
+// links to the product pages.
+import { products } from '../../config/site';
+---
+<section class="split" data-split data-picked="none" aria-label="Choose a product">
+
+  <article class="pane wifi" data-pane="wifi">
+    <img class="photo" src="/images/venues/malls-audience-02.jpg" alt="" width="1200" height="750" fetchpriority="high" />
+
+    <div class="closed">
+      <span class="who">For brands and advertisers</span>
+      <h2 class="name">WiFi<br />Marketing</h2>
+      <p>Your ad on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
+      <a class="pick" href={products.wifi.href} data-open="wifi">Discover WiFi Marketing <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="opened">
+      <button type="button" class="back" data-back>← Back</button>
+      <span class="who">WiFi Marketing</span>
+      <h1>Advertising that meets people where they connect.</h1>
+      <p>Your banner or video plays on the WiFi login screen. People see it the moment they connect, tap through to your site, and you watch impressions and clicks come in.</p>
+      <div class="buttons">
+        <a class="btn btn-dark" href="/contact?interest=wifi">Plan a campaign <span aria-hidden="true">→</span></a>
+        <a class="btn btn-line" href="#product-wifi">See how it works ↓</a>
+      </div>
+    </div>
+
+    <div class="art" aria-hidden="true">
+      <div class="phone">
+        <div class="screen">
+          <div class="bar">Mall Free WiFi</div>
+          <div class="ad"><small>This weekend only</small><strong>Up to 40% off</strong><span>Electronics · Level 1</span></div>
+          <div class="go">Shop the offer</div>
+        </div>
+      </div>
+      <div class="stat"><small>Impressions this week</small><b>48,210</b><span>1,936 clicks · 4.0% CTR</span></div>
+    </div>
+
+    <button type="button" class="strip" data-open="wifi" aria-label="Open WiFi Marketing">
+      <span class="arrow" aria-hidden="true">›</span>
+      <span class="label">WiFi Marketing</span>
+    </button>
+  </article>
+
+  <article class="pane leads" data-pane="y5leads">
+    <img class="photo" src="/images/industries/real-estate-ad-cmapaigns.jpg" alt="" width="767" height="767" />
+
+    <div class="closed">
+      <span class="who">For real estate agencies</span>
+      <h2 class="name">Y5Leads</h2>
+      <p>Property buyer leads matched to your projects. Unlock only the ones you want, then call.</p>
+      <a class="pick" href={products.leads.href} data-open="y5leads">Discover Y5Leads <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="opened">
+      <button type="button" class="back" data-back>← Back</button>
+      <span class="who">Y5Leads · Real estate</span>
+      <h1>Property buyer leads, ready to call.</h1>
+      <p>Buyers are matched to your projects and land in your dashboard. Unlock the ones you want for AED 250 each, then call, WhatsApp or copy them into your CRM.</p>
+      <div class="buttons">
+        <a class="btn btn-primary" href="/contact?interest=y5leads">Get started <span aria-hidden="true">→</span></a>
+        <a class="btn btn-line" href="https://leads.y5media.net/login">Log in to Y5Leads</a>
+      </div>
+    </div>
+
+    <div class="art" aria-hidden="true">
+      <div class="lead-card">
+        <div class="lc-top"><span class="dot"></span>New lead<em>Creek Vista</em></div>
+        <b>Rania Khalil</b>
+        <span class="lc-meta">AED 2M – 3M · Dubai Creek</span>
+        <span class="unlock">Unlock</span>
+      </div>
+      <img class="dash" src="/images/brand/y5leads-dashboard.png" alt="" width="1568" height="772" loading="lazy" />
+    </div>
+
+    <button type="button" class="strip" data-open="y5leads" aria-label="Open Y5Leads">
+      <span class="arrow" aria-hidden="true">‹</span>
+      <span class="label">Y5Leads</span>
+    </button>
+  </article>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-split]');
+  if (root) {
+    const contents = document.querySelectorAll<HTMLElement>('[data-product]');
+    const set = (key: string, push = true) => {
+      root.dataset.picked = key;
+      contents.forEach((c) => { c.hidden = c.dataset.product !== key; });
+      if (push) history.replaceState(null, '', key === 'none' ? location.pathname : `#${key}`);
+      if (key !== 'none') {
+        document.querySelectorAll<HTMLElement>(`[data-product="${key}"] [data-reveal]`).forEach((el) => {
+          if (el.getBoundingClientRect().top < innerHeight) el.classList.add('is-in');
+        });
+      }
+    };
+
+    root.querySelectorAll<HTMLElement>('[data-open]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        set(el.dataset.open!);
+        window.scrollTo({ top: 0 });
+        if ((e as MouseEvent).detail === 0) root.querySelector<HTMLElement>(`[data-pane="${el.dataset.open}"] .back`)?.focus({ preventScroll: true });
+      });
+    });
+    root.querySelectorAll<HTMLElement>('[data-back]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        const was = root.dataset.picked;
+        set('none');
+        if (e.detail === 0) root.querySelector<HTMLElement>(`[data-pane="${was}"] .pick`)?.focus({ preventScroll: true });
+      });
+    });
+
+    const fromHash = () => {
+      const h = location.hash.slice(1);
+      set(h === 'wifi' || h === 'y5leads' ? h : 'none', false);
+    };
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+  }
+</script>
+
+<style>
+  .split {
+    --lime-bg: #8CC63F;
+    --strip: 84px;
+    position: relative; display: flex; height: 100svh; min-height: 640px; max-height: 1000px; overflow: hidden;
+    background: var(--forest);
+  }
+  .pane {
+    position: relative; overflow: hidden; min-width: 0;
+    flex: 1 1 0;
+    transition: flex-grow .9s var(--ease-out), flex-basis .9s var(--ease-out);
+  }
+  .wifi { background: var(--lime-bg); color: #0B1A10; }
+  .leads { background: radial-gradient(700px 500px at 100% 0%, rgba(116, 222, 128, .18), transparent 70%), var(--forest); color: var(--white); }
+
+  [data-picked='none'] .pane:hover { flex-grow: 1.22; }
+  [data-picked='wifi'] .leads, [data-picked='y5leads'] .wifi { flex-grow: 0; flex-basis: var(--strip); }
+
+  .photo {
+    position: absolute; right: 0; top: 0; height: 100%; width: 72%; object-fit: cover;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%); mask-image: linear-gradient(90deg, transparent, #000 45%);
+    transition: transform 1.2s var(--ease-out), opacity .6s;
+  }
+  .wifi .photo { mix-blend-mode: multiply; opacity: .55; }
+  .leads .photo { mix-blend-mode: luminosity; opacity: .32; }
+  [data-picked='none'] .pane:hover .photo { transform: scale(1.04); }
+
+  .closed, .opened { position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 16px; }
+  .closed { left: clamp(28px, 5vw, 72px); bottom: clamp(48px, 10vh, 104px); width: min(520px, calc(100% - 56px)); }
+  .opened { left: clamp(28px, 8vw, 120px); top: clamp(120px, 17vh, 160px); width: min(560px, 42%); display: none; }
+  .who { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .leads .who { color: var(--lime); }
+  .name { font-family: var(--font-display); font-weight: 700; font-size: clamp(52px, 5.6vw, 82px); line-height: .95; letter-spacing: -.04em; }
+  .opened h1 { font-size: clamp(40px, 4.8vw, 72px); line-height: .98; letter-spacing: -.04em; }
+  .closed p, .opened p { font-size: var(--text-lg); line-height: 1.55; max-width: 44ch; }
+  .leads p { color: var(--on-dark-muted); }
+  .pick {
+    align-self: flex-start; margin-top: 8px; font-weight: 600; font-size: 15px; padding: 15px 26px; border-radius: 999px;
+    border: 2px solid currentColor; transition: transform .2s var(--ease-out), background .2s, color .2s;
+  }
+  .wifi .pick:hover { background: #0B1A10; color: var(--lime-bg); transform: translateY(-2px); }
+  .leads .pick:hover { background: var(--white); color: var(--forest); transform: translateY(-2px); }
+  .back { align-self: flex-start; font: inherit; font-weight: 600; font-size: 14px; background: none; border: 0; color: inherit; cursor: pointer; padding: 6px 0; }
+  .back:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+  .btn-line { border: 2px solid currentColor; color: inherit; padding: 13px 22px; }
+  .leads .btn-line { border-color: rgba(255, 255, 255, .6); }
+
+  .art { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .phone {
+    position: absolute; right: 8%; top: 13%; width: 172px; height: 350px; border-radius: 30px; background: #0A0F0C; padding: 9px;
+    box-shadow: 0 40px 70px -24px rgba(0, 0, 0, .55);
+    transition: right .9s var(--ease-out), top .9s var(--ease-out), width .9s var(--ease-out), height .9s var(--ease-out);
+  }
+  .screen { height: 100%; border-radius: 26px; overflow: hidden; background: #F4F7F3; padding: 34px 12px 14px; display: flex; flex-direction: column; gap: 9px; color: #14211A; }
+  .screen .bar { text-align: center; font-size: 10px; font-weight: 600; color: #46544B; }
+  .ad { flex: 1; border-radius: 14px; background: linear-gradient(160deg, #F59E0B, #DC2626 70%, #7C2D12); color: #fff; padding: 14px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .ad small { font-size: 10px; }
+  .ad strong { font-family: var(--font-display); font-size: 24px; line-height: 1; }
+  .ad span { font-size: 10px; opacity: .9; }
+  .go { text-align: center; background: #14211A; color: #fff; border-radius: 10px; padding: 10px; font-size: 11px; font-weight: 600; }
+  .stat {
+    position: absolute; right: 4%; bottom: 14%; width: 220px; padding: 16px 18px; border-radius: 18px; display: grid; gap: 2px;
+    background: rgba(255, 255, 255, .55); border: 1px solid rgba(255, 255, 255, .7); box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .35);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    opacity: 0; transform: translateY(20px); transition: opacity .5s, transform .7s var(--ease-out);
+  }
+  .stat small, .stat span { font-size: 12px; color: #2F4A1A; }
+  .stat b { font-family: var(--font-display); font-size: 30px; font-weight: 700; }
+
+  .lead-card {
+    position: absolute; right: 8%; top: 18%; width: 260px; padding: 18px; border-radius: 20px; display: flex; flex-direction: column; gap: 8px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .06)); border: 1px solid rgba(255, 255, 255, .18);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 30px 60px -24px rgba(0, 0, 0, .6);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    transition: opacity .4s;
+  }
+  .lc-top { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--on-dark-muted); }
+  .lc-top em { margin-left: auto; font-style: normal; font-weight: 600; color: var(--lime); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
+  .lead-card b { font-family: var(--font-display); font-size: 20px; filter: blur(6px); }
+  .lc-meta { font-size: 12px; color: var(--on-dark-muted); }
+  .unlock { align-self: flex-start; margin-top: 4px; font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: var(--green); color: #0B1A10; }
+  .dash {
+    position: absolute; left: 54%; top: 20%; width: 62vw; max-width: none; border-radius: 16px; box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .7);
+    opacity: 0; transform: translateX(60px); transition: opacity .5s, transform .9s var(--ease-out);
+  }
+
+  .strip {
+    position: absolute; inset: 0; z-index: 3; width: 100%; border: 0; background: transparent; cursor: pointer; color: inherit;
+    display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+  }
+  .arrow { width: 44px; height: 44px; border-radius: 50%; border: 2px solid currentColor; display: grid; place-items: center; font-size: 20px; font-weight: 700; transition: transform .2s; }
+  .strip:hover .arrow { transform: scale(1.1); }
+  .label { writing-mode: vertical-rl; font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: .02em; }
+  .wifi .label { transform: rotate(180deg); }
+
+  /* Opened and collapsed states */
+  [data-picked='wifi'] .wifi .closed, [data-picked='y5leads'] .leads .closed { display: none; }
+  [data-picked='wifi'] .wifi .opened, [data-picked='y5leads'] .leads .opened { display: flex; animation: enter .8s var(--ease-out) both .25s; }
+  [data-picked='wifi'] .leads > :not(.strip), [data-picked='y5leads'] .wifi > :not(.strip) { opacity: 0; pointer-events: none; transition: opacity .3s; }
+  [data-picked='wifi'] .leads .strip, [data-picked='y5leads'] .wifi .strip { display: flex; animation: fade .5s .4s both; }
+  [data-picked='wifi'] .phone { right: 14%; top: 15%; width: 270px; height: 560px; }
+  [data-picked='wifi'] .stat { opacity: 1; transform: none; transition-delay: .5s; }
+  [data-picked='y5leads'] .lead-card { opacity: 0; }
+  [data-picked='y5leads'] .dash { opacity: 1; transform: none; transition-delay: .35s; }
+  @keyframes enter { from { opacity: 0; transform: translateY(26px); } }
+  @keyframes fade { from { opacity: 0; } }
+
+  .closed { animation: enter .9s var(--ease-out) both .1s; }
+
+  @media (max-width: 960px) {
+    .split { flex-direction: column; height: auto; max-height: none; min-height: 100svh; padding-top: 78px; }
+    .opened { padding-top: 40px !important; }
+    .pane { flex-basis: 50svh; min-height: 420px; }
+    [data-picked='none'] .pane:hover { flex-grow: 1; }
+    [data-picked='wifi'] .leads, [data-picked='y5leads'] .wifi { flex: 0 0 64px; min-height: 64px; }
+    [data-picked='wifi'] .wifi, [data-picked='y5leads'] .leads { flex: 0 0 auto; min-height: 0; }
+    .closed { bottom: 32px; }
+    .opened { position: relative; left: auto; top: auto; width: auto; padding: 110px 24px 40px; }
+    .art { display: none; }
+    .photo { width: 100%; -webkit-mask-image: linear-gradient(180deg, transparent, #000 60%); mask-image: linear-gradient(180deg, transparent, #000 60%); }
+    .strip { flex-direction: row; }
+    .label { writing-mode: horizontal-tb; transform: none !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pane, .photo, .phone, .stat, .dash { transition: none; }
+  }
+</style>
