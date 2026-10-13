@@ -1,18 +1,22 @@
 ---
 // Hero option A (CEO idea 1): the two products split corner to corner.
-// Each side's copy sits where that side is widest: Y5Ads top left, Y5Leads
-// bottom right. Hovering a side swings the slant towards the other one.
+// At rest only the two names show. Hovering (or focusing) a side swings the
+// divider towards the other one, brings in that side's visual, and unfolds
+// its description and button. Touch screens, with no hover, see everything.
 import { products } from '../../config/site';
 ---
 <section class="slant on-dark" aria-label="Choose a product">
   <a class="pane ads" href={products.wifi.href}>
     <img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" fetchpriority="high" />
     <div class="copy">
-      <span class="who">Y5Ads · WiFi advertising</span>
-      <h2>Be seen the moment people connect.</h2>
-      <p>Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
-      <ul class="facts"><li>Banner &amp; video</li><li>Location targeting</li><li>Live reports</li></ul>
-      <span class="pick">Explore Y5Ads <span aria-hidden="true">→</span></span>
+      <h2 class="name">Y5Ads</h2>
+      <div class="more"><div class="more-in">
+        <span class="who">WiFi advertising</span>
+        <p class="line">Be seen the moment people connect.</p>
+        <p>Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
+        <ul class="facts"><li>Banner &amp; video</li><li>Location targeting</li><li>Live reports</li></ul>
+        <span class="pick">Explore Y5Ads <span aria-hidden="true">→</span></span>
+      </div></div>
     </div>
     <div class="phone" aria-hidden="true"><div class="screen">
       <div class="bar"><span class="dot"></span>Free WiFi · Level 2</div>
@@ -26,11 +30,14 @@ import { products } from '../../config/site';
     <img class="photo" src="/images/hero/y5leads.webp" alt="" width="1800" height="1125" />
     <img class="list" src="/images/y5leads/claim-1-leads.webp" alt="" width="1920" height="1200" aria-hidden="true" />
     <div class="copy">
-      <span class="who">Y5Leads · Real estate</span>
-      <h2>Property buyers, ready to call.</h2>
-      <p>Leads matched to your projects from our own UAE database. Unlock only the ones you want, from AED 250 each.</p>
-      <ul class="facts"><li>Matched to your projects</li><li>Pay per lead</li><li>Refunds for bad leads</li></ul>
-      <span class="pick">Explore Y5Leads <span aria-hidden="true">→</span></span>
+      <div class="more"><div class="more-in">
+        <span class="who">Property leads</span>
+        <p class="line">Property buyers, ready to call.</p>
+        <p>Leads matched to your projects from our own UAE database. Unlock only the ones you want, from AED 250 each.</p>
+        <ul class="facts"><li>Matched to your projects</li><li>Pay per lead</li><li>Refunds for bad leads</li></ul>
+        <span class="pick">Explore Y5Leads <span aria-hidden="true">→</span></span>
+      </div></div>
+      <h2 class="name">Y5Leads</h2>
     </div>
   </a>
 
@@ -44,13 +51,14 @@ import { products } from '../../config/site';
 
   .slant {
     --top: 100%; --bot: 0%;
+    --ease: cubic-bezier(.22, 1, .36, 1);
     position: relative; height: 100svh; min-height: 700px; max-height: 1000px; overflow: hidden; background: #08190f;
-    transition: --top .9s var(--ease-out), --bot .9s var(--ease-out);
+    transition: --top .9s var(--ease), --bot .9s var(--ease);
   }
-  .slant:has(.ads:hover) { --top: 100%; --bot: 8%; }
-  .slant:has(.leads:hover) { --top: 92%; --bot: 0%; }
+  .slant:has(.ads:is(:hover, :focus-visible)) { --top: 100%; --bot: 22%; }
+  .slant:has(.leads:is(:hover, :focus-visible)) { --top: 78%; --bot: 0%; }
 
-  .pane { position: absolute; inset: 0; overflow: hidden; display: block; color: inherit; }
+  .pane { position: absolute; inset: 0; overflow: hidden; display: block; color: inherit; outline: none; }
   .ads { background: #8CC63F; color: #0B1A10; clip-path: polygon(0 0, var(--top) 0, var(--bot) 100%, 0 100%); }
   .leads { background: #0B261B; color: var(--white); clip-path: polygon(var(--top) 0, 100% 0, 100% 100%, var(--bot) 100%); }
   .seam {
@@ -64,38 +72,60 @@ import { products } from '../../config/site';
     box-shadow: 0 0 0 6px rgba(255, 255, 255, .18), 0 12px 30px -8px rgba(0, 0, 0, .45);
   }
 
-  /* Photos stay in the background: a soft tint on the lime side, a dark wash on the green side */
-  .photo { position: absolute; top: 0; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease-out); }
-  .ads .photo { left: 0; width: 70%; mix-blend-mode: multiply; opacity: .16; -webkit-mask-image: linear-gradient(135deg, #000 20%, transparent 60%); mask-image: linear-gradient(135deg, #000 20%, transparent 60%); }
-  .leads .photo { right: 0; width: 75%; opacity: .3; mix-blend-mode: luminosity; -webkit-mask-image: linear-gradient(315deg, #000 30%, transparent 75%); mask-image: linear-gradient(315deg, #000 30%, transparent 75%); }
-  .pane:hover .photo { transform: scale(1.04); }
+  .photo { position: absolute; top: 0; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease), opacity .8s; }
+  .ads .photo { left: 0; width: 70%; mix-blend-mode: multiply; opacity: .14; -webkit-mask-image: linear-gradient(135deg, #000 20%, transparent 60%); mask-image: linear-gradient(135deg, #000 20%, transparent 60%); }
+  .leads .photo { right: 0; width: 75%; opacity: .26; mix-blend-mode: luminosity; -webkit-mask-image: linear-gradient(315deg, #000 30%, transparent 75%); mask-image: linear-gradient(315deg, #000 30%, transparent 75%); }
+  .pane:is(:hover, :focus-visible) .photo { transform: scale(1.05); }
+  .ads:is(:hover, :focus-visible) .photo { opacity: .2; }
 
-  .copy { position: absolute; z-index: 2; width: min(460px, 30vw); display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-  .ads .copy { left: clamp(28px, 6vw, 96px); top: clamp(100px, 14vh, 140px); }
-  .leads .copy { right: clamp(28px, 6vw, 96px); bottom: clamp(40px, 7vh, 72px); width: min(500px, 34vw); }
+  /* ---------- Copy: the name, then a block that unfolds on hover ---------- */
+  .copy { position: absolute; z-index: 2; width: min(480px, 32vw); display: flex; flex-direction: column; }
+  .ads .copy { left: clamp(28px, 6vw, 96px); top: clamp(120px, 17vh, 160px); }
+  .leads .copy { right: clamp(28px, 6vw, 96px); bottom: clamp(48px, 9vh, 88px); align-items: flex-end; text-align: right; }
+  .name {
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(76px, 9vw, 148px); line-height: .88; letter-spacing: -.055em;
+    transition: font-size .7s var(--ease), opacity .4s;
+  }
+  .leads .name { color: var(--white); }
+  .pane:is(:hover, :focus-visible) .name { font-size: clamp(56px, 6vw, 96px); }
+
+  .more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s var(--ease); }
+  .more-in { overflow: hidden; display: flex; flex-direction: column; gap: 14px; }
+  .ads .more-in { padding-top: 18px; align-items: flex-start; }
+  .leads .more-in { padding-bottom: 18px; align-items: flex-end; }
+  .pane:is(:hover, :focus-visible) .more { grid-template-rows: 1fr; }
+  .more-in > * { opacity: 0; transform: translateY(14px); transition: opacity .45s, transform .6s var(--ease); }
+  .pane:is(:hover, :focus-visible) .more-in > * { opacity: 1; transform: none; }
+  .pane:is(:hover, :focus-visible) .more-in > :nth-child(1) { transition-delay: .12s; }
+  .pane:is(:hover, :focus-visible) .more-in > :nth-child(2) { transition-delay: .18s; }
+  .pane:is(:hover, :focus-visible) .more-in > :nth-child(3) { transition-delay: .24s; }
+  .pane:is(:hover, :focus-visible) .more-in > :nth-child(4) { transition-delay: .3s; }
+  .pane:is(:hover, :focus-visible) .more-in > :nth-child(5) { transition-delay: .36s; }
+
   .who { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
   .ads .who { color: #1F3D0B; }
   .leads .who { color: var(--lime); }
-  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(36px, 3.7vw, 58px); line-height: 1; letter-spacing: -.035em; }
-  .copy p { font-size: 17px; line-height: 1.5; max-width: 40ch; font-weight: 500; }
-  .ads .copy p { color: #1D3320; }
-  .leads .copy p { color: #D5E3DA; }
+  .line { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.15; letter-spacing: -.02em; }
+  .more p:not(.line) { font-size: 17px; line-height: 1.5; font-weight: 500; max-width: 40ch; }
+  .ads .more p:not(.line) { color: #1D3320; }
+  .leads .more p:not(.line) { color: #D5E3DA; }
   .facts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .leads .facts { justify-content: flex-end; }
   .facts li { font-size: 13px; font-weight: 600; padding: 7px 13px; border-radius: 999px; }
   .ads .facts li { background: rgba(11, 26, 16, .1); border: 1px solid rgba(11, 26, 16, .18); }
   .leads .facts li { background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16); }
-  .pick { margin-top: 4px; font-weight: 600; font-size: 15px; padding: 15px 26px; border-radius: 999px; transition: transform .2s var(--ease-out), box-shadow .2s; }
+  .pick { margin-top: 4px; font-weight: 600; font-size: 15px; padding: 15px 26px; border-radius: 999px; }
   .ads .pick { background: #0B1A10; color: #fff; }
   .leads .pick { background: var(--lime); color: #0B1A10; }
-  .pane:hover .pick { transform: translateY(-2px); box-shadow: 0 14px 30px -12px rgba(0, 0, 0, .5); }
 
-  /* Y5Ads: a phone rising from the bottom edge, where the lime side narrows */
+  /* ---------- Visuals: hidden at rest, they move in on hover ---------- */
   .phone {
-    position: absolute; left: 38.5%; top: 10%; width: 165px; height: 340px; border-radius: 30px; background: #0A0F0C; padding: 8px;
-    transform: rotate(-4deg); box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .3), 0 40px 70px -26px rgba(0, 0, 0, .55);
-    transition: transform .9s var(--ease-out);
+    position: absolute; left: 40%; top: 12%; width: 175px; height: 360px; border-radius: 32px; background: #0A0F0C; padding: 8px;
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .3), 0 40px 70px -26px rgba(0, 0, 0, .55);
+    opacity: 0; transform: translateY(80px) rotate(8deg) scale(.92);
+    transition: opacity .5s, transform .9s var(--ease);
   }
-  .ads:hover .phone { transform: rotate(-2deg) translateY(-6px); }
+  .ads:is(:hover, :focus-visible) .phone { opacity: 1; transform: translateY(0) rotate(-4deg); transition-delay: .15s; }
   .screen { height: 100%; border-radius: 25px; overflow: hidden; background: #fff; padding: 34px 11px 11px; display: flex; flex-direction: column; gap: 8px; }
   .bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 10.5px; font-weight: 600; color: #46544B; }
   .bar .dot { width: 6px; height: 6px; border-radius: 50%; background: #75B630; }
@@ -109,26 +139,38 @@ import { products } from '../../config/site';
   .go { text-align: center; background: #14211A; color: #fff; border-radius: 10px; padding: 10px; font-size: 11px; font-weight: 600; }
   .skip { text-align: center; font-size: 10px; color: #5E6E64; }
 
-  /* Y5Leads: the real leads list in the top corner, where the green side narrows */
   .list {
-    position: absolute; right: -2%; top: 21%; width: 30%; max-width: none; border-radius: 14px;
+    position: absolute; right: -2%; top: 11%; width: 27%; max-width: none; border-radius: 14px;
     box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 40px 80px -30px rgba(0, 0, 0, .7);
-    transform: perspective(1600px) rotateY(-12deg) rotateX(3deg); transform-origin: right center;
     -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent); mask-image: linear-gradient(180deg, #000 55%, transparent);
-    transition: transform 1.2s var(--ease-out);
+    opacity: 0; transform: perspective(1600px) translateX(120px) rotateY(-24deg);
+    transition: opacity .5s, transform 1s var(--ease);
   }
-  .leads:hover .list { transform: perspective(1600px) rotateY(-6deg) rotateX(2deg); }
+  .leads:is(:hover, :focus-visible) .list { opacity: 1; transform: perspective(1600px) translateX(0) rotateY(-10deg) rotateX(2deg); transition-delay: .15s; }
 
-  @media (max-width: 1100px) {
-    .copy { width: min(440px, 40vw); }
-    h2 { font-size: clamp(34px, 4vw, 52px); }
+  /* The other side steps back while one is open */
+  .slant:has(.ads:is(:hover, :focus-visible)) .leads .name,
+  .slant:has(.leads:is(:hover, :focus-visible)) .ads .name { opacity: .45; }
+
+  /* No hover (phones, tablets): show everything */
+  @media (hover: none) {
+    .more { grid-template-rows: 1fr; }
+    .more-in > * { opacity: 1; transform: none; }
+    .phone { opacity: 1; transform: rotate(-4deg); }
+    .list { opacity: 1; transform: perspective(1600px) rotateY(-10deg); }
   }
   @media (max-width: 960px) {
     .slant { height: auto; max-height: none; display: grid; padding-top: 70px; }
-    .pane { position: relative; clip-path: none; min-height: 520px; }
+    .pane { position: relative; clip-path: none; min-height: 480px; }
     .seam, .or, .phone, .list { display: none; }
     .ads .photo, .leads .photo { width: 100%; }
-    .copy { position: absolute; left: 24px !important; right: 24px !important; top: auto !important; bottom: 40px !important; width: auto; }
+    .copy { position: absolute; left: 24px !important; right: 24px !important; top: auto !important; bottom: 40px !important; width: auto; align-items: flex-start !important; text-align: left !important; }
+    .leads .copy { flex-direction: column-reverse; }
+    .leads .more-in, .leads .facts { align-items: flex-start; justify-content: flex-start; }
+    .name { font-size: 64px !important; }
   }
-  @media (prefers-reduced-motion: reduce) { .slant { transition: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .slant { transition: none; }
+    .more, .more-in > *, .phone, .list, .name, .photo { transition: none !important; }
+  }
 </style>
