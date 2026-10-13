@@ -1,0 +1,37 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+  accent?: string;
+  text: string;
+}
+const { kicker, title, accent, text } = Astro.props;
+---
+<section class="page-hero forest on-dark">
+  <div class="container grid">
+    <div class="copy">
+      <div class="kicker">{kicker}</div>
+      <h1>{title}{accent && <> <span class="accent">{accent}</span></>}</h1>
+      <p class="lede">{text}</p>
+      <div class="buttons"><slot name="buttons" /></div>
+    </div>
+    <div class="side"><slot name="side" /></div>
+  </div>
+</section>
+
+<style>
+  .page-hero { padding-top: clamp(130px, 13vw, 170px); padding-bottom: clamp(56px, 7vw, 96px); overflow: hidden; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: center; }
+  h1 { font-size: clamp(40px, 5.2vw, 72px); max-width: 15ch; }
+  .lede { margin-top: 24px; }
+  .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+  .buttons:empty { display: none; }
+  .copy > * { animation: up .9s var(--ease-out) both; }
+  .copy > :nth-child(2) { animation-delay: .08s; }
+  .copy > :nth-child(3) { animation-delay: .16s; }
+  .copy > :nth-child(4) { animation-delay: .24s; }
+  .side { animation: up 1s var(--ease-out) .25s both; }
+  .side:empty { display: none; }
+  @keyframes up { from { opacity: 0; transform: translateY(24px); } }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+</style>

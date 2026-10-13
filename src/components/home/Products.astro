@@ -1,0 +1,57 @@
+---
+import { products } from '../../config/site';
+const cards = [
+  { ...products.wifi, img: '/images/venues/malls-audience-02.jpg', alt: 'Shoppers in a UAE mall', label: 'WiFi advertising' },
+  { ...products.leads, img: '', alt: '', label: 'Lead generation', ph: 'Lead generation photo · 4:3' },
+];
+---
+<section class="section products" id="products">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-reveal>Our two solutions</div>
+        <h2 data-reveal>One partner. <span class="accent">Two ways to grow.</span></h2>
+      </div>
+      <p class="lede" data-reveal>
+        Build awareness where people spend their day, and turn interest into enquiries your sales team can call.
+        Use one, or run both together.
+      </p>
+    </div>
+
+    <div class="cards">
+      {cards.map((c, i) => (
+        <article class="card" data-reveal data-reveal-delay={`${i * 0.1}s`}>
+          {c.img ? (
+            <img class="media" src={c.img} alt={c.alt} width="1024" height="640" loading="lazy" />
+          ) : (
+            <div class="media ph"><span>{c.ph}</span></div>
+          )}
+          <div class="body">
+            <span class="label">{c.label}</span>
+            <h3>{c.name}</h3>
+            <p class="tag">{c.tagline}</p>
+            <p class="sum">{c.summary}</p>
+            <ul>{c.points.map((p) => <li>{p}</li>)}</ul>
+            <a class="btn btn-dark" href={c.href}>Discover {c.name} <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; }
+  .media { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: transform .8s var(--ease-out); }
+  .card:hover .media { transform: scale(1.03); }
+  .body { padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; gap: 10px; flex: 1; position: relative; background: var(--white); }
+  .label { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--green-ink); }
+  .tag { font-family: var(--font-display); font-size: 20px; font-weight: 500; color: var(--gray-600); }
+  .sum { color: var(--gray-500); }
+  ul { list-style: none; display: grid; gap: 8px; margin: 8px 0 20px; }
+  li { display: flex; gap: 10px; align-items: baseline; }
+  li::before { content: ''; width: 16px; height: 16px; flex: none; border-radius: 50%; transform: translateY(3px); background: var(--green-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-5' fill='none' stroke='%232F6B00' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px; }
+  .btn { margin-top: auto; align-self: flex-start; }
+  @media (max-width: 860px) { .cards { grid-template-columns: 1fr; } }
+</style>

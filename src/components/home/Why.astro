@@ -1,0 +1,34 @@
+---
+import { reasons } from '../../config/content';
+---
+<section class="section why forest on-dark">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-reveal>Why Y5Media</div>
+        <h2 data-reveal>Marketing built around <span class="accent">your goals.</span></h2>
+      </div>
+      <p class="lede" data-reveal>A Dubai team that plans, runs and reports on your campaigns, and tells you plainly what’s working.</p>
+    </div>
+    <ul class="grid">
+      {reasons.map((r, i) => (
+        <li data-reveal data-reveal-delay={`${i * 0.08}s`}>
+          <h3>{r.title}</h3>
+          <p>{r.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  li {
+    padding: 28px; border-radius: var(--radius-md); display: grid; gap: 10px; align-content: start;
+    background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+  }
+  h3 { font-size: 22px; }
+  p { color: var(--on-dark-muted); font-size: 15px; }
+  @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>

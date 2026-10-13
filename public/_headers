@@ -1,0 +1,6 @@
+# Cloudflare Pages response headers.
+# Pre-launch: tell search engines not to index anything (also covers files
+# that have no <meta> tag). Delete this rule at launch, together with setting
+# `indexable: true` in src/config/site.ts.
+/*
+  X-Robots-Tag: noindex, nofollow

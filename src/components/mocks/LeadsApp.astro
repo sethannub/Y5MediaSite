@@ -1,0 +1,152 @@
+---
+// The Y5Leads journey, shown on a simplified copy of the Y5Leads app:
+// a buyer enquires, the lead is matched to a project, the agent unlocks it,
+// then calls, copies or reports it.
+---
+<div class="app">
+  <div class="side" aria-hidden="true">
+    <img src="/images/brand/logomark.svg" alt="" width="40" height="18" />
+    <i class="on"></i><i></i><i></i><i></i>
+  </div>
+  <div class="main">
+
+    <div data-screen class="s s-enquiry">
+      <div class="top"><b>New enquiry</b><span class="chip">Live</span></div>
+      <div class="form">
+        <label>Name<span>Rania K.</span></label>
+        <label>Interested in<span>2-bed apartment, Dubai Creek</span></label>
+        <label>Budget<span>AED 2M – 3M</span></label>
+        <label>Timeline<span>Buying in 3 months</span></label>
+        <div class="send">Send enquiry</div>
+      </div>
+      <p class="cap">A buyer leaves their details and what they’re looking for.</p>
+    </div>
+
+    <div data-screen class="s s-match">
+      <div class="top"><b>Matching</b></div>
+      <div class="match">
+        <div class="lead-pill">Rania K. · AED 2M – 3M · Dubai Creek</div>
+        <div class="line"><i></i></div>
+        <div class="project">
+          <small>Your project</small>
+          <b>Creek Vista</b>
+          <div class="tags"><span>Dubai Creek</span><span>2M – 3M</span><span>Apartments</span></div>
+          <em>Matched</em>
+        </div>
+      </div>
+      <p class="cap">The lead goes to the agency whose project fits it.</p>
+    </div>
+
+    <div data-screen class="s s-list">
+      <div class="top"><b>Leads</b><span class="credits">4,349 credits</span></div>
+      <div class="table">
+        <div class="row head"><span>Project</span><span>Name</span><span>Budget</span><span></span></div>
+        <div class="row hot"><span>Creek Vista</span><span class="name"><i class="blur">Rania Khalil</i><i class="clear">Rania Khalil</i></span><span>2M–3M</span><span class="unlock">Unlock</span></div>
+        <div class="row"><span>Palm Residences</span><span><i class="blur">Omar Haddad</i></span><span>1M–2M</span><span class="unlock ghost">Unlock</span></div>
+        <div class="row"><span>Marina Heights</span><span><i class="blur">Priya Nair</i></span><span>5M+</span><span class="unlock ghost">Unlock</span></div>
+      </div>
+      <p class="cap">New leads stay blurred until you unlock them. AED 250 a lead.</p>
+    </div>
+
+    <div data-screen class="s s-act">
+      <div class="top"><b>Rania Khalil</b><span class="chip">Unlocked</span></div>
+      <div class="card">
+        <div><small>Phone</small><b>+971 50 123 4567</b></div>
+        <div><small>Project</small><b>Creek Vista</b></div>
+        <div><small>Budget</small><b>AED 2M – 3M</b></div>
+      </div>
+      <div class="acts">
+        <span class="call">Call</span><span class="wa">WhatsApp</span><span class="copy">Copy</span><span class="report">Report</span>
+      </div>
+      <div class="toast">Copied. Paste it into your CRM.</div>
+      <p class="cap">Call or WhatsApp straight away. A bad lead can be reported for a refund.</p>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .app {
+    width: min(560px, 100%); aspect-ratio: 560 / 440; display: grid; grid-template-columns: 56px minmax(0, 1fr);
+    border-radius: 22px; overflow: hidden; background: #0B261B;
+    box-shadow: 0 0 0 1px rgba(20, 33, 26, .08), 0 40px 80px -30px rgba(11, 38, 27, .45);
+  }
+  .side { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 0; background: radial-gradient(10rem 10rem at 0 0, rgba(116, 222, 128, .25), transparent 70%); }
+  .side img { width: 30px; height: auto; margin-bottom: 10px; }
+  .side i { width: 28px; height: 28px; border-radius: 9px; background: rgba(255, 255, 255, .06); }
+  .side i.on { background: linear-gradient(180deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, .06)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16); }
+  .main { margin: 8px 8px 8px 0; border-radius: 16px; background: #F4F7F3; color: #14211A; display: grid; overflow: hidden; }
+  .s { padding: 18px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; min-width: 0; }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .top b { font-family: var(--font-display); font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+  .chip { font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 999px; background: #ECF6E2; color: #2F6B00; }
+  .credits { font-size: 12px; font-weight: 600; color: #46544B; background: #fff; border: 1px solid #DCE4DE; padding: 4px 10px; border-radius: 999px; }
+  .cap { margin-top: auto; font-size: 12px; color: #5E6E64; }
+
+  .form { background: #fff; border: 1px solid #E3EAE5; border-radius: 14px; padding: 14px; display: grid; gap: 10px; }
+  .form label { display: grid; gap: 3px; font-size: 11px; color: #5E6E64; }
+  .form label span { font-size: 13px; color: #14211A; padding: 8px 10px; border: 1px solid #DCE4DE; border-radius: 9px; overflow: hidden; white-space: nowrap; }
+  .is-active .form label span { animation: type .7s steps(18) both; }
+  .is-active .form label:nth-child(2) span { animation-delay: .35s; }
+  .is-active .form label:nth-child(3) span { animation-delay: .7s; }
+  .is-active .form label:nth-child(4) span { animation-delay: 1.05s; }
+  @keyframes type { from { color: transparent; } }
+  .send { text-align: center; padding: 10px; border-radius: 10px; background: #14211A; color: #fff; font-weight: 600; }
+  .is-active .send { animation: press 3s ease both; }
+  @keyframes press { 0%, 55% { transform: none; } 62% { transform: scale(.97); background: #2F6B00; } 100% { background: #2F6B00; } }
+
+  .match { flex: 1; display: grid; align-content: center; justify-items: center; gap: 0; }
+  .lead-pill { font-size: 12px; font-weight: 600; background: #14211A; color: #fff; padding: 9px 14px; border-radius: 999px; }
+  .line { width: 2px; height: 44px; background: #DCE4DE; position: relative; overflow: hidden; }
+  .line i { position: absolute; left: 0; right: 0; top: -40%; height: 40%; background: #75B630; }
+  .is-active .line i { animation: drop 1.1s ease-in .3s both; }
+  @keyframes drop { to { top: 100%; } }
+  .project { width: min(280px, 100%); background: #fff; border: 1px solid #E3EAE5; border-radius: 16px; padding: 14px; display: grid; gap: 6px; position: relative; }
+  .project small { font-size: 11px; color: #5E6E64; }
+  .project b { font-family: var(--font-display); font-size: 18px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tags span { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: #F4F7F3; border: 1px solid #E3EAE5; }
+  .project em { position: absolute; top: 12px; right: 12px; font-style: normal; font-size: 11px; font-weight: 700; color: #2F6B00; background: #ECF6E2; padding: 3px 8px; border-radius: 999px; }
+  .is-active .project { animation: glow 1.6s ease 1.2s both; }
+  .is-active .project em { animation: pop .4s var(--ease-out) 1.3s both; }
+  @keyframes glow { from { box-shadow: 0 0 0 0 rgba(117, 182, 48, .5); } 40% { box-shadow: 0 0 0 8px rgba(117, 182, 48, .18); border-color: #75B630; } to { border-color: #75B630; } }
+  @keyframes pop { from { opacity: 0; transform: scale(.6); } }
+
+  .table { background: #fff; border: 1px solid #E3EAE5; border-radius: 14px; overflow: hidden; }
+  .row { display: grid; grid-template-columns: 1.2fr 1.2fr .8fr auto; gap: 8px; align-items: center; padding: 11px 12px; border-top: 1px solid #EEF2EF; font-size: 12.5px; }
+  .row.head { border-top: 0; font-size: 11px; color: #5E6E64; padding-block: 8px; }
+  .row span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .blur { font-style: normal; filter: blur(5px); user-select: none; }
+  .name { position: relative; }
+  .clear { position: absolute; left: 0; font-style: normal; font-weight: 600; opacity: 0; }
+  .is-active .hot .blur { animation: unblur .5s ease 1.7s both; }
+  .is-active .hot .clear { animation: show .5s ease 1.7s both; }
+  @keyframes unblur { to { filter: blur(0); opacity: 0; } }
+  @keyframes show { to { opacity: 1; } }
+  .unlock { font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: #75B630; color: #0B1A10; }
+  .unlock.ghost { background: #F4F7F3; color: #46544B; }
+  .is-active .hot .unlock { animation: tapped 2.2s ease both; }
+  @keyframes tapped { 0%, 60% { transform: none; } 68% { transform: scale(.92); box-shadow: 0 0 0 5px rgba(117, 182, 48, .35); } 80%, 100% { transform: none; opacity: .4; } }
+
+  .card { background: #fff; border: 1px solid #E3EAE5; border-radius: 14px; padding: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card div:first-child { grid-column: 1 / -1; }
+  .card small { display: block; font-size: 11px; color: #5E6E64; }
+  .card b { font-size: 14px; }
+  .card div:first-child b { font-family: var(--font-display); font-size: 20px; }
+  .acts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .acts span { text-align: center; font-size: 12px; font-weight: 600; padding: 9px 4px; border-radius: 10px; background: #fff; border: 1px solid #DCE4DE; }
+  .acts .call { background: #14211A; color: #fff; border-color: #14211A; }
+  .acts .wa { background: #ECF6E2; color: #2F6B00; border-color: #CFE6BA; }
+  .acts .report { background: #DC2626; color: #fff; border-color: #DC2626; }
+  .is-active .acts .copy { animation: tapped2 1.6s ease .9s both; }
+  @keyframes tapped2 { 0%, 50% { transform: none; } 65% { transform: scale(.92); box-shadow: 0 0 0 5px rgba(117, 182, 48, .35); } 100% { transform: none; } }
+  .toast { align-self: center; font-size: 12px; font-weight: 600; background: #14211A; color: #fff; padding: 8px 14px; border-radius: 999px; opacity: 0; }
+  .is-active .toast { animation: toast 2.4s ease 1.6s both; }
+  @keyframes toast { 10% { opacity: 1; transform: translateY(-4px); } 80% { opacity: 1; } 100% { opacity: 1; } }
+
+  @media (max-width: 520px) {
+    .app { aspect-ratio: auto; min-height: 430px; grid-template-columns: 1fr; }
+    .side { display: none; }
+    .main { margin: 8px; }
+  }
+</style>

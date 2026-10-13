@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+<BaseLayout title="Page not found">
+  <PageHero kicker="404" title="We couldn’t find" accent="that page." text="The link may be old, or the page may have moved.">
+    <Fragment slot="buttons">
+      <a class="btn btn-primary" href="/">Go to the home page</a>
+      <a class="btn btn-glass" href="/contact">Contact us</a>
+    </Fragment>
+  </PageHero>
+</BaseLayout>

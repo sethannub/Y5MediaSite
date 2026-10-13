@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import ClientStrip from '../components/home/ClientStrip.astro';
+import Products from '../components/home/Products.astro';
+import Journey from '../components/Journey.astro';
+import WifiPhone from '../components/mocks/WifiPhone.astro';
+import LeadsApp from '../components/mocks/LeadsApp.astro';
+import Venues from '../components/home/Venues.astro';
+import Reporting from '../components/home/Reporting.astro';
+import LeadPricing from '../components/LeadPricing.astro';
+import Industries from '../components/home/Industries.astro';
+import Why from '../components/home/Why.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { wifiSteps, leadSteps } from '../config/content';
+---
+<BaseLayout>
+  <Hero />
+  <ClientStrip />
+  <Products />
+
+  <Journey
+    id="wifi-journey"
+    kicker="How WiFi Marketing works"
+    title="Advertising that meets people"
+    accent="where they connect."
+    text="Your ad plays on the WiFi login screen in malls, cafés, homes and staff accommodation. Here’s what happens next."
+    steps={wifiSteps}
+  >
+    <WifiPhone slot="stage" />
+  </Journey>
+
+  <Journey
+    id="lead-journey"
+    kicker="How Y5Leads works"
+    title="From interest to an enquiry"
+    accent="your team can call."
+    text="Buyers looking for property are matched to your projects and land in your Y5Leads dashboard, ready to unlock."
+    steps={leadSteps}
+    tone="light"
+    flip
+    stageKind="app"
+  >
+    <LeadsApp slot="stage" />
+  </Journey>
+
+  <Venues />
+  <Reporting />
+  <LeadPricing />
+  <Industries />
+  <Why />
+  <CtaBand />
+</BaseLayout>

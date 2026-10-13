@@ -1,0 +1,132 @@
+---
+// The WiFi Marketing journey, shown on a phone: connect, the ad plays on the
+// login screen, the tap opens the advertiser's page, the numbers land in the report.
+---
+<div class="phone">
+  <div class="notch" aria-hidden="true"></div>
+  <div class="screen">
+
+    <div data-screen class="s s-connect">
+      <div class="status"><span>9:41</span><span>WiFi</span></div>
+      <p class="title">Wi-Fi</p>
+      <div class="list">
+        <div class="net pick"><span class="wave"></span><b>Mall Free WiFi</b><em>Connecting…</em></div>
+        <div class="net"><span class="wave"></span><b>Café Guest</b><em>Secured</em></div>
+        <div class="net"><span class="wave"></span><b>Office_5G</b><em>Secured</em></div>
+      </div>
+      <p class="hint">A shopper joins the free WiFi in the mall.</p>
+    </div>
+
+    <div data-screen class="s s-ad">
+      <div class="status"><span>9:41</span><span>Mall Free WiFi</span></div>
+      <div class="portal-head">Welcome to free WiFi</div>
+      <div class="ad">
+        <span class="ad-tag">Ad</span>
+        <div class="ad-art">
+          <small>This weekend only</small>
+          <strong>Up to 40% off</strong>
+          <span>Electronics · Level 1</span>
+        </div>
+        <div class="ad-progress"><i></i></div>
+      </div>
+      <button class="go" type="button" tabindex="-1">Shop the offer</button>
+      <button class="skip" type="button" tabindex="-1">Connect to the internet</button>
+    </div>
+
+    <div data-screen class="s s-site">
+      <div class="status"><span>9:41</span><span>yourbrand.ae</span></div>
+      <div class="url">yourbrand.ae/weekend-offer</div>
+      <div class="hero-block"><strong>Weekend offer</strong><span>Show this screen in store</span></div>
+      <div class="rows"><i></i><i></i><i class="short"></i></div>
+      <div class="cta-row"><span>Get directions</span><span class="ghost">Call store</span></div>
+    </div>
+
+    <div data-screen class="s s-report">
+      <div class="status"><span>9:41</span><span>Campaign report</span></div>
+      <p class="title sm">Weekend offer</p>
+      <div class="kpis">
+        <div><small>Impressions</small><b>48,210</b></div>
+        <div><small>Clicks</small><b>1,936</b></div>
+        <div><small>CTR</small><b>4.0%</b></div>
+      </div>
+      <div class="chart" aria-hidden="true">
+        {[34, 52, 46, 61, 58, 74, 88].map((h) => <i style={`--h:${h}%`}></i>)}
+      </div>
+      <div class="split"><span style="--w:64%">iOS 64%</span><span style="--w:36%">Android 36%</span></div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .phone {
+    width: min(300px, 78vw); aspect-ratio: 300 / 610; position: relative;
+    border-radius: 46px; padding: 12px; background: #0A0F0C;
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .14), 0 40px 80px -30px rgba(0, 0, 0, .7), inset 0 0 0 2px #1B2620;
+  }
+  .notch { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 92px; height: 26px; border-radius: 20px; background: #000; z-index: 2; }
+  .screen { position: relative; height: 100%; border-radius: 36px; overflow: hidden; background: #F4F7F3; color: #14211A; display: grid; }
+  .s { padding: 54px 18px 18px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; }
+  .status { position: absolute; top: 16px; left: 26px; right: 26px; display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: #46544B; }
+  .status span:last-child { max-width: 74px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .title { font-family: var(--font-display); font-weight: 600; font-size: 26px; letter-spacing: -.02em; }
+  .title.sm { font-size: 20px; }
+  .hint { margin-top: auto; font-size: 12px; color: #5E6E64; text-align: center; }
+
+  .list { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid #E3EAE5; }
+  .net { display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 10px; padding: 12px 14px; border-top: 1px solid #EEF2EF; }
+  .net:first-child { border-top: 0; }
+  .net b { font-weight: 600; }
+  .net em { font-style: normal; font-size: 11px; color: #8A988F; }
+  .wave { width: 16px; height: 12px; border-radius: 16px 16px 0 0; border: 3px solid #9DB0A4; border-bottom: 0; }
+  .pick { background: #ECF6E2; }
+  .pick .wave { border-color: #2F6B00; }
+  .pick em { color: #2F6B00; font-weight: 600; }
+  .is-active .pick em { animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+
+  .portal-head { font-weight: 600; text-align: center; color: #46544B; font-size: 12px; }
+  .ad { position: relative; border-radius: 18px; overflow: hidden; flex: 1; min-height: 0; background: linear-gradient(160deg, #F59E0B, #DC2626 70%, #7C2D12); color: #fff; display: grid; }
+  .ad-tag { position: absolute; top: 10px; left: 10px; font-size: 10px; font-weight: 700; background: rgba(0, 0, 0, .35); padding: 3px 7px; border-radius: 6px; }
+  .ad-art { align-self: end; padding: 18px; display: grid; gap: 2px; }
+  .ad-art small { font-size: 11px; opacity: .85; }
+  .ad-art strong { font-family: var(--font-display); font-size: 30px; line-height: 1; letter-spacing: -.02em; }
+  .ad-art span { font-size: 12px; opacity: .9; }
+  .is-active .ad-art { animation: rise .8s var(--ease-out) both .15s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+  .ad-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .25); }
+  .ad-progress i { display: block; height: 100%; width: 0; background: #fff; }
+  .is-active .ad-progress i { animation: fill 3.4s linear forwards; }
+  @keyframes fill { to { width: 100%; } }
+  .go, .skip { border: 0; border-radius: 12px; padding: 12px; font-weight: 600; font-size: 13px; }
+  .go { background: #14211A; color: #fff; }
+  .skip { background: transparent; color: #5E6E64; padding: 4px; }
+  .is-active .go { animation: tap 3.4s ease-in-out both; }
+  @keyframes tap { 0%, 70% { transform: none; box-shadow: none; } 78% { transform: scale(.96); box-shadow: 0 0 0 6px rgba(117, 182, 48, .4); } 90%, 100% { transform: none; box-shadow: 0 0 0 0 rgba(117, 182, 48, 0); } }
+
+  .url { background: #fff; border: 1px solid #E3EAE5; border-radius: 10px; padding: 8px 10px; font-size: 11px; color: #46544B; }
+  .hero-block { border-radius: 16px; padding: 22px 16px; background: linear-gradient(160deg, #F59E0B, #DC2626); color: #fff; display: grid; gap: 4px; }
+  .hero-block strong { font-family: var(--font-display); font-size: 22px; }
+  .hero-block span { font-size: 12px; opacity: .9; }
+  .rows { display: grid; gap: 8px; }
+  .rows i { height: 10px; border-radius: 6px; background: #DCE4DE; }
+  .rows i.short { width: 60%; }
+  .cta-row { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cta-row span { text-align: center; padding: 11px; border-radius: 12px; background: #14211A; color: #fff; font-weight: 600; font-size: 12px; }
+  .cta-row .ghost { background: #fff; color: #14211A; border: 1px solid #DCE4DE; }
+
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .kpis div { background: #fff; border: 1px solid #E3EAE5; border-radius: 12px; padding: 9px; }
+  .kpis small { display: block; font-size: 10px; color: #5E6E64; }
+  .kpis b { font-family: var(--font-display); font-size: 16px; font-variant-numeric: tabular-nums; }
+  .chart { flex: 1; min-height: 120px; display: flex; align-items: flex-end; gap: 7px; padding: 14px 12px 12px; background: #fff; border: 1px solid #E3EAE5; border-radius: 14px; }
+  .chart i { flex: 1; height: var(--h); border-radius: 5px 5px 2px 2px; background: linear-gradient(180deg, #A6E72A, #75B630); transform-origin: bottom; }
+  .is-active .chart i { animation: grow .9s var(--ease-out) both; }
+  .is-active .chart i:nth-child(2) { animation-delay: .06s; } .is-active .chart i:nth-child(3) { animation-delay: .12s; }
+  .is-active .chart i:nth-child(4) { animation-delay: .18s; } .is-active .chart i:nth-child(5) { animation-delay: .24s; }
+  .is-active .chart i:nth-child(6) { animation-delay: .3s; } .is-active .chart i:nth-child(7) { animation-delay: .36s; }
+  @keyframes grow { from { transform: scaleY(.05); } }
+  .split { display: flex; border-radius: 10px; overflow: hidden; font-size: 10.5px; font-weight: 600; }
+  .split span { width: var(--w); padding: 8px; background: #14211A; color: #fff; }
+  .split span + span { background: #DCE4DE; color: #14211A; }
+</style>

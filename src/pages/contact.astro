@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../config/site';
+---
+<BaseLayout title="Contact" description="Talk to Y5Media about WiFi Marketing or Y5Leads. Call, email, or send us a message and we’ll reply within one working day.">
+  <PageHero
+    kicker="Contact"
+    title="Let’s talk about"
+    accent="your next campaign."
+    text="Tell us what you want to achieve and we’ll come back with a plan, usually within one working day."
+  />
+
+  <section class="section contact">
+    <div class="container grid">
+      <ContactForm />
+      <aside class="info">
+        <div class="card">
+          <h2>Call or email</h2>
+          <a href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a>
+          <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+        </div>
+        <div class="card">
+          <h2>Visit us</h2>
+          <address>{site.contact.address.map((l) => <span>{l}</span>)}</address>
+        </div>
+        <div class="card">
+          <h2>Already a client?</h2>
+          {site.logins.filter((l) => l.href).map((l) => <a href={l.href}>Log in to {l.label} <span aria-hidden="true">→</span></a>)}
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact { padding-top: clamp(48px, 6vw, 80px); }
+  .grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .info { display: grid; gap: 14px; }
+  .card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 24px; display: grid; gap: 6px; }
+  .card h2 { font-size: 19px; letter-spacing: -.01em; margin-bottom: 4px; }
+  .card a { color: var(--green-ink); font-weight: 600; width: fit-content; }
+  .card a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  address { font-style: normal; display: grid; color: var(--gray-500); }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>

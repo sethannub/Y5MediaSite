@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Journey from '../components/Journey.astro';
+import WifiPhone from '../components/mocks/WifiPhone.astro';
+import Venues from '../components/home/Venues.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import Industries from '../components/home/Industries.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, products } from '../config/site';
+import { wifiSteps } from '../config/content';
+
+const features = [
+  { title: 'Banner ads', text: 'A full-screen image on the WiFi login page, seen by everyone who connects.' },
+  { title: 'Video ads', text: 'A short video that plays before people get online, for launches and big moments.' },
+  { title: 'Location targeting', text: 'Choose the areas and types of venue that match your customers.' },
+  { title: 'Click through to you', text: 'Send people to your website, an offer page, a form or your app store listing.' },
+  { title: 'Campaign reports', text: 'Visits, impressions and clicks by day, plus devices, operating systems and phone models.' },
+  { title: 'Planned with you', text: 'Our team helps you pick venues, dates and creative, then reports back on how it went.' },
+];
+---
+<BaseLayout title={products.wifi.name} description="Put your banner or video ad on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE, and see every impression and click.">
+  <PageHero
+    kicker={products.wifi.name}
+    title="Advertising that meets people"
+    accent="where they connect."
+    text={products.wifi.summary}
+  >
+    <Fragment slot="buttons">
+      <a class="btn btn-primary" href="/contact?interest=wifi">Plan a campaign</a>
+      <a class="btn btn-glass" href="#venues">See the audiences</a>
+    </Fragment>
+    <ul class="facts" slot="side">
+      <li><b>4</b><span>types of venue: malls, cafés, homes and staff accommodation</span></li>
+      <li><b>2</b><span>ad formats: banner and video</span></li>
+      <li><b>1</b><span>report with every impression and click</span></li>
+    </ul>
+  </PageHero>
+
+  <Journey
+    id="wifi-journey"
+    kicker="How it works"
+    title="From a WiFi login"
+    accent="to your website."
+    text="Four steps, from the moment someone connects to the numbers in your report."
+    steps={wifiSteps}
+    tone="light"
+  >
+    <WifiPhone slot="stage" />
+  </Journey>
+
+  <Venues />
+
+  <FeatureGrid
+    kicker="What you get"
+    title="Everything a campaign"
+    accent="needs."
+    text="Pricing depends on venues, dates and format. Tell us your goal and we’ll send you a plan with costs."
+    items={features}
+    tone="white"
+  />
+
+  <section class="section report">
+    <div class="container grid">
+      <div>
+        <div class="kicker" data-reveal>Campaign reports</div>
+        <h2 data-reveal>Detailed reporting, <span class="accent">in plain numbers.</span></h2>
+        <p class="lede" data-reveal>
+          Your report breaks the campaign down by visits, impressions, clicks, devices, operating systems and phone
+          models, so you can see exactly who saw your ad.
+        </p>
+        <a class="btn btn-dark" href="/contact?interest=wifi" data-reveal>Ask for a sample report</a>
+      </div>
+      <div class="shot" data-reveal>
+        <img class="main" src="/images/brand/y5ads-reports.png" alt="WiFi Marketing campaign report with impression charts" width="553" height="619" loading="lazy" />
+        <img class="pop" src="/images/brand/graph03.png" alt="" width="225" height="230" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <Industries />
+  <CtaBand title="Put your brand on the screen people check first." text={`Tell us who you want to reach and when. We’ll come back with venues, formats and a price. Or call us on ${site.contact.phone}.`} />
+</BaseLayout>
+
+<style>
+  .facts { list-style: none; display: grid; gap: 12px; }
+  .facts li {
+    display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 16px; padding: 18px 20px;
+    border-radius: var(--radius-md); background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+  }
+  .facts b { font-family: var(--font-display); font-size: 44px; font-weight: 600; line-height: 1; color: var(--lime); }
+  .facts span { color: var(--on-dark-muted); font-size: 15px; }
+  .report .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+  .report .lede { margin: 18px 0 28px; }
+  .shot { position: relative; padding: 32px 32px 0; border-radius: var(--radius-lg); background: var(--forest-glow), var(--forest); overflow: hidden; height: 460px; }
+  .shot .main { width: 78%; border-radius: 14px 14px 0 0; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6); }
+  .shot .pop { position: absolute; width: 34%; right: 6%; top: 30%; border-radius: 12px; background: #fff; box-shadow: 0 20px 40px -12px rgba(0, 0, 0, .5); }
+  @media (max-width: 900px) { .report .grid { grid-template-columns: 1fr; } .shot { height: 360px; } }
+</style>

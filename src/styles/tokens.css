@@ -1,0 +1,68 @@
+/*
+  Design tokens: the only place colours, type, spacing and radii are defined.
+  Colours come from the Y5 logo (green #75B630 to #006838) and the Y5Leads app's
+  deep green frame (#0B261B).
+
+  Contrast: --green is about 2.3:1 on white, so never use it for text on a light
+  background. Use --green-ink there. Green buttons carry dark text.
+*/
+
+@font-face { font-family: 'General Sans'; src: url('/fonts/GeneralSans-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'General Sans'; src: url('/fonts/GeneralSans-600.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'General Sans'; src: url('/fonts/GeneralSans-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+:root {
+  --green: #75B630;
+  --lime: #A6E72A;
+  --green-deep: #006838;
+  --gradient: linear-gradient(135deg, #A6E72A 0%, #75B630 45%, #2F9A3A 100%);
+  --green-ink: #2F6B00;
+  --green-tint: #ECF6E2;
+
+  --red: #DC2626;
+  --amber: #B45309;
+
+  --forest: #0B261B;
+  --forest-2: #0F3123;
+  --forest-glow: radial-gradient(60rem 36rem at 0% 0%, rgba(116, 222, 128, .22), transparent 65%),
+                 radial-gradient(40rem 30rem at 100% 100%, rgba(117, 182, 48, .14), transparent 70%);
+
+  --ink: #14211A;
+  --white: #FFFFFF;
+  --paper: #F4F7F3;
+  --gray-50: #F4F7F3;
+  --gray-100: #E8EEE9;
+  --gray-200: #DCE4DE;
+  --gray-300: #BCC8C0;
+  --gray-500: #5E6E64;
+  --gray-600: #46544B;
+
+  --on-dark: #FFFFFF;
+  --on-dark-muted: #C3D3C9;
+  --on-dark-faint: #8FAA9B;
+
+  --glass: linear-gradient(180deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .05));
+  --glass-solid: rgba(15, 49, 35, .78);
+  --glass-border: rgba(255, 255, 255, .14);
+  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 10px 30px rgba(0, 0, 0, .28);
+
+  --font-display: 'General Sans', 'Inter Variable', system-ui, sans-serif;
+  --font-body: 'Inter Variable', system-ui, sans-serif;
+
+  --text-sm: 14px;
+  --text-base: 17px;
+  --text-lg: clamp(16px, 1.3vw, 19px);
+  --text-h3: clamp(22px, 2vw, 30px);
+  --text-h2: clamp(32px, 4vw, 56px);
+  --text-h1: clamp(42px, 6vw, 84px);
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --max-width: 1320px;
+  --section: clamp(72px, 9vw, 128px);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}

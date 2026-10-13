@@ -1,0 +1,51 @@
+---
+import { industries } from '../../config/content';
+---
+<section class="section industries" id="industries">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-reveal>Industries</div>
+        <h2 data-reveal>Marketing that fits <span class="accent">your industry.</span></h2>
+      </div>
+      <p class="lede" data-reveal>
+        WiFi Marketing works for any brand that wants to be seen across the UAE. Y5Leads currently delivers leads for real estate.
+      </p>
+    </div>
+    <ul class="grid">
+      {industries.map((ind, i) => (
+        <li class:list={['tile', { both: ind.both }]} data-reveal data-reveal-delay={`${i * 0.05}s`}>
+          <img src={ind.img} alt="" width="767" height="767" loading="lazy" />
+          <div class="shade"></div>
+          <div class="body">
+            <h3>{ind.name}</h3>
+            <div class="chips">
+              <span>WiFi Marketing</span>
+              {ind.both && <span class="lead">Y5Leads</span>}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .tile { position: relative; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 4 / 3; color: var(--white); }
+  .tile.both { grid-row: span 2; aspect-ratio: auto; }
+  img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out); }
+  .tile:hover img { transform: scale(1.04); }
+  .shade { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(11, 38, 27, .88)); }
+  .body { position: absolute; left: 20px; right: 20px; bottom: 18px; display: grid; gap: 10px; }
+  h3 { font-size: 22px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips span {
+    font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 999px;
+    background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  .chips .lead { background: var(--green); color: #0B1A10; border-color: transparent; }
+  @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile.both { grid-row: auto; aspect-ratio: 4 / 3; grid-column: 1 / -1; } }
+  @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+</style>

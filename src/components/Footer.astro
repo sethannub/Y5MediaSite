@@ -1,0 +1,72 @@
+---
+import Logo from './Logo.astro';
+import { site, products } from '../config/site';
+const year = new Date().getFullYear();
+---
+<footer class="footer forest on-dark">
+  <div class="inner">
+    <div class="top">
+      <div class="brand">
+        <Logo />
+        <p>{site.tagline}.</p>
+      </div>
+
+      <nav class="cols" aria-label="Footer">
+        <div>
+          <h2>Products</h2>
+          <a href={products.wifi.href}>{products.wifi.name}</a>
+          <a href={products.leads.href}>{products.leads.name}</a>
+          <a href="/y5leads#pricing">Y5Leads pricing</a>
+        </div>
+        <div>
+          <h2>Company</h2>
+          <a href="/#industries">Industries</a>
+          <a href="/contact">Contact</a>
+          {site.logins.filter((l) => l.href).map((l) => <a href={l.href}>{l.label} log in</a>)}
+        </div>
+        <div>
+          <h2>Get in touch</h2>
+          <a href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a>
+          <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+          <address>{site.contact.address.map((line) => <span>{line}</span>)}</address>
+        </div>
+      </nav>
+    </div>
+
+    <div class="bottom">
+      <span>© {year} {site.name}. All rights reserved.</span>
+      <nav class="legal" aria-label="Legal">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Use</a>
+        <button type="button" class="cookie-btn" data-cookie-settings>Cookie settings</button>
+      </nav>
+    </div>
+  </div>
+  <img class="big-y" src="/images/brand/logomark.svg" alt="" aria-hidden="true" width="420" height="190" />
+</footer>
+
+<style>
+  .footer { position: relative; overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .inner { position: relative; z-index: 1; max-width: var(--max-width); margin: 0 auto; padding: 72px var(--gutter) 32px; }
+  .top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 48px; }
+  .brand p { color: var(--on-dark-muted); margin-top: 20px; max-width: 30ch; font-size: 15px; }
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .cols h2 { font-size: var(--text-sm); font-weight: 600; letter-spacing: 0; line-height: 1.4; margin-bottom: 14px; }
+  .cols a, .cols span { display: block; color: var(--on-dark-faint); font-size: var(--text-sm); padding: 5px 0; width: fit-content; }
+  .cols address { font-style: normal; padding-top: 4px; }
+  .cols address span { padding: 1px 0; }
+  .cols a:hover { color: var(--white); }
+  .bottom {
+    margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--glass-border);
+    font-size: 13px; color: var(--on-dark-faint);
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px;
+  }
+  .legal { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .legal a:hover, .cookie-btn:hover { color: var(--white); }
+  .cookie-btn { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+  .big-y { position: absolute; right: -2vw; bottom: -3vw; z-index: 0; width: clamp(240px, 30vw, 460px); height: auto; opacity: .08; pointer-events: none; }
+  @media (max-width: 860px) {
+    .top { grid-template-columns: 1fr; }
+    .cols { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+  }
+</style>

@@ -1,0 +1,159 @@
+---
+// A customer journey told in steps. The steps sit on one side; the stage on the
+// other shows one screen per step (passed in the "stage" slot as elements with
+// data-screen). Plays through while it is in view; picking a step stops it, and
+// any step can be picked by hand. With reduced motion it never auto-plays.
+interface Step {
+  title: string;
+  text: string;
+}
+interface Props {
+  id: string;
+  kicker: string;
+  title: string;
+  accent?: string;
+  text: string;
+  steps: Step[];
+  tone?: 'dark' | 'light';
+  flip?: boolean;
+  stageKind?: 'phone' | 'app';
+}
+const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, stageKind = 'phone' } = Astro.props;
+---
+<section id={id} class:list={['journey section', tone === 'dark' ? 'forest on-dark' : 'light', { flip }]} data-journey>
+  <div class="container grid">
+    <div class="copy">
+      <div class="kicker" data-reveal>{kicker}</div>
+      <h2 data-reveal>{title}{accent && <> <span class="accent">{accent}</span></>}</h2>
+      <p class="lede" data-reveal>{text}</p>
+
+      <ol class="steps" role="tablist" aria-label={`${kicker} steps`} data-reveal>
+        {steps.map((s, i) => (
+          <li role="presentation">
+            <button
+              type="button" role="tab" class="step"
+              id={`${id}-tab-${i}`} aria-controls={`${id}-stage`}
+              aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}
+              data-step={i}
+            >
+              <span class="num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="txt"><b>{s.title}</b><small>{s.text}</small></span>
+              <span class="bar" aria-hidden="true"><i></i></span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class:list={['stage', stageKind]} id={`${id}-stage`} role="tabpanel" aria-live="polite" data-reveal>
+      <slot name="stage" />
+    </div>
+  </div>
+</section>
+
+<script>
+  const STEP_MS = 3800;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-journey]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-step]')];
+    const screens = [...root.querySelectorAll<HTMLElement>('[data-screen]')];
+    let current = 0;
+    let timer = 0;
+    let inView = false;
+    let paused = false;
+
+    const show = (i: number) => {
+      current = (i + tabs.length) % tabs.length;
+      tabs.forEach((t, n) => {
+        const on = n === current;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        t.classList.toggle('is-done', n < current);
+      });
+      screens.forEach((s, n) => {
+        s.classList.toggle('is-active', n === current);
+        s.setAttribute('aria-hidden', String(n !== current));
+      });
+      root.style.setProperty('--step-ms', `${STEP_MS}ms`);
+      root.classList.remove('is-ticking');
+      void root.offsetWidth;
+      if (!reduce && inView && !paused) root.classList.add('is-ticking');
+    };
+
+    const stop = () => { clearInterval(timer); timer = 0; root.classList.remove('is-ticking'); };
+    const play = () => {
+      if (reduce || paused || !inView || timer) return;
+      root.classList.add('is-ticking');
+      timer = window.setInterval(() => show(current + 1), STEP_MS);
+    };
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { stop(); paused = true; show(i); });
+      t.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        stop(); paused = true; show(current + d); tabs[current].focus();
+      });
+    });
+
+    new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting;
+      if (inView) { show(current); play(); } else stop();
+    }, { threshold: 0.35 }).observe(root);
+
+    show(0);
+  });
+</script>
+
+<style>
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .flip .copy { order: 2; }
+  .light { background: var(--white); }
+  h2 { margin-bottom: 18px; }
+
+  .steps { list-style: none; margin-top: 36px; display: grid; gap: 6px; }
+  .step {
+    width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px;
+    text-align: left; padding: 14px 16px; border-radius: 16px; cursor: pointer;
+    background: transparent; border: 1px solid transparent; color: inherit;
+    transition: background .25s, border-color .25s;
+  }
+  .num { font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--gray-500); padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .txt b { display: block; font-family: var(--font-display); font-weight: 600; font-size: 18px; letter-spacing: -.01em; }
+  .txt small { display: block; font-size: 15px; color: var(--gray-500); margin-top: 2px; }
+  .bar { grid-column: 2; height: 2px; border-radius: 2px; background: var(--gray-200); overflow: hidden; margin-top: 10px; opacity: 0; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--green); }
+
+  .step[aria-selected='true'] { background: var(--paper); border-color: var(--gray-200); }
+  .step[aria-selected='true'] .num { color: var(--green-ink); }
+  .step[aria-selected='true'] .bar { opacity: 1; }
+  .is-ticking .step[aria-selected='true'] .bar i { animation: fill var(--step-ms) linear forwards; }
+  .step:not([aria-selected='true']) .txt small { display: none; }
+  @keyframes fill { to { width: 100%; } }
+
+  .on-dark .num, .on-dark .txt small { color: var(--on-dark-faint); }
+  .on-dark .step[aria-selected='true'] {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .04));
+    border-color: var(--glass-border); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+  }
+  .on-dark .step[aria-selected='true'] .num { color: var(--lime); }
+  .on-dark .step[aria-selected='true'] .txt small { color: var(--on-dark-muted); }
+  .on-dark .bar { background: rgba(255, 255, 255, .12); }
+  .on-dark .bar i { background: var(--lime); }
+  .step:hover:not([aria-selected='true']) { background: rgba(127, 127, 127, .07); }
+
+  .stage { position: relative; display: grid; place-items: center; min-height: 560px; }
+  .stage :global([data-screen]) {
+    grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translateY(10px) scale(.985);
+    transition: opacity .5s var(--ease-out), transform .6s var(--ease-out), visibility 0s .5s;
+  }
+  .stage :global([data-screen].is-active) { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+  @media (max-width: 960px) {
+    .grid { grid-template-columns: 1fr; }
+    .flip .copy { order: 0; }
+    .stage { min-height: 0; }
+  }
+</style>

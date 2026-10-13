@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Journey from '../components/Journey.astro';
+import LeadsApp from '../components/mocks/LeadsApp.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import LeadPricing from '../components/LeadPricing.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, products, leadPricing, aed } from '../config/site';
+import { leadSteps } from '../config/content';
+
+const login = site.logins.find((l) => l.label === 'Y5Leads')!;
+
+const features = [
+  { title: 'Matched to your projects', text: 'Add your projects with their area and budget range. Leads that fit are delivered to you.' },
+  { title: 'Unlock only what you want', text: 'New leads arrive blurred. See the project and budget first, then unlock the ones worth calling.' },
+  { title: 'Call or WhatsApp in one tap', text: 'Every unlocked lead has Call, WhatsApp and Email buttons, so your team can follow up straight away.' },
+  { title: 'Copy into your own CRM', text: 'Copy a lead’s number, or their name and project, in one click and paste it wherever you work.' },
+  { title: 'Report a bad lead', text: 'Wrong number or not interested? Report it. Our team checks it and refunds your credits when it’s approved.' },
+  { title: 'New lead emails', text: 'Get an email when new leads arrive for your projects, and a bell in the app with your full history.' },
+];
+
+const faqs = [
+  { q: 'What is a credit?', a: `Credits are how you pay for leads. One credit is one dirham, and a lead costs ${perLeadText()} at the standard rate. Buy credits in a pack and the discount applies straight away.` },
+  { q: 'Do I pay for every lead I receive?', a: 'No. Leads arrive blurred and cost nothing until you choose to unlock them.' },
+  { q: 'What happens if a lead is wrong?', a: 'Use the Report button on the lead and tell us what was wrong. Our team reviews every report, and approved reports get the credits back.' },
+  { q: 'Which industries does Y5Leads cover?', a: 'Real estate in the UAE for now. If you’re in another industry, WiFi Marketing can still help you reach new customers.' },
+  { q: 'Can I pause a project?', a: 'Yes. Ask for a pause or a restart from the Projects page and our team will action it.' },
+  { q: 'Can I try it first?', a: 'Talk to us. We can set your account up and walk you through it before you buy credits.' },
+];
+
+function perLeadText() { return aed(leadPricing.perLead); }
+---
+<BaseLayout title={products.leads.name} description="Property buyer leads matched to your projects. Unlock only the leads you want, from AED 250 a lead, and report a bad lead for a refund.">
+  <PageHero
+    kicker={`${products.leads.name} · Real estate`}
+    title="Property buyer leads,"
+    accent="ready to call."
+    text={products.leads.summary}
+  >
+    <Fragment slot="buttons">
+      <a class="btn btn-primary" href="/contact?interest=y5leads">Get started</a>
+      <a class="btn btn-glass" href={login.href}>Log in to Y5Leads</a>
+    </Fragment>
+    <div class="price-card" slot="side">
+      <small>Standard rate</small>
+      <b>{aed(leadPricing.perLead)}</b>
+      <span>per lead, up to {leadPricing.packs[leadPricing.packs.length - 1].discount}% less with credit packs</span>
+      <a href="#pricing">See pricing <span aria-hidden="true">→</span></a>
+    </div>
+  </PageHero>
+
+  <Journey
+    id="lead-journey"
+    kicker="How it works"
+    title="From interest to an enquiry"
+    accent="your team can call."
+    text="Four steps, from a buyer’s enquiry to a conversation with your agent."
+    steps={leadSteps}
+    tone="light"
+    stageKind="app"
+  >
+    <LeadsApp slot="stage" />
+  </Journey>
+
+  <FeatureGrid kicker="Inside Y5Leads" title="Built for busy" accent="sales teams." items={features} tone="white" />
+
+  <section class="section shot-band">
+    <div class="container">
+      <figure class="shot" data-reveal>
+        <img src="/images/brand/y5leads-dashboard.png" alt="The Y5Leads dashboard with credits, projects, new leads and recent activity" width="1568" height="772" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+
+  <LeadPricing />
+
+  <section class="section faq">
+    <div class="container grid">
+      <div>
+        <div class="kicker" data-reveal>Questions</div>
+        <h2 data-reveal>Good to <span class="accent">know.</span></h2>
+      </div>
+      <div class="list">
+        {faqs.map((f) => (
+          <details data-reveal>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Start getting property leads this week." text="Tell us about your projects. We’ll set up your account and show you how it works." />
+</BaseLayout>
+
+<style>
+  .price-card {
+    display: grid; gap: 6px; padding: 32px; border-radius: var(--radius-lg); max-width: 380px; margin-left: auto;
+    background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  }
+  .price-card small { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--lime); }
+  .price-card b { font-family: var(--font-display); font-size: clamp(48px, 5vw, 68px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+  .price-card span { color: var(--on-dark-muted); }
+  .price-card a { margin-top: 12px; font-weight: 600; color: var(--lime); }
+  @media (max-width: 960px) { .price-card { margin-left: 0; } }
+
+  .shot-band { padding-top: 0; background: var(--white); }
+  .shot { border-radius: var(--radius-lg); padding: clamp(16px, 3vw, 36px); background: var(--forest-glow), var(--forest); }
+  .shot img { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6); }
+
+  .faq .grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; }
+  .list { display: grid; gap: 10px; }
+  details { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 0 22px; }
+  summary { cursor: pointer; list-style: none; padding: 20px 0; font-family: var(--font-display); font-weight: 600; font-size: 19px; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; font-size: 24px; line-height: 1; color: var(--green-ink); transition: transform .25s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { padding-bottom: 20px; color: var(--gray-500); max-width: 60ch; }
+  @media (max-width: 860px) { .faq .grid { grid-template-columns: 1fr; } }
+</style>

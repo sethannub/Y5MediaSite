@@ -1,0 +1,50 @@
+---
+interface Item {
+  title: string;
+  text: string;
+}
+interface Props {
+  kicker: string;
+  title: string;
+  accent?: string;
+  text?: string;
+  items: Item[];
+  tone?: 'light' | 'white';
+}
+const { kicker, title, accent, text, items, tone = 'light' } = Astro.props;
+---
+<section class:list={['section features', tone]}>
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-reveal>{kicker}</div>
+        <h2 data-reveal>{title}{accent && <> <span class="accent">{accent}</span></>}</h2>
+      </div>
+      {text && <p class="lede" data-reveal>{text}</p>}
+    </div>
+    <ul class="grid">
+      {items.map((it, i) => (
+        <li data-reveal data-reveal-delay={`${(i % 3) * 0.08}s`}>
+          <span class="tick" aria-hidden="true"></span>
+          <h3>{it.title}</h3>
+          <p>{it.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .white { background: var(--white); }
+  .grid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  li { padding: 28px; border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--gray-200); display: grid; gap: 10px; align-content: start; }
+  .white li { background: var(--paper); }
+  .tick {
+    width: 36px; height: 36px; border-radius: 11px; margin-bottom: 6px;
+    background: var(--green-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-5' fill='none' stroke='%232F6B00' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 22px no-repeat;
+  }
+  h3 { font-size: 21px; }
+  p { color: var(--gray-500); font-size: 15.5px; }
+  @media (max-width: 960px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+</style>

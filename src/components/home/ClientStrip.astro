@@ -1,0 +1,36 @@
+---
+import { clients } from '../../config/content';
+---
+<section class="clients forest on-dark" aria-labelledby="clients-title">
+  <div class="container">
+    <h2 id="clients-title" class="label">Brands that advertise with Y5Media</h2>
+  </div>
+  <div class="rail">
+    <ul class="track">
+      {clients.map((c) => <li><img src={c.src} alt={c.name} width="240" height="103" loading="lazy" /></li>)}
+    </ul>
+    <ul class="track" aria-hidden="true">
+      {clients.map((c) => <li><img src={c.src} alt="" width="240" height="103" loading="lazy" /></li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .clients { padding-block: 8px 56px; }
+  .label { font-family: var(--font-body); font-size: var(--text-sm); font-weight: 500; letter-spacing: 0; color: var(--on-dark-faint); text-align: center; margin-bottom: 22px; }
+  .rail {
+    display: flex; overflow: hidden;
+    -webkit-mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .track { list-style: none; display: flex; flex: none; gap: 20px; padding-right: 20px; animation: slide 60s linear infinite; }
+  .rail:hover .track { animation-play-state: paused; }
+  .track li { flex: none; display: grid; place-items: center; width: 160px; height: 72px; }
+  .track img { width: 150px; height: auto; opacity: .85; }
+  @keyframes slide { to { transform: translateX(-100%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .rail { -webkit-mask: none; mask: none; }
+    .track { flex-wrap: wrap; justify-content: center; animation: none; flex: 1; }
+    .track[aria-hidden] { display: none; }
+  }
+</style>

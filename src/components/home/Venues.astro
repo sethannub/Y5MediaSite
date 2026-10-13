@@ -1,0 +1,45 @@
+---
+import { venues } from '../../config/content';
+interface Props {
+  title?: string;
+}
+const { title = 'Where people see your ad' } = Astro.props;
+---
+<section class="section venues" id="venues">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-reveal>WiFi Marketing audiences</div>
+        <h2 data-reveal>{title}</h2>
+      </div>
+      <p class="lede" data-reveal>
+        Our network mixes office workers and families in malls, cafés and homes with workers in staff accommodation,
+        so you can reach almost anyone in the UAE.
+      </p>
+    </div>
+    <div class="grid">
+      {venues.map((v, i) => (
+        <article class="venue" data-reveal data-reveal-delay={`${i * 0.08}s`}>
+          <img src={v.img} alt="" width="1024" height="640" loading="lazy" />
+          <div class="body">
+            <h3>{v.name}</h3>
+            <p><b>Who you reach</b>{v.audience}</p>
+            <p><b>Why it works</b>{v.why}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .venue { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); overflow: hidden; }
+  img { width: 100%; aspect-ratio: 16 / 11; object-fit: cover; }
+  .body { padding: 20px; display: grid; gap: 12px; }
+  h3 { font-size: 21px; }
+  p { font-size: 15px; color: var(--gray-500); }
+  p b { display: block; font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--green-ink); margin-bottom: 2px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>

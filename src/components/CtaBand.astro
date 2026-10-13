@@ -1,0 +1,42 @@
+---
+import { site } from '../config/site';
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'Ready to reach more people and generate more leads?',
+  text = 'Tell us what you want to achieve. We’ll suggest the right mix of WiFi Marketing and Y5Leads for your next campaign.',
+} = Astro.props;
+---
+<section class="cta container" aria-labelledby="cta-title">
+  <div class="band">
+    <img class="mark" src="/images/brand/logomark.svg" alt="" aria-hidden="true" width="420" height="190" />
+    <div>
+      <h2 id="cta-title" data-reveal>{title}</h2>
+      <p data-reveal>{text}</p>
+    </div>
+    <div class="actions" data-reveal>
+      <a class="btn btn-dark" href={site.cta.href}>{site.cta.label} <span aria-hidden="true">→</span></a>
+      <a class="btn btn-line" href={`tel:${site.contact.phoneHref}`}>{site.contact.phone}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { padding-block: var(--section); }
+  .band {
+    background: var(--gradient); color: #0B1A10;
+    border-radius: var(--radius-lg); padding: clamp(32px, 5vw, 72px);
+    display: grid; grid-template-columns: minmax(0, 1.4fr) auto; gap: 32px; align-items: end;
+    position: relative; overflow: hidden;
+  }
+  .band > :not(.mark) { position: relative; z-index: 1; }
+  .mark { position: absolute; right: -3vw; top: -4vw; z-index: 0; width: clamp(260px, 34vw, 520px); height: auto; filter: brightness(0); opacity: .07; pointer-events: none; }
+  h2 { max-width: 18ch; }
+  p { margin-top: 18px; max-width: 52ch; font-size: var(--text-lg); color: #1D3320; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn-line { border-color: rgba(0, 0, 0, .3); color: #0B1A10; }
+  .btn-line:hover { border-color: #0B1A10; }
+  @media (max-width: 860px) { .band { grid-template-columns: 1fr; } }
+</style>

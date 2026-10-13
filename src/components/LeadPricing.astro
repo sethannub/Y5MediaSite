@@ -1,0 +1,78 @@
+---
+import { leadPricing, aed, site } from '../config/site';
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const { perLead, vat, packs } = leadPricing;
+const rows = packs.map((p) => {
+  const price = p.credits * (1 - p.discount / 100);
+  return { ...p, leads: Math.floor(p.credits / perLead), price, perLeadNet: perLead * (1 - p.discount / 100) };
+});
+---
+<section class:list={['section pricing', { compact }]} id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-reveal>Y5Leads pricing</div>
+        <h2 data-reveal>Pay per lead. <span class="accent">Save as you grow.</span></h2>
+      </div>
+      <p class="lede" data-reveal>
+        Buy credits and spend them only on the leads you unlock. One credit is one dirham, and the more credits you
+        buy at once, the bigger the discount.
+      </p>
+    </div>
+
+    <div class="grid">
+      <article class="std" data-reveal>
+        <span class="label">Standard rate</span>
+        <p class="big">{aed(perLead)}<small> per lead</small></p>
+        <ul>
+          <li>Leads matched to your projects</li>
+          <li>Unlock only the leads you want</li>
+          <li>Bad lead? Report it for a refund</li>
+          <li>Email alert when new leads arrive</li>
+        </ul>
+        <a class="btn btn-primary" href="/contact?interest=y5leads">Start with Y5Leads</a>
+      </article>
+
+      {rows.map((r, i) => (
+        <article class:list={['pack', { best: i === rows.length - 1 }]} data-reveal data-reveal-delay={`${(i + 1) * 0.08}s`}>
+          <div class="pack-top">
+            <span class="label">{r.name}</span>
+            <span class="off">{r.discount}% off</span>
+          </div>
+          <p class="credits">{r.credits.toLocaleString('en-US')}{i === rows.length - 1 ? '+' : ''} <small>credits</small></p>
+          <p class="price">{aed(r.price)}</p>
+          <p class="meta">About {r.leads} leads at {aed(r.perLeadNet)} each</p>
+        </article>
+      ))}
+    </div>
+    <p class="note">Prices exclude {vat}% VAT. Need a bigger volume or a custom rate? <a href={site.cta.href}>Talk to us</a>.</p>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+  .std, .pack { border-radius: var(--radius-md); padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .std { background: var(--forest-glow), var(--forest); color: var(--on-dark); }
+  .std .label { color: var(--lime); }
+  .label { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--green-ink); }
+  .big { font-family: var(--font-display); font-size: clamp(36px, 4vw, 52px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+  .big small { font-size: 16px; font-weight: 500; color: var(--on-dark-muted); letter-spacing: 0; }
+  ul { list-style: none; display: grid; gap: 8px; margin: 10px 0 18px; color: var(--on-dark-muted); font-size: 15px; }
+  li::before { content: '✓'; color: var(--lime); margin-right: 10px; font-weight: 700; }
+  .std .btn { margin-top: auto; align-self: flex-start; }
+  .pack { background: var(--white); border: 1px solid var(--gray-200); }
+  .pack.best { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
+  .pack-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .off { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--green-tint); color: var(--green-ink); }
+  .credits { font-family: var(--font-display); font-size: 30px; font-weight: 600; letter-spacing: -.02em; margin-top: 10px; font-variant-numeric: tabular-nums; }
+  .credits small { font-size: 15px; font-weight: 500; color: var(--gray-500); letter-spacing: 0; }
+  .price { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .meta { margin-top: auto; font-size: 14px; color: var(--gray-500); }
+  .note { margin-top: 20px; font-size: 14px; color: var(--gray-500); }
+  .note a { color: var(--green-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .std { grid-column: 1 / -1; } }
+  @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
+</style>
