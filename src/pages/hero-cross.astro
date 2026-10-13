@@ -1,11 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroCross from '../components/home/HeroCross.astro';
-import ClientStrip from '../components/home/ClientStrip.astro';
 ---
 <BaseLayout title="Hero option B · Crossed divider">
   <HeroCross />
-  <ClientStrip />
   <nav class="mock-switch" aria-label="Hero options">
     <span>Hero mockup</span>
     <a href="/hero-slant" aria-current={Astro.url.pathname.includes('hero-slant') ? 'page' : undefined}>A · Slanted</a>

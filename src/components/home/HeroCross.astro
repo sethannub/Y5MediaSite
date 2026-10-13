@@ -1,44 +1,56 @@
 ---
-// Hero option B (CEO idea 2): two diagonals cross the screen, corner to corner.
-// Left wedge Y5Ads, right wedge Y5Leads, the Y5Media mark in a circle where
-// they meet. Hovering a side pushes the crossing point towards the other one.
+// Hero option B (CEO idea 2): two diagonals cross corner to corner. Left wedge
+// Y5Ads, right wedge Y5Leads, the headline in the top wedge, client logos in
+// the bottom one, and the Y5Media mark in a solid disc where the lines meet.
+// Hovering a side pushes the crossing point towards the other side.
 import { products } from '../../config/site';
+import { clients } from '../../config/content';
+const logos = clients.filter((c) => ['e& (Etisalat)', 'du', 'Union Coop', 'Panasonic', 'Commercial Bank of Dubai'].includes(c.name));
 ---
 <section class="cross on-dark" aria-label="Choose a product">
-  <div class="wedge top" aria-hidden="true"></div>
-  <div class="wedge bottom" aria-hidden="true"></div>
+  <div class="wedge top">
+    <div class="headline">
+      <span class="kicker">Y5Media · Dubai</span>
+      <h1>Two ways to grow your business <span class="accent">in the UAE.</span></h1>
+    </div>
+  </div>
 
-  <a class="wedge ads" href={products.wifi.href} aria-label="Explore Y5Ads">
+  <div class="wedge bottom">
+    <div class="trust">
+      <span>Trusted by brands across the UAE</span>
+      <ul>{logos.map((l) => <li><img src={l.src} alt={l.name} width="240" height="103" loading="lazy" /></li>)}</ul>
+    </div>
+  </div>
+
+  <a class="wedge ads" href={products.wifi.href}>
     <img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" fetchpriority="high" />
     <div class="copy">
-      <span class="who">For brands</span>
+      <span class="who">WiFi advertising</span>
       <h2>Y5Ads</h2>
-      <p>Your ad on the WiFi login screen across the UAE.</p>
+      <p>Your brand on the WiFi login screen in malls, cafés and homes across the UAE.</p>
       <span class="pick">Explore Y5Ads <span aria-hidden="true">→</span></span>
     </div>
   </a>
 
-  <a class="wedge leads" href={products.leads.href} aria-label="Explore Y5Leads">
+  <a class="wedge leads" href={products.leads.href}>
     <img class="photo" src="/images/hero/y5leads.webp" alt="" width="1800" height="1125" />
     <div class="copy">
-      <span class="who">For real estate</span>
+      <span class="who">Property leads</span>
       <h2>Y5Leads</h2>
-      <p>Property buyer leads, matched to your projects.</p>
+      <p>Buyer leads matched to your real estate projects, from AED 250 each.</p>
       <span class="pick">Explore Y5Leads <span aria-hidden="true">→</span></span>
     </div>
   </a>
 
-
-  <div class="headline">
-    <span class="kicker">Y5Media · Dubai</span>
-    <h1>Two ways to grow. <span class="accent">Pick yours.</span></h1>
-  </div>
-
-  <p class="hint" aria-hidden="true"><span>← Brands</span><span>Real estate →</span></p>
-
   <div class="hub" aria-hidden="true">
-    <img src="/images/brand/logomark.svg" alt="" width="96" height="44" />
-    <span>Media</span>
+    <svg class="ring" viewBox="0 0 200 200">
+      <defs><path id="hub-ring" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0" /></defs>
+      <text><textPath href="#hub-ring" textLength="510">Y5MEDIA · 360° MARKETING · DUBAI · Y5MEDIA · 360° MARKETING · DUBAI ·</textPath></text>
+    </svg>
+    <div class="core">
+      <img src="/images/brand/logomark.svg" alt="" width="96" height="44" />
+      <span>Media</span>
+    </div>
   </div>
 </section>
 
@@ -46,60 +58,81 @@ import { products } from '../../config/site';
   @property --cx { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
 
   .cross {
-    --cx: 50%;
-    position: relative; height: 100svh; min-height: 680px; max-height: 1000px; overflow: hidden; background: var(--lime); color: var(--white);
+    --cx: 50%; --gap: 3px;
+    position: relative; height: 100svh; min-height: 700px; max-height: 1000px; overflow: hidden;
+    background: rgba(255, 255, 255, .9); color: var(--white);
     transition: --cx .9s var(--ease-out);
   }
-  .cross:has(.ads:hover) { --cx: 58%; }
-  .cross:has(.leads:hover) { --cx: 42%; }
+  .cross:has(.ads:hover) { --cx: 56%; }
+  .cross:has(.leads:hover) { --cx: 44%; }
 
   .wedge { position: absolute; inset: 0; display: block; overflow: hidden; color: inherit; }
-  .top { clip-path: polygon(4px 0, calc(100% - 4px) 0, var(--cx) calc(50% - 4px)); background: radial-gradient(60% 80% at 50% 0%, rgba(116, 222, 128, .2), transparent 70%), #0B261B; }
-  .bottom { clip-path: polygon(4px 100%, var(--cx) calc(50% + 4px), calc(100% - 4px) 100%); background: radial-gradient(60% 80% at 50% 100%, rgba(116, 222, 128, .14), transparent 70%), #08190f; }
-  .ads { clip-path: polygon(0 4px, calc(var(--cx) - 4px) 50%, 0 calc(100% - 4px)); background: #8CC63F; color: #0B1A10; }
-  .leads { clip-path: polygon(100% 4px, 100% calc(100% - 4px), calc(var(--cx) + 4px) 50%); background: radial-gradient(600px 500px at 100% 50%, rgba(116, 222, 128, .2), transparent 70%), #0F3123; }
+  .top {
+    clip-path: polygon(var(--gap) 0, calc(100% - var(--gap)) 0, var(--cx) calc(50% - var(--gap)));
+    background: radial-gradient(55% 90% at 50% 0%, rgba(116, 222, 128, .22), transparent 70%), #0B261B;
+  }
+  .bottom {
+    clip-path: polygon(var(--gap) 100%, var(--cx) calc(50% + var(--gap)), calc(100% - var(--gap)) 100%);
+    background: radial-gradient(55% 90% at 50% 100%, rgba(116, 222, 128, .12), transparent 70%), #071A11;
+  }
+  .ads { clip-path: polygon(0 var(--gap), calc(var(--cx) - var(--gap)) 50%, 0 calc(100% - var(--gap))); background: #8CC63F; color: #0B1A10; }
+  .leads { clip-path: polygon(100% var(--gap), 100% calc(100% - var(--gap)), calc(var(--cx) + var(--gap)) 50%); background: #0F3123; }
 
-  .photo { position: absolute; top: 0; height: 100%; width: 55%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
-  .ads .photo { left: 0; mix-blend-mode: multiply; opacity: .45; }
-  .leads .photo { right: 0; mix-blend-mode: luminosity; opacity: .35; }
+  .photo { position: absolute; top: 0; height: 100%; width: 50%; object-fit: cover; transition: transform 1.4s var(--ease-out); }
+  .ads .photo { left: 0; mix-blend-mode: multiply; opacity: .28; -webkit-mask-image: linear-gradient(90deg, transparent, #000 50%); mask-image: linear-gradient(90deg, transparent, #000 50%); }
+  .leads .photo { right: 0; mix-blend-mode: luminosity; opacity: .3; -webkit-mask-image: linear-gradient(270deg, transparent, #000 50%); mask-image: linear-gradient(270deg, transparent, #000 50%); }
   .wedge:hover .photo { transform: scale(1.05); }
 
-  .copy { position: absolute; top: 50%; transform: translateY(-50%); width: min(330px, 26vw); display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-  .ads .copy { left: clamp(24px, 4vw, 64px); }
-  .leads .copy { right: clamp(24px, 4vw, 64px); align-items: flex-end; text-align: right; }
-  .who { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .copy { position: absolute; z-index: 1; top: 50%; transform: translateY(-50%); width: min(360px, 22vw); display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .ads .copy { left: clamp(24px, 4vw, 60px); }
+  .leads .copy { right: clamp(24px, 4vw, 60px); }
+  .who { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .ads .who { color: #1F3D0B; }
   .leads .who { color: var(--lime); }
-  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 5vw, 80px); line-height: .92; letter-spacing: -.045em; }
-  .copy p { font-size: 16px; line-height: 1.5; }
-  .leads .copy p { color: var(--on-dark-muted); }
-  .pick { margin-top: 6px; font-weight: 600; font-size: 14px; padding: 12px 20px; border-radius: 999px; border: 2px solid currentColor; transition: background .2s, color .2s; }
-  .ads:hover .pick { background: #0B1A10; color: #8CC63F; }
-  .leads:hover .pick { background: var(--white); color: var(--forest); }
+  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 4.6vw, 84px); line-height: .92; letter-spacing: -.045em; }
+  .copy p { font-size: clamp(15px, 1.05vw, 18px); line-height: 1.5; font-weight: 500; }
+  .ads .copy p { color: #1D3320; }
+  .leads .copy p { color: #D5E3DA; }
+  .pick { margin-top: 4px; font-weight: 600; font-size: 14.5px; padding: 13px 22px; border-radius: 999px; transition: transform .2s var(--ease-out), box-shadow .2s; }
+  .ads .pick { background: #0B1A10; color: #fff; }
+  .leads .pick { background: var(--lime); color: #0B1A10; }
+  .wedge:hover .pick { transform: translateY(-2px); box-shadow: 0 14px 30px -12px rgba(0, 0, 0, .5); }
 
-  .headline { position: absolute; z-index: 2; top: clamp(96px, 13vh, 130px); left: 50%; transform: translateX(-50%); text-align: center; pointer-events: none; width: min(640px, 60vw); }
-  .headline .kicker { justify-content: center; margin-bottom: 10px; }
-  .headline h1 { font-size: clamp(28px, 3.2vw, 46px); line-height: 1.05; }
-  .hint { position: absolute; z-index: 2; bottom: clamp(28px, 6vh, 56px); left: 50%; transform: translateX(-50%); display: flex; gap: 120px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--on-dark-faint); pointer-events: none; }
+  .headline { position: absolute; left: var(--cx); top: clamp(92px, 12.5vh, 124px); transform: translateX(-50%); width: min(620px, 56vw); text-align: center; }
+  .headline .kicker { justify-content: center; margin-bottom: 12px; }
+  .headline h1 { font-size: clamp(30px, 3.3vw, 48px); line-height: 1.04; letter-spacing: -.03em; }
+
+  .trust { position: absolute; left: var(--cx); bottom: clamp(26px, 5vh, 48px); transform: translateX(-50%); width: min(640px, 56vw); display: grid; justify-items: center; gap: 12px; }
+  .trust span { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark-faint); }
+  .trust ul { list-style: none; display: flex; justify-content: center; align-items: center; gap: clamp(14px, 2.4vw, 32px); }
+  .trust img { width: clamp(64px, 6.4vw, 92px); height: auto; opacity: .8; }
 
   .hub {
     position: absolute; z-index: 3; left: var(--cx); top: 50%; transform: translate(-50%, -50%);
-    width: clamp(132px, 13vw, 176px); aspect-ratio: 1; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; gap: 6px; pointer-events: none;
-    background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .22), rgba(255, 255, 255, .06) 60%), rgba(11, 38, 27, .78);
-    border: 1px solid rgba(255, 255, 255, .25);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 0 0 10px rgba(166, 231, 42, .12), 0 30px 60px -20px rgba(0, 0, 0, .7);
-    backdrop-filter: blur(16px) saturate(1.3); -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    width: clamp(170px, 15vw, 210px); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+    background: #0B261B; border: 3px solid rgba(255, 255, 255, .9);
+    box-shadow: 0 0 0 10px rgba(11, 38, 27, .35), 0 30px 60px -18px rgba(0, 0, 0, .7);
+    display: grid; place-items: center;
   }
-  .hub img { width: 52%; height: auto; }
-  .hub span { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-display); font-weight: 700; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+  .ring { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); animation: spin 40s linear infinite; }
+  .ring text { font-family: var(--font-display); font-size: 11.5px; font-weight: 600; letter-spacing: .08em; fill: var(--lime); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .core {
+    width: 62%; aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; gap: 5px;
+    background: radial-gradient(circle at 35% 25%, #1E5A3D, #0B261B 70%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), inset 0 0 0 1px rgba(255, 255, 255, .12);
+  }
+  .core img { width: 58%; height: auto; }
+  .core span { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-display); font-weight: 700; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--white); }
 
   @media (max-width: 960px) {
-    .cross { height: auto; max-height: none; display: grid; padding-top: 70px; background: #071610; }
-    .top, .bottom, .hint { display: none; }
-    .wedge.ads, .wedge.leads { position: relative; clip-path: none; min-height: 420px; }
-    .copy { left: 24px !important; right: 24px !important; width: auto; align-items: flex-start !important; text-align: left !important; }
-    .headline { position: relative; top: auto; left: auto; transform: none; width: auto; padding: 28px 24px; order: -1; }
-    .hub { display: none; }
+    .cross { height: auto; max-height: none; display: grid; padding-top: 70px; background: #071A11; }
+    .bottom, .hub { display: none; }
+    .wedge { position: relative !important; clip-path: none !important; }
+    .top { order: -1; }
+    .headline { position: relative; left: auto; top: auto; transform: none; width: auto; padding: 32px 24px; }
+    .ads, .leads { min-height: 380px; }
+    .copy { left: 24px !important; right: 24px !important; width: auto; }
   }
-  @media (prefers-reduced-motion: reduce) { .cross { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .cross { transition: none; } .ring { animation: none; } }
 </style>
