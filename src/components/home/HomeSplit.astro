@@ -116,7 +116,8 @@ import { products } from '../../config/site';
 
     const fromHash = () => {
       const h = location.hash.slice(1);
-      set(h === 'wifi' || h === 'y5leads' ? h : 'none', false);
+      if (h === 'wifi' || h === 'y5leads') set(h, false);
+      else if (!h) set('none', false);
     };
     window.addEventListener('hashchange', fromHash);
     fromHash();
