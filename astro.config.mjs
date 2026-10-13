@@ -9,7 +9,7 @@ export default defineConfig({
   server: { port: 4340 },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(privacy|terms|404|hero-slant|hero-cross)$/.test(page.replace(/\/$/, '')),
+      filter: (page) => !/\/(privacy|terms|404|hero-slant|hero-cross|hero-wave)$/.test(page.replace(/\/$/, '')),
     }),
   ],
 });

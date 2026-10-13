@@ -1,0 +1,154 @@
+---
+// Hero option C: a diagonal split. Left, dark forest with glowing circuit
+// lines: Y5Leads on a laptop. Right, sage over a blurred city: Y5Ads on a
+// phone that floats forward. Hovering a side widens it to about 60/40.
+import { products } from '../../config/site';
+---
+<section class="wave on-dark" aria-label="Choose a product">
+  <div class="pane leads">
+    <svg class="circuit" viewBox="0 0 800 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="#4ADE80" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <path class="trace" d="M-20 120H180l40 40H420l30-30H620" />
+        <path class="trace t2" d="M-20 300H90l50 50H300l40-40H520l60 60H760" />
+        <path class="trace t3" d="M60 900V700l40-40V520l50-50H330" />
+        <path class="trace t4" d="M-20 560H200l30 30V760l40 40H480" />
+        <path class="trace t5" d="M380 -20V80l-40 40V240l30 30H560" />
+      </g>
+      <g fill="#4ADE80">
+        <circle cx="620" cy="130" r="4" /><circle cx="760" cy="410" r="4" /><circle cx="330" cy="470" r="4" />
+        <circle cx="480" cy="800" r="4" /><circle cx="560" cy="270" r="4" />
+      </g>
+    </svg>
+
+    <div class="copy">
+      <span class="badge">Y5Leads · Real estate</span>
+      <h2>Property buyers, <span class="accent">ready to call.</span></h2>
+      <p>Leads matched to your projects from our own UAE database. Unlock only the ones you want, from AED 250 each.</p>
+      <ul class="tags"><li>First-party data</li><li>Pay per lead</li><li>Refunds for bad leads</li></ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href={products.leads.href}>Explore Y5Leads <span aria-hidden="true">→</span></a>
+        <a class="btn btn-glass" href="/contact?interest=y5leads">Get started</a>
+      </div>
+    </div>
+
+    <div class="laptop" aria-hidden="true">
+      <div class="lid"><img src="/images/y5leads/claim-5-dashboard.webp" alt="" width="1920" height="1200" /></div>
+      <div class="base"></div>
+    </div>
+  </div>
+
+  <div class="pane ads">
+    <img class="city" src="/images/venues/malls.webp" alt="" width="1200" height="825" />
+    <div class="copy">
+      <span class="badge">Y5Ads · WiFi advertising</span>
+      <h2>Be seen the moment <span class="accent">people connect.</span></h2>
+      <p>Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
+      <ul class="tags"><li>Banner &amp; video</li><li>Location targeting</li><li>Live reports</li></ul>
+      <div class="ctas">
+        <a class="btn btn-dark" href={products.wifi.href}>Explore Y5Ads <span aria-hidden="true">→</span></a>
+        <a class="btn btn-line" href="/contact?interest=y5ads">Plan a campaign</a>
+      </div>
+    </div>
+
+    <div class="phone" aria-hidden="true"><div class="screen">
+      <div class="bar"><span class="dot"></span>Free WiFi · Level 2</div>
+      <div class="ad"><img src="/images/people/ad-coffee.webp" alt="" width="600" height="800" /><span class="tag">Ad</span><span class="txt"><small>Today only</small><b>Any coffee, AED 12</b></span></div>
+      <div class="go">Get the offer</div>
+      <div class="skip">Continue to the internet</div>
+    </div></div>
+  </div>
+</section>
+
+<style>
+  @property --t { syntax: '<percentage>'; inherits: true; initial-value: 58%; }
+  @property --b { syntax: '<percentage>'; inherits: true; initial-value: 42%; }
+
+  .wave {
+    --t: 58%; --b: 42%; --ease: cubic-bezier(.22, 1, .36, 1);
+    position: relative; height: 100svh; min-height: 720px; max-height: 1020px; overflow: hidden; background: #0B261B;
+    transition: --t .9s var(--ease), --b .9s var(--ease);
+  }
+  .wave:has(.leads:hover) { --t: 66%; --b: 50%; }
+  .wave:has(.ads:hover) { --t: 50%; --b: 34%; }
+
+  .pane { position: absolute; inset: 0; overflow: hidden; }
+  .leads {
+    background: radial-gradient(60rem 40rem at 10% 20%, rgba(74, 222, 128, .16), transparent 65%), linear-gradient(160deg, #0F3123, #071A11 70%);
+    clip-path: polygon(0 0, var(--t) 0, var(--b) 100%, 0 100%); color: var(--white);
+  }
+  .ads {
+    background: linear-gradient(150deg, #C9DBB2 0%, #A9C48A 45%, #7FA463 100%); color: #0F2416;
+    clip-path: polygon(var(--t) 0, 100% 0, 100% 100%, var(--b) 100%);
+  }
+  .ads::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(150deg, rgba(214, 230, 194, .55), rgba(127, 164, 99, .35)); }
+  .city { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(10px) saturate(.7); transform: scale(1.1); opacity: .55; }
+
+
+  .circuit { position: absolute; inset: 0; width: 70%; height: 100%; opacity: .5; }
+  .trace { stroke-dasharray: 10 500; animation: run 6s linear infinite; filter: drop-shadow(0 0 4px #4ADE80); }
+  .circuit g:first-child { opacity: .9; }
+  .t2 { animation-delay: -1.5s; } .t3 { animation-delay: -3s; } .t4 { animation-delay: -4.5s; } .t5 { animation-delay: -2.2s; }
+  @keyframes run { to { stroke-dashoffset: -510; } }
+  .circuit g:last-child circle { filter: drop-shadow(0 0 6px #4ADE80); }
+
+  .copy { position: absolute; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: min(440px, 30vw); }
+  .leads .copy { left: clamp(28px, 6vw, 96px); top: clamp(110px, 15vh, 150px); }
+  .ads .copy { right: clamp(28px, 5vw, 80px); top: clamp(110px, 15vh, 150px); width: min(420px, 28vw); }
+  .badge { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; }
+  .leads .badge { color: #4ADE80; background: rgba(74, 222, 128, .1); border: 1px solid rgba(74, 222, 128, .3); }
+  .ads .badge { color: #1F3D0B; background: rgba(255, 255, 255, .5); border: 1px solid rgba(15, 36, 22, .15); }
+  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(38px, 3.8vw, 60px); line-height: 1; letter-spacing: -.04em; }
+  .ads .accent { color: #1E5A26; }
+  .copy p { font-size: 17px; line-height: 1.55; font-weight: 500; }
+  .leads .copy p { color: #CFE0D5; }
+  .ads .copy p { color: #23402A; }
+  .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tags li { font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 8px; }
+  .leads .tags li { color: #E3EEE7; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .16); }
+  .ads .tags li { background: rgba(255, 255, 255, .45); border: 1px solid rgba(15, 36, 22, .12); }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .btn-line { border: 2px solid #0F2416; color: #0F2416; padding: 13px 22px; }
+
+  /* Laptop with the real dashboard */
+  .laptop {
+    position: absolute; z-index: 1; left: 7%; bottom: 4%; width: min(460px, 30vw);
+    transition: transform .9s var(--ease); transform: perspective(1400px) rotateY(12deg) rotateX(4deg);
+  }
+  .leads:hover .laptop { transform: perspective(1400px) rotateY(4deg) rotateX(2deg) translateY(-8px); }
+  .lid { border-radius: 14px 14px 4px 4px; padding: 10px 10px 14px; background: #101814; box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 0 60px -10px rgba(74, 222, 128, .45), 0 40px 80px -30px rgba(0, 0, 0, .8); }
+  .lid img { display: block; width: 100%; border-radius: 6px; }
+  .base { height: 14px; margin: 0 -7%; border-radius: 0 0 14px 14px; background: linear-gradient(#2A332E, #151B18); box-shadow: 0 20px 30px -12px rgba(0, 0, 0, .7); }
+
+  /* Phone floating forward */
+  .phone {
+    position: absolute; z-index: 3; left: 60%; bottom: -90px; width: 200px; height: 410px; border-radius: 36px; background: #0A0F0C; padding: 9px;
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .5), 0 50px 80px -24px rgba(15, 36, 22, .6);
+    transform: rotate(-6deg); transition: transform .9s var(--ease); animation: float 6s ease-in-out infinite;
+  }
+  .ads:hover .phone { transform: rotate(-3deg) scale(1.08); }
+  @keyframes float { 50% { translate: 0 -10px; } }
+  .screen { height: 100%; border-radius: 28px; overflow: hidden; background: #fff; padding: 36px 12px 12px; display: flex; flex-direction: column; gap: 9px; color: #14211A; }
+  .bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; font-weight: 600; color: #46544B; }
+  .bar .dot { width: 6px; height: 6px; border-radius: 50%; background: #75B630; }
+  .ad { position: relative; flex: 1; border-radius: 16px; overflow: hidden; color: #fff; min-height: 0; }
+  .ad img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ad::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, .7)); }
+  .tag { position: absolute; z-index: 1; top: 9px; left: 9px; font-size: 9px; font-weight: 700; background: rgba(0, 0, 0, .5); padding: 2px 6px; border-radius: 5px; }
+  .txt { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 12px; display: grid; }
+  .txt small { font-size: 10px; opacity: .9; }
+  .txt b { font-family: var(--font-display); font-size: 21px; line-height: 1.05; }
+  .go { text-align: center; background: #14211A; color: #fff; border-radius: 11px; padding: 11px; font-size: 12px; font-weight: 600; }
+  .skip { text-align: center; font-size: 10.5px; color: #5E6E64; }
+
+  @media (max-width: 1100px) { .laptop { width: 34vw; } .phone { width: 170px; height: 350px; } }
+  @media (max-width: 960px) {
+    .wave { height: auto; max-height: none; display: grid; gap: 12px; padding: 80px 12px 12px; background: #071A11; }
+    .pane { position: relative; clip-path: none; border-radius: 24px; min-height: 560px; }
+    .copy { position: relative; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: auto; padding: 32px 24px 0; }
+    .laptop { left: 24px; right: 24px; bottom: 24px; width: auto; transform: none; }
+    .phone { right: 24px; top: auto; bottom: -80px; width: 160px; height: 330px; }
+    .ads { padding-bottom: 260px; }
+    .leads { padding-bottom: 240px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .wave { transition: none; } .trace, .phone { animation: none; } }
+</style>
