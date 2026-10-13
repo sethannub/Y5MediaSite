@@ -1,0 +1,68 @@
+---
+// The Y5Leads claim journey on real screenshots of the app. Each step eases the
+// camera towards what matters on that screen and a cursor clicks it.
+// Focus points and cursor targets are percentages of the 1920×1200 shots; the
+// cursor's place on screen is worked out after the zoom.
+const shots = [
+  { src: '/images/y5leads/claim-1-leads.webp', alt: 'The Y5Leads leads list, new leads with their names hidden', x: 62, y: 80, z: 1.25, cx: 50, cy: 77, click: false },
+  { src: '/images/y5leads/claim-2-details.webp', alt: 'A new lead opened, showing its project and budget with the details still hidden', x: 30, y: 70, z: 1.7, cx: 20, cy: 68.4, click: true },
+  { src: '/images/y5leads/claim-3-unlock.webp', alt: 'The unlock button asking to click again to confirm 250 credits', x: 100, y: 72, z: 1.9, cx: 89.5, cy: 74.4, click: true },
+  { src: '/images/y5leads/claim-4-actions.webp', alt: 'The unlocked lead with its phone number and Copy, Call, WhatsApp and Email buttons', x: 40, y: 86, z: 1.75, cx: 23.4, cy: 90.7, click: true },
+  { src: '/images/y5leads/claim-5-dashboard.webp', alt: 'The Y5Leads dashboard with credits, projects and recent activity', x: 40, y: 30, z: 1.15, cx: 30, cy: 40, click: false },
+].map((s) => ({ ...s, px: s.x + (s.cx - s.x) * s.z, py: s.y + (s.cy - s.y) * s.z }));
+---
+<div class="film">
+  <div class="bar" aria-hidden="true">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="url">leads.y5media.net</span>
+  </div>
+  <div class="view">
+    {shots.map((s) => (
+      <figure data-screen class="shot" style={`--x:${s.x}%;--y:${s.y}%;--z:${s.z};--cx:${s.px.toFixed(1)}%;--cy:${s.py.toFixed(1)}%`}>
+        <img src={s.src} alt={s.alt} width="1920" height="1200" loading="lazy" decoding="async" />
+        <span class:list={['cursor', { clicks: s.click }]} aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 2l16 9-7 2-3 7z" fill="#14211A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" /></svg>
+          <span class="ripple"></span>
+        </span>
+      </figure>
+    ))}
+  </div>
+</div>
+
+<style>
+  .film {
+    width: 100%; border-radius: 18px; overflow: hidden; background: #0B261B;
+    box-shadow: 0 0 0 1px rgba(20, 33, 26, .1), 0 50px 100px -40px rgba(11, 38, 27, .55);
+  }
+  .bar { height: 38px; display: flex; align-items: center; gap: 14px; padding: 0 14px; background: #0F3123; }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, .22); }
+  .url {
+    flex: 1; max-width: 360px; margin: 0 auto; text-align: center; font-size: 12px; color: var(--on-dark-muted);
+    background: rgba(255, 255, 255, .07); border-radius: 8px; padding: 5px 10px;
+  }
+  .view { position: relative; aspect-ratio: 16 / 10; display: grid; overflow: hidden; background: #F4F7F3; }
+  .shot { margin: 0; position: relative; overflow: hidden; }
+  .shot img {
+    width: 100%; height: 100%; object-fit: cover; transform-origin: var(--x) var(--y);
+    transform: scale(1); transition: transform 1.5s cubic-bezier(.45, 0, .2, 1) .2s;
+  }
+  .shot.is-active img { transform: scale(var(--z)); }
+
+  .cursor {
+    position: absolute; left: var(--cx); top: var(--cy); width: 26px; height: 26px; margin: -3px 0 0 -4px;
+    opacity: 0; transform: translate(60px, 50px);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .3));
+  }
+  .shot.is-active .cursor { animation: cursor-in 1s cubic-bezier(.22, 1, .36, 1) 1.7s forwards; }
+  .ripple { position: absolute; left: 0; top: 0; width: 34px; height: 34px; margin: -17px 0 0 -13px; border-radius: 50%; border: 2px solid #75B630; opacity: 0; }
+  .shot.is-active .clicks .ripple { animation: ripple .7s ease-out 2.8s; }
+  @keyframes cursor-in { to { opacity: 1; transform: none; } }
+  @keyframes ripple { from { opacity: 1; transform: scale(.3); } to { opacity: 0; transform: scale(1.6); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shot img { transition: none; }
+    .shot.is-active img { transform: none; }
+    .cursor { display: none; }
+  }
+</style>

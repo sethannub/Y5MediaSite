@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Journey from '../components/Journey.astro';
-import LeadsApp from '../components/mocks/LeadsApp.astro';
+import ClaimFilm from '../components/mocks/ClaimFilm.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
 import LeadPricing from '../components/LeadPricing.astro';
 import CtaBand from '../components/CtaBand.astro';
@@ -53,16 +53,17 @@ function perLeadText() { return aed(leadPricing.perLead); }
   <Journey
     id="lead-journey"
     kicker="How it works"
-    title="From interest to an enquiry"
-    accent="your team can call."
-    text="Four steps, from a buyer’s enquiry to a conversation with your agent."
+    title="Watch a lead go from"
+    accent="hidden to called."
+    text="This is the real Y5Leads app. A new lead arrives, gets unlocked for AED 250, and is one tap from a phone call."
     steps={leadSteps}
     tone="light"
-    stageKind="app"
+    stageKind="wide"
+    stepMs={5200}
     cta={{ label: 'Get started', href: '/contact?interest=y5leads' }}
     secondary={{ label: 'Log in to Y5Leads', href: login.href }}
   >
-    <LeadsApp slot="stage" />
+    <ClaimFilm slot="stage" />
   </Journey>
 
   <FeatureGrid kicker="Inside Y5Leads" title="Built for busy" accent="sales teams." items={features} tone="white" />

@@ -16,13 +16,14 @@ interface Props {
   steps: Step[];
   tone?: 'dark' | 'light';
   flip?: boolean;
-  stageKind?: 'phone' | 'app';
+  stageKind?: 'phone' | 'app' | 'wide';
+  stepMs?: number;
   cta?: { label: string; href: string };
   secondary?: { label: string; href: string };
 }
-const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, stageKind = 'phone', cta, secondary } = Astro.props;
+const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, stageKind = 'phone', cta, secondary, stepMs = 3800 } = Astro.props;
 ---
-<section id={id} class:list={['journey section', tone === 'dark' ? 'forest on-dark' : 'light', { flip }]} data-journey>
+<section id={id} class:list={['journey section', tone === 'dark' ? 'forest on-dark' : 'light', { flip, wide: stageKind === 'wide' }]} data-journey data-step-ms={stepMs}>
   <div class="container grid">
     <div class="copy">
       <div class="kicker" data-reveal>{kicker}</div>
@@ -61,12 +62,12 @@ const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, sta
 </section>
 
 <script>
-  const STEP_MS = 3800;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.querySelectorAll<HTMLElement>('[data-journey]').forEach((root) => {
     const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-step]')];
     const screens = [...root.querySelectorAll<HTMLElement>('[data-screen]')];
+    const STEP_MS = Number(root.dataset.stepMs) || 3800;
     let current = 0;
     let timer = 0;
     let inView = false;
@@ -161,6 +162,15 @@ const { id, kicker, title, accent, text, steps, tone = 'dark', flip = false, sta
   }
   .stage :global([data-screen].is-active) { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
 
+  .wide .grid { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(28px, 4vw, 56px); }
+  .wide h2 { font-size: clamp(30px, 3.2vw, 46px); }
+  .wide .lede { font-size: 16px; }
+  .wide .steps { margin-top: 22px; gap: 4px; }
+  .wide .step { padding: 11px 14px; }
+  .wide .txt b { font-size: 16.5px; }
+  .wide .txt small { font-size: 14px; }
+  .wide .ctas { margin-top: 20px; }
+  .wide .stage { min-height: 0; }
   @media (max-width: 960px) {
     .grid { grid-template-columns: 1fr; }
     .flip .copy { order: 0; }

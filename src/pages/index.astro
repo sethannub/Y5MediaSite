@@ -4,7 +4,7 @@ import HomeSplit from '../components/home/HomeSplit.astro';
 import ClientStrip from '../components/home/ClientStrip.astro';
 import Journey from '../components/Journey.astro';
 import WifiPhone from '../components/mocks/WifiPhone.astro';
-import LeadsApp from '../components/mocks/LeadsApp.astro';
+import ClaimFilm from '../components/mocks/ClaimFilm.astro';
 import Venues from '../components/home/Venues.astro';
 import LeadPricing from '../components/LeadPricing.astro';
 import Industries from '../components/home/Industries.astro';
@@ -39,16 +39,17 @@ const leadsLogin = site.logins.find((l) => l.label === 'Y5Leads')!.href;
     <Journey
       id="lead-journey"
       kicker="How Y5Leads works"
-      title="From interest to an enquiry"
-      accent="your team can call."
-      text="Buyers looking for property are matched to your projects and land in your Y5Leads dashboard."
+      title="Watch a lead go from"
+      accent="hidden to called."
+      text="This is the real Y5Leads app. A new lead arrives, gets unlocked for AED 250, and is one tap from a phone call."
       steps={leadSteps}
       tone="light"
-      stageKind="app"
+      stageKind="wide"
+      stepMs={5200}
       cta={{ label: 'Get started', href: '/contact?interest=y5leads' }}
       secondary={{ label: 'Log in to Y5Leads', href: leadsLogin }}
     >
-      <LeadsApp slot="stage" />
+      <ClaimFilm slot="stage" />
     </Journey>
     <LeadPricing more />
   </div>

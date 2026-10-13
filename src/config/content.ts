@@ -70,8 +70,9 @@ export const wifiSteps = [
 ];
 
 export const leadSteps = [
-  { title: 'A buyer enquires', text: 'Someone looking for property leaves their details, budget and timeline.' },
-  { title: 'Matched to your project', text: 'The lead goes to the agency whose project fits the buyer’s budget and area.' },
-  { title: 'You unlock it', text: 'New leads stay blurred until you unlock them with credits, so you only pay for the ones you want.' },
-  { title: 'Call, copy or report', text: 'Call or WhatsApp in one tap, copy the details into your CRM, or report a bad lead for a refund.' },
+  { title: 'New leads arrive', text: 'Buyers matched to your projects appear in your list, names hidden.' },
+  { title: 'Check before you pay', text: 'See the project and budget first. Open any lead to look closer.' },
+  { title: 'Unlock for AED 250', text: 'Click Unlock, then click again to confirm. The lead is yours.' },
+  { title: 'Call, WhatsApp or copy', text: 'The number appears with one-tap Call, WhatsApp and Copy buttons.' },
+  { title: 'Everything on your dashboard', text: 'Credits, projects and every lead you’ve unlocked, in one place.' },
 ];
