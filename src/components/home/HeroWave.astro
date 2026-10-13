@@ -25,17 +25,19 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
 <section class="hw on-dark" data-hw data-open="none" aria-label="Our products">
   <!-- ================= Y5Leads ================= -->
   <div class="pane leads" style={`clip-path: ${leadsClip}`}>
-    <div class="photo-wrap"><img class="photo" src="/images/hero/y5leads.webp" alt="" width="1800" height="1125" fetchpriority="high" /></div>
+    <div class="photo-wrap"><img class="photo" src="/images/hero/y5leads-hd.webp" alt="" width="2400" height="1500" fetchpriority="high" /></div>
     <div class="grade"></div>
     <div class="sparks" aria-hidden="true">{sparks.map((p) => <i style={`left:${p.l}%;animation-delay:-${p.d}s;animation-duration:${p.s}s;width:${p.z}px;height:${p.z}px`}></i>)}</div>
 
     <div class="rest">
+      <span class="kind">Real Estate Leads</span>
       <h2 class="name"><span class="y5">Y5</span>Leads</h2>
       <p class="sub">Property buyer leads, ready to call.</p>
-      <span class="dot-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      <span class="more-pill" aria-hidden="true">Explore more <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
     </div>
 
     <div class="open-copy">
+      <span class="kind">Real Estate Leads</span>
       <h2 class="name"><span class="y5">Y5</span>Leads</h2>
       <p class="sub">Property buyer leads from our own UAE database, matched to your projects. Unlock only the ones you want.</p>
       <div class="ctas">
@@ -55,19 +57,21 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
 
   <!-- ================= Y5Ads ================= -->
   <div class="pane ads" style={`clip-path: ${adsClip}`}>
-    <div class="photo-wrap"><img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" /></div>
+    <div class="photo-wrap"><img class="photo" src="/images/hero/y5ads-hd.webp" alt="" width="2400" height="1500" /></div>
     <div class="grade"></div>
     <div class="sparks" aria-hidden="true">{sparks.map((p) => <i style={`left:${p.l}%;animation-delay:-${p.d + 2}s;animation-duration:${p.s + 1}s;width:${p.z}px;height:${p.z}px`}></i>)}</div>
 
     <div class="rest">
+      <span class="kind">WiFi Display Ads</span>
       <h2 class="name"><span class="y5">Y5</span>Ads</h2>
       <p class="sub">Your ad on the WiFi login screen across the UAE.</p>
-      <span class="dot-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      <span class="more-pill" aria-hidden="true">Explore more <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
     </div>
 
     <div class="open-copy">
+      <span class="kind">WiFi Display Ads</span>
       <h2 class="name"><span class="y5">Y5</span>Ads</h2>
-      <p class="sub">Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation, with every impression reported.</p>
+      <p class="sub">WiFi display advertising: your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation, with every impression reported.</p>
       <div class="ctas">
         <a class="explore" href={products.wifi.href}>Explore Y5Ads <span aria-hidden="true">→</span></a>
         <button type="button" class="back" data-close>Back</button>
@@ -178,14 +182,14 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .ads .photo-wrap { animation-delay: -13s; }
   @keyframes kenburns { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.06) translate(-1.5%, -1%); } }
   .photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); transition: transform 2.2s var(--out), filter 1.2s; }
-  .leads .photo { object-position: 30% 50%; filter: saturate(.55) contrast(1.1) brightness(.7); }
-  .ads .photo { object-position: 70% 30%; filter: saturate(.7) contrast(1.05) brightness(.85); }
+  .leads .photo { object-position: 45% 60%; filter: saturate(.75) contrast(1.08) brightness(.95); }
+  .ads .photo { object-position: 70% 35%; filter: saturate(.7) contrast(1.05) brightness(.85); }
   .hw[data-open='leads'] .leads .photo, .hw[data-open='ads'] .ads .photo { transform: scale(1.02); }
   .hw[data-open='leads'] .leads .photo { filter: saturate(.5) contrast(1.1) brightness(.45) blur(1.5px); }
   .hw[data-open='ads'] .ads .photo { filter: saturate(.6) contrast(1.05) brightness(.5) blur(1.5px); }
 
   .grade { position: absolute; inset: 0; }
-  .leads .grade { background: radial-gradient(70% 60% at 0% 0%, rgba(74, 222, 128, .28), transparent 60%), linear-gradient(160deg, rgba(4, 40, 26, .55) 0%, rgba(3, 20, 13, .92) 75%); }
+  .leads .grade { background: radial-gradient(70% 60% at 0% 0%, rgba(74, 222, 128, .28), transparent 60%), linear-gradient(160deg, rgba(4, 40, 26, .62) 0%, rgba(3, 20, 13, .5) 55%, rgba(3, 20, 13, .78) 100%); }
   .ads .grade { background: radial-gradient(70% 70% at 100% 100%, rgba(166, 231, 42, .45), transparent 60%), linear-gradient(200deg, rgba(40, 100, 30, .55) 0%, rgba(10, 45, 22, .85) 80%); }
 
   .sparks { position: absolute; inset: 0; pointer-events: none; }
@@ -212,7 +216,7 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   /* ---------- Names ---------- */
   .name {
     font-family: var(--font-display); font-weight: 600; line-height: .9; letter-spacing: -.055em; white-space: nowrap;
-    font-size: clamp(64px, 7.4vw, 128px);
+    font-size: clamp(56px, 6vw, 104px); padding: 0 .08em .08em 0; margin-right: -.08em;
     background: linear-gradient(180deg, #FFFFFF 30%, rgba(255, 255, 255, .72)); -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .name .y5 {
@@ -223,22 +227,26 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .sub { font-size: clamp(16px, 1.25vw, 20px); font-weight: 500; color: rgba(255, 255, 255, .82); letter-spacing: -.005em; max-width: 34ch; line-height: 1.45; }
 
   .rest { position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 14px; transition: opacity .5s, transform 1s var(--out), filter .6s; }
-  .leads .rest { left: 6%; top: max(116px, 17%); align-items: flex-start; }
-  .ads .rest { right: 6%; bottom: 9%; align-items: flex-end; text-align: right; }
+  .leads .rest { left: 13%; top: max(150px, 24%); align-items: flex-start; }
+  .ads .rest { right: 13%; bottom: 15%; align-items: flex-end; text-align: right; }
   .hw:not([data-open='none']) .leads .rest { opacity: 0; transform: translateY(-40px); filter: blur(6px); }
   .hw:not([data-open='none']) .ads .rest { opacity: 0; transform: translateY(40px); filter: blur(6px); }
 
-  .dot-btn {
-    margin-top: 10px; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; position: relative;
-    background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .28); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+  .kind { font-size: 12.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--lime); display: inline-flex; align-items: center; gap: 10px; }
+  .kind::before { content: ''; width: 22px; height: 1px; background: currentColor; opacity: .8; }
+  .ads .rest .kind { flex-direction: row-reverse; }
+  .more-pill {
+    margin-top: 12px; display: inline-flex; align-items: center; gap: 12px; position: relative;
+    font-size: 14px; font-weight: 600; letter-spacing: .02em; padding: 14px 22px 14px 24px; border-radius: 999px;
+    background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .3); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    transition: background .35s, border-color .35s, transform .5s var(--out);
+    transition: background .35s, border-color .35s, color .35s, transform .5s var(--out);
   }
-  .dot-btn::after { content: ''; position: absolute; inset: -1px; border-radius: 50%; border: 1px solid var(--lime); opacity: 0; animation: halo 2.6s ease-out infinite; }
-  @keyframes halo { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.7); opacity: 0; } }
-  .dot-btn svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: stroke .3s, transform .4s var(--out); }
-  .pane:has(.opener:hover) .dot-btn { background: var(--lime); border-color: var(--lime); transform: scale(1.08); }
-  .pane:has(.opener:hover) .dot-btn svg { stroke: #0B1A10; transform: translateX(3px); }
+  .more-pill::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid var(--lime); opacity: 0; animation: halo 2.6s ease-out infinite; }
+  @keyframes halo { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.18, 1.5); opacity: 0; } }
+  .more-pill svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s var(--out); }
+  .pane:has(.opener:hover) .more-pill { background: var(--lime); border-color: var(--lime); color: #0B1A10; transform: translateY(-2px); }
+  .pane:has(.opener:hover) .more-pill svg { transform: translateX(4px); }
 
   .opener { position: absolute; inset: 0; z-index: 4; border: 0; background: transparent; cursor: pointer; }
   .opener:focus-visible { outline: 2px solid var(--lime); outline-offset: -8px; }
@@ -390,7 +398,7 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .hw[data-open='ads'] .v3 { transform: none; transition-delay: 1.2s; animation: bob 6.5s ease-in-out 2.6s infinite; }
 
   .stat {
-    left: 62.5%; top: 66%; width: 200px; padding: 16px 18px; border-radius: 18px; display: grid; gap: 4px;
+    left: 57%; top: 75%; width: 200px; padding: 16px 18px; border-radius: 18px; display: grid; gap: 4px;
     background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 30px 60px -24px rgba(0, 0, 0, .8);
     backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
@@ -416,6 +424,6 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   }
   @media (prefers-reduced-motion: reduce) {
     .hw, .photo, .scene > *, .open-copy > *, .rest { transition-duration: .01ms !important; transition-delay: 0s !important; }
-    .grain, .photo-wrap, .sparks i, .seam, .name .y5, .dot-btn::after, .scan, .rings i, .tap, .ldot, .ad img { animation: none !important; }
+    .grain, .photo-wrap, .sparks i, .seam, .name .y5, .more-pill::after, .scan, .rings i, .tap, .ldot, .ad img { animation: none !important; }
   }
 </style>

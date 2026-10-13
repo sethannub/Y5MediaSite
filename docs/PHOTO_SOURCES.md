@@ -18,3 +18,10 @@ All photos are free-licence (Unsplash License / Pexels License). Commercial use 
 | ind-corporate.jpg | Unsplash | Vitaly Gariev | https://unsplash.com/photos/_4tpElFQemQ | 2000x1125 |
 | why-team.jpg | Unsplash | Vitaly Gariev | https://unsplash.com/photos/yd_RKGH_RH4 | 2000x1125 |
 | ad-coffee.jpg | Pexels | John Romanov | https://www.pexels.com/photo/coffee-served-in-a-cafe-14689179/ | 2000x3000 (portrait) |
+
+## Hero backgrounds (option C)
+
+| File | Photo page | Photographer | Site |
+|---|---|---|---|
+| hero/y5leads-hd.webp | https://unsplash.com/photos/a-view-of-a-city-at-night-from-the-top-of-a-skyscraper-WyfXOHgI49s | Fabien Bellanger | Unsplash |
+| hero/y5ads-hd.webp | https://www.pexels.com/photo/close-up-photo-of-woman-in-black-coat-using-smartphone-787929/ | Andrea Piacquadio | Pexels |
