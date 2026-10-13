@@ -1,0 +1,60 @@
+---
+---
+<section class="section reporting" id="reporting">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="kicker" data-reveal>Reporting</div>
+        <h2 data-reveal>See what your money <span class="accent">is doing.</span></h2>
+      </div>
+      <p class="lede" data-reveal>Both products come with their own dashboard, so you always know what you’re getting.</p>
+    </div>
+
+    <div class="panels">
+      <article class="panel" data-reveal>
+        <div class="shot wifi">
+          <img class="main" src="/images/brand/y5ads-reports.png" alt="WiFi Marketing campaign report with daily and weekly impression charts" width="553" height="619" loading="lazy" />
+          <img class="pop one" src="/images/brand/graph03.png" alt="" width="225" height="230" loading="lazy" />
+          <img class="pop two" src="/images/brand/graph-01.png" alt="" width="179" height="167" loading="lazy" />
+        </div>
+        <div class="body">
+          <h3>WiFi Marketing reports</h3>
+          <p>Visits, impressions and clicks by day and week, plus the devices, operating systems and phone models that saw your ad.</p>
+          <a class="go" href="/wifi-marketing">Explore WiFi Marketing <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+
+      <article class="panel" data-reveal data-reveal-delay=".1s">
+        <div class="shot leads">
+          <img class="main" src="/images/brand/y5leads-dashboard.png" alt="Y5Leads dashboard showing credits, projects, new leads and recent activity" width="1568" height="772" loading="lazy" />
+        </div>
+        <div class="body">
+          <h3>The Y5Leads dashboard</h3>
+          <p>Your credits, projects, new leads and everything you’ve unlocked, with an email the moment new leads arrive.</p>
+          <a class="go" href="/y5leads">Explore Y5Leads <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reporting { background: var(--white); }
+  .panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .panel { border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; background: var(--paper); display: flex; flex-direction: column; }
+  .shot { position: relative; height: 380px; overflow: hidden; padding: 36px 36px 0; background: var(--forest-glow), var(--forest); }
+  .main { width: 100%; height: auto; border-radius: 14px 14px 0 0; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6); }
+  .wifi .main { width: 72%; }
+  .pop { position: absolute; border-radius: 12px; box-shadow: 0 20px 40px -12px rgba(0, 0, 0, .5); background: #fff; }
+  .pop.one { width: 30%; right: 6%; top: 18%; }
+  .pop.two { width: 26%; right: 12%; top: 60%; }
+  .leads .main { width: 150%; max-width: none; }
+  .body { padding: 28px clamp(24px, 3vw, 36px) 32px; display: grid; gap: 8px; }
+  .body p { color: var(--gray-500); }
+  .go { margin-top: 8px; font-weight: 600; color: var(--green-ink); width: fit-content; }
+  .go:hover { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 860px) {
+    .panels { grid-template-columns: 1fr; }
+    .shot { height: 300px; padding: 24px 24px 0; }
+  }
+</style>
