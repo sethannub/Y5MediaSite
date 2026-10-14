@@ -169,7 +169,29 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
       if (push) history.replaceState(null, '', v === 'none' ? location.pathname : `#${KEY[v]}`);
     };
     root.querySelectorAll<HTMLElement>('[data-open-to]').forEach((b) => b.addEventListener('click', () => set(b.dataset.openTo!)));
-    root.querySelectorAll<HTMLElement>('[data-close]').forEach((b) => b.addEventListener('click', () => set('none')));
+
+    // Hover opens a side after a short rest, on devices that can hover. It
+    // stays open when the pointer leaves, so moving down to scroll doesn't
+    // snap it shut. After Back, the pointer has to leave and come back first.
+    const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+    let timer = 0;
+    let blocked = '';
+    root.querySelectorAll<HTMLElement>('[data-open-to]').forEach((b) => {
+      const side = b.dataset.openTo!;
+      b.addEventListener('pointerenter', () => {
+        if (!canHover.matches || blocked === side) return;
+        clearTimeout(timer);
+        timer = window.setTimeout(() => set(side), 320);
+      });
+      b.addEventListener('pointerleave', () => {
+        clearTimeout(timer);
+        if (blocked === side) blocked = '';
+      });
+    });
+    root.querySelectorAll<HTMLElement>('[data-close]').forEach((b) => b.addEventListener('click', () => {
+      blocked = root.dataset.open || '';
+      set('none');
+    }));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set('none'); });
     const fromHash = () => {
       const h = location.hash.slice(1);
