@@ -7,7 +7,7 @@
 // Clicking a side sweeps the curve to about 80/20 and that product's scene
 // builds in: device, floating cards, counters. The other side becomes a strip.
 import { products } from '../../config/site';
-import LeadsFlow from './LeadsFlow.astro';
+import LeadsMap from './LeadsMap.astro';
 import AdsPhones from './AdsPhones.astro';
 
 const N = 18;
@@ -29,8 +29,7 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
 <section class="hw on-dark" data-hw data-variant="motion" data-open="none" aria-label="Our products">
   <!-- ================= Y5Leads ================= -->
   <div class="pane leads" style={`clip-path: ${leadsClip}`}>
-    <LeadsFlow />
-    <div class="sparks" aria-hidden="true">{sparks.map((p) => <i style={`left:${p.l}%;animation-delay:-${p.d}s;animation-duration:${p.s}s;width:${p.z}px;height:${p.z}px`}></i>)}</div>
+    <LeadsMap />
 
     <div class="rest">
       <span class="kind">Real Estate Leads</span>
@@ -61,7 +60,6 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   <!-- ================= Y5Ads ================= -->
   <div class="pane ads" style={`clip-path: ${adsClip}`}>
     <AdsPhones />
-    <div class="sparks" aria-hidden="true">{sparks.map((p) => <i style={`left:${p.l}%;animation-delay:-${p.d + 2}s;animation-duration:${p.s + 1}s;width:${p.z}px;height:${p.z}px`}></i>)}</div>
 
     <div class="rest">
       <span class="kind">WiFi Display Ads</span>
@@ -428,4 +426,34 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
     .hw, .photo, .scene > *, .open-copy > *, .rest { transition-duration: .01ms !important; transition-delay: 0s !important; }
     .grain, .photo-wrap, .sparks i, .seam, .name .y5, .more-pill::after, .scan, .rings i, .tap, .ldot, .ad img { animation: none !important; }
   }
+  /* ---------- Option D: calmer, Y5Ads on white ---------- */
+  .hw::after { background: radial-gradient(130% 100% at 50% 45%, transparent 60%, rgba(0, 0, 0, .3)); }
+  .grain { opacity: .05; }
+  .seam { background: linear-gradient(180deg, #75B630 0%, #C4F25A 40%, #fff 47%, #F2FFD0 50%, #C4F25A 56%, #75B630 100%); background-size: 100% 300%; }
+  .seam-wrap { filter: drop-shadow(0 0 8px rgba(117, 182, 48, .5)); }
+
+  .ads .name { background: linear-gradient(180deg, #0B1A10 30%, #24382B); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .ads .name .y5 { background: linear-gradient(110deg, #1F7A2E 0%, #4CAF2F 35%, #9BD63A 50%, #4CAF2F 65%, #1F7A2E 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .ads .sub { color: #34463B; }
+  .ads .kind { color: #2F6B00; }
+  .ads .more-pill { background: #0B261B; color: #fff; border-color: #0B261B; box-shadow: 0 14px 30px -14px rgba(11, 38, 27, .6); }
+  .ads .more-pill::after { border-color: #75B630; }
+  .ads .strip span { color: #0B261B; }
+  .ads .back { color: #46544B; border-color: rgba(11, 38, 27, .3); }
+  .ads .back:hover { color: #0B1A10; border-color: #0B1A10; }
+  .ads .explore { background: #0B261B; color: #fff; box-shadow: 0 18px 40px -16px rgba(11, 38, 27, .6); }
+  .ads .feats { border-top-color: rgba(11, 38, 27, .15); }
+  .ads .feats li + li { border-left-color: rgba(11, 38, 27, .12); }
+  .ads .feats b { color: #2F6B00; }
+  .ads .feats span { color: #46544B; }
+
+  .s-ads .venue { background: #fff; color: #0B1A10; border-color: rgba(11, 38, 27, .12); box-shadow: 0 14px 30px -16px rgba(11, 38, 27, .5); }
+  .s-ads .venue i { background: #4CAF2F; box-shadow: none; }
+  .s-ads .stat { background: #fff; color: #0B1A10; border-color: rgba(11, 38, 27, .1); box-shadow: 0 30px 60px -24px rgba(11, 38, 27, .45); }
+  .s-ads .stat small { color: #5E6E64; }
+  .s-ads .clicks b { color: #2F6B00; }
+  .s-ads .spark i { background: linear-gradient(180deg, #4CAF2F, rgba(76, 175, 47, .2)); }
+  .s-ads .rings i { border-color: rgba(117, 182, 48, .45); }
+  .s-ads .phone { box-shadow: 0 0 0 1px rgba(0, 0, 0, .12), 0 60px 100px -40px rgba(11, 38, 27, .55); }
+  .s-ads .phone .floor { background: radial-gradient(closest-side, rgba(11, 38, 27, .35), transparent); }
 </style>

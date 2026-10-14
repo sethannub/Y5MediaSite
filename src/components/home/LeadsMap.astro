@@ -1,0 +1,97 @@
+---
+// Y5Leads background loop: a dotted UAE map over a faint Dubai skyline.
+// Dubai is the hub (Y5Media 360); leads travel both ways along arcs to the
+// other emirates. Pure SVG (SMIL), no script.
+const S = 85, OX = 70, OY = 470;
+const P = (lon: number, lat: number) => [+(OX + (lon - 51.4) * S).toFixed(1), +(OY + (26.3 - lat) * S * 1.1).toFixed(1)] as const;
+
+const outline = [
+  [51.6, 24.3], [52.0, 24.0], [52.6, 24.2], [53.4, 24.1], [54.0, 24.2], [54.4, 24.45], [54.7, 24.8], [55.1, 25.05],
+  [55.3, 25.25], [55.5, 25.45], [55.8, 25.6], [56.0, 25.8], [56.1, 26.05], [56.25, 25.9], [56.35, 25.6], [56.37, 25.1],
+  [56.35, 24.95], [56.0, 24.9], [55.95, 24.5], [55.8, 24.25], [55.95, 24.0], [55.5, 23.6], [55.2, 22.7], [55.0, 22.5],
+  [52.6, 22.95], [51.6, 24.0],
+].map(([lon, lat]) => P(lon, lat).join(' '));
+const shape = `M${outline.join(' L')} Z`;
+
+const hub = P(55.3, 25.2);
+const cities = [
+  { name: 'Abu Dhabi', at: P(54.37, 24.45), lx: -12, ly: 22, a: 'end', t: 0 },
+  { name: 'Al Ain', at: P(55.75, 24.2), lx: 12, ly: 18, a: 'start', t: 1.2 },
+  { name: 'Ras Al Khaimah', at: P(55.95, 25.78), lx: -12, ly: -12, a: 'end', t: 2.1 },
+  { name: 'Fujairah', at: P(56.33, 25.12), lx: -10, ly: 26, a: 'end', t: 0.6 },
+  { name: 'Ruwais', at: P(52.7, 24.1), lx: 0, ly: 24, a: 'middle', t: 1.7 },
+];
+const arc = (a: readonly [number, number], b: readonly [number, number]) => {
+  const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2 - Math.hypot(b[0] - a[0], b[1] - a[1]) * 0.35;
+  return `M${a[0]} ${a[1]} Q${mx.toFixed(1)} ${my.toFixed(1)} ${b[0]} ${b[1]}`;
+};
+const DUR = 3.6;
+---
+<div class="lm" aria-hidden="true">
+  <img class="lm-photo" src="/images/hero/y5leads-hd.webp" alt="" width="2400" height="1500" />
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id="lm-dots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="#C4F25A" /></pattern>
+      <clipPath id="lm-clip"><path d={shape} /></clipPath>
+      <radialGradient id="lm-core"><stop offset="0" stop-color="#F2FFD0" /><stop offset=".45" stop-color="#C4F25A" /><stop offset="1" stop-color="#C4F25A" stop-opacity="0" /></radialGradient>
+      <filter id="lm-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3.5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+      {cities.map((c, i) => <path id={`lm-a${i}`} d={arc(c.at, hub)} />)}
+      {cities.map((c, i) => <path id={`lm-b${i}`} d={arc(hub, c.at)} />)}
+    </defs>
+
+    <!-- the country, as a field of dots with a fine outline -->
+    <g clip-path="url(#lm-clip)" opacity=".38"><rect width="1440" height="900" fill="url(#lm-dots)" /></g>
+    <path d={shape} fill="#C4F25A" fill-opacity=".04" stroke="#C4F25A" stroke-opacity=".55" stroke-width="1.2" stroke-linejoin="round" />
+
+    <!-- arcs and the leads travelling them -->
+    {cities.map((c, i) => (
+      <g>
+        <use href={`#lm-a${i}`} fill="none" stroke="#C4F25A" stroke-opacity=".28" stroke-width="1.2" />
+        <circle r="3.4" fill="#F2FFD0" filter="url(#lm-glow)">
+          <animateMotion dur={`${DUR}s`} repeatCount="indefinite" begin={`-${c.t}s`} calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines=".5 0 .5 1"><mpath href={`#lm-a${i}`} /></animateMotion>
+        </circle>
+        <circle r="2.4" fill="#C4F25A" opacity=".8" filter="url(#lm-glow)">
+          <animateMotion dur={`${DUR}s`} repeatCount="indefinite" begin={`-${(c.t + DUR / 2).toFixed(2)}s`} calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines=".5 0 .5 1"><mpath href={`#lm-b${i}`} /></animateMotion>
+        </circle>
+      </g>
+    ))}
+
+    <!-- cities -->
+    {cities.map((c) => (
+      <g transform={`translate(${c.at[0]} ${c.at[1]})`}>
+        <circle r="10" fill="none" stroke="#C4F25A" stroke-opacity=".5">
+          <animate attributeName="r" values="4;14" dur={`${DUR}s`} begin={`-${c.t}s`} repeatCount="indefinite" />
+          <animate attributeName="stroke-opacity" values=".6;0" dur={`${DUR}s`} begin={`-${c.t}s`} repeatCount="indefinite" />
+        </circle>
+        <circle r="3.5" fill="#C4F25A" filter="url(#lm-glow)" />
+        <text x={c.lx} y={c.ly} text-anchor={c.a} class="lm-city">{c.name}</text>
+      </g>
+    ))}
+
+    <!-- Dubai hub -->
+    <g transform={`translate(${hub[0]} ${hub[1]})`}>
+      <circle r="60" fill="url(#lm-core)" opacity=".28" />
+      <circle r="16" fill="none" stroke="#C4F25A" stroke-opacity=".7">
+        <animate attributeName="r" values="14;46" dur="2.4s" repeatCount="indefinite" />
+        <animate attributeName="stroke-opacity" values=".7;0" dur="2.4s" repeatCount="indefinite" />
+      </circle>
+      <circle r="12" fill="url(#lm-core)" filter="url(#lm-glow)" />
+      <circle r="4" fill="#fff" />
+      <text x="-18" y="-20" text-anchor="end" class="lm-hub">Dubai</text>
+      <text x="-18" y="-6" text-anchor="end" class="lm-hub-sub">Y5MEDIA 360</text>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .lm { position: absolute; inset: 0; background: radial-gradient(70% 70% at 30% 60%, #0E4430 0%, #072A1C 55%, #03140D 100%); transition: opacity 1s, filter 1s; }
+  .lm-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 60%; opacity: .16; mix-blend-mode: luminosity; }
+  .lm::after { content: ''; position: absolute; inset: 0; background: linear-gradient(170deg, rgba(3, 20, 13, .2) 0%, rgba(3, 20, 13, .65) 100%); }
+  .lm svg { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; display: block; }
+  .lm-city { font: 600 12px var(--font-body); fill: rgba(255, 255, 255, .78); letter-spacing: .02em; }
+  .lm-hub { font: 700 15px var(--font-display); fill: #fff; }
+  .lm-hub-sub { font: 700 9.5px var(--font-body); fill: #C4F25A; letter-spacing: .2em; }
+  :global(.hw[data-open='leads']) .lm { opacity: .35; filter: blur(1.5px); }
+  :global(.hw[data-open='ads']) .lm { opacity: .5; }
+  @media (prefers-reduced-motion: reduce) { .lm svg :global(animate), .lm svg :global(animateMotion) { display: none; } }
+</style>
