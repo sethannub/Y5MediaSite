@@ -2,7 +2,7 @@
 // Two small floating controls on every page: Back (bottom left) returns to the
 // previous page, or home when there is none on this site; Back to top
 // (bottom right) appears once the page has been scrolled.
-const isHome = Astro.url.pathname.replace(/(index)?(\.html)?\/?$/, '') === '';
+const isHome = ['/', '/index', '/index.html'].includes(Astro.url.pathname);
 ---
 <div class="site-controls">
   {!isHome && (
