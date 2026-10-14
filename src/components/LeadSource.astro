@@ -94,10 +94,10 @@ const flow = [
 
   /* The line joining the four icons, with a light travelling along it */
   .track { position: absolute; left: calc(clamp(20px, 3vw, 40px) + 32px); right: calc(clamp(20px, 3vw, 40px) + 25% - 20px); top: calc(clamp(28px, 4vw, 52px) + 32px); height: 2px; background: rgba(166, 231, 42, .25); }
-  .pulse { position: absolute; top: -3px; left: 0; width: 60px; height: 8px; border-radius: 999px; background: linear-gradient(90deg, transparent, var(--lime), transparent); filter: blur(1px); animation: travel 3.2s cubic-bezier(.45, 0, .55, 1) infinite; }
-  @keyframes travel { from { left: -60px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: 100%; opacity: 0; } }
-  html.motion .pipeline.is-in .nodes li { animation: node-in .7s var(--ease-out) both; animation-delay: calc(var(--i) * .14s + .15s); }
-  @keyframes node-in { from { opacity: 0; transform: translateY(16px); } }
+  .pulse { position: absolute; top: -3px; left: 0; width: 60px; height: 8px; border-radius: 999px; background: linear-gradient(90deg, transparent, var(--lime), transparent); filter: blur(1px); animation: ls-travel 3.2s cubic-bezier(.45, 0, .55, 1) infinite; }
+  @keyframes ls-travel { from { left: -60px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { left: 100%; opacity: 0; } }
+  html.motion .pipeline.is-in .nodes li { animation: ls-node-in .7s var(--ease-out) both; animation-delay: calc(var(--i) * .14s + .15s); }
+  @keyframes ls-node-in { from { opacity: 0; transform: translateY(16px); } }
 
   .cards { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
   .cards li { padding: 26px; border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--gray-200); display: grid; gap: 8px; align-content: start; }

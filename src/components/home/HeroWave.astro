@@ -178,9 +178,9 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
 
   /* ---------- Panes and ambience ---------- */
   .pane { position: absolute; inset: 0; overflow: hidden; }
-  .photo-wrap { position: absolute; inset: 0; animation: kenburns 26s ease-in-out infinite alternate; }
+  .photo-wrap { position: absolute; inset: 0; animation: hw-kenburns 26s ease-in-out infinite alternate; }
   .ads .photo-wrap { animation-delay: -13s; }
-  @keyframes kenburns { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.06) translate(-1.5%, -1%); } }
+  @keyframes hw-kenburns { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.06) translate(-1.5%, -1%); } }
   .photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); transition: transform 2.2s var(--out), filter 1.2s; }
   .leads .photo { object-position: 45% 60%; filter: saturate(.75) contrast(1.08) brightness(.95); }
   .ads .photo { object-position: 70% 35%; filter: saturate(.7) contrast(1.05) brightness(.85); }
@@ -193,25 +193,25 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .ads .grade { background: radial-gradient(70% 70% at 100% 100%, rgba(166, 231, 42, .45), transparent 60%), linear-gradient(200deg, rgba(40, 100, 30, .55) 0%, rgba(10, 45, 22, .85) 80%); }
 
   .sparks { position: absolute; inset: 0; pointer-events: none; }
-  .sparks i { position: absolute; bottom: -10px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); opacity: 0; animation: rise linear infinite; }
-  @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: .7; } 85% { opacity: .5; } 100% { transform: translateY(-105vh) translateX(30px); opacity: 0; } }
+  .sparks i { position: absolute; bottom: -10px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); opacity: 0; animation: hw-rise linear infinite; }
+  @keyframes hw-rise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: .7; } 85% { opacity: .5; } 100% { transform: translateY(-105vh) translateX(30px); opacity: 0; } }
 
   .hw::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 8; background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(0, 0, 0, .55)); }
   .grain {
     position: absolute; inset: -50%; z-index: 9; pointer-events: none; opacity: .08; mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    animation: grain 1s steps(4) infinite;
+    animation: hw-grain 1s steps(4) infinite;
   }
-  @keyframes grain { 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } }
+  @keyframes hw-grain { 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } }
 
   /* The seam, with a light travelling down it */
   .seam-wrap { position: absolute; inset: 0; z-index: 7; pointer-events: none; filter: drop-shadow(0 0 10px rgba(166, 231, 42, .55)) drop-shadow(0 0 2px rgba(255, 255, 255, .6)); }
   .seam {
     position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(255, 255, 255, .55) 0%, rgba(196, 242, 90, .7) 40%, #fff 47%, #F2FFD0 50%, rgba(196, 242, 90, .7) 56%, rgba(255, 255, 255, .55) 100%);
-    background-size: 100% 300%; animation: travel 4.5s linear infinite;
+    background-size: 100% 300%; animation: hw-travel 4.5s linear infinite;
   }
-  @keyframes travel { from { background-position: 0 100%; } to { background-position: 0 0%; } }
+  @keyframes hw-travel { from { background-position: 0 100%; } to { background-position: 0 0%; } }
 
   /* ---------- Names ---------- */
   .name {
@@ -221,9 +221,9 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   }
   .name .y5 {
     background: linear-gradient(110deg, #4CB33A 0%, #A6E72A 30%, #F2FFC4 45%, #A6E72A 60%, #4CB33A 100%); background-size: 250% 100%;
-    -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 5s ease-in-out infinite;
+    -webkit-background-clip: text; background-clip: text; color: transparent; animation: hw-shimmer 5s ease-in-out infinite;
   }
-  @keyframes shimmer { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+  @keyframes hw-shimmer { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
   .sub { font-size: clamp(16px, 1.25vw, 20px); font-weight: 500; color: rgba(255, 255, 255, .82); letter-spacing: -.005em; max-width: 34ch; line-height: 1.45; }
 
   .rest { position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 14px; transition: opacity .5s, transform 1s var(--out), filter .6s; }
@@ -242,8 +242,8 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     transition: background .35s, border-color .35s, color .35s, transform .5s var(--out);
   }
-  .more-pill::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid var(--lime); opacity: 0; animation: halo 2.6s ease-out infinite; }
-  @keyframes halo { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.18, 1.5); opacity: 0; } }
+  .more-pill::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid var(--lime); opacity: 0; animation: hw-halo 2.6s ease-out infinite; }
+  @keyframes hw-halo { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.18, 1.5); opacity: 0; } }
   .more-pill svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s var(--out); }
   .pane:has(.opener:hover) .more-pill { background: var(--lime); border-color: var(--lime); color: #0B1A10; transform: translateY(-2px); }
   .pane:has(.opener:hover) .more-pill svg { transform: translateX(4px); }
@@ -301,8 +301,8 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .hw[data-open='leads'] .laptop { transform: translateY(-50%) perspective(1600px) rotateY(-14deg) rotateX(5deg); transition-delay: .55s; }
   .lid { position: relative; border-radius: 16px 16px 6px 6px; padding: 10px 10px 16px; background: linear-gradient(180deg, #1A201D, #0B0F0D); box-shadow: 0 0 0 1px rgba(255, 255, 255, .16), 0 0 80px -20px rgba(74, 222, 128, .5), 0 50px 100px -40px rgba(0, 0, 0, .9); overflow: hidden; }
   .lid img { display: block; width: 100%; border-radius: 6px; }
-  .scan { position: absolute; left: 10px; right: 10px; top: 10px; height: 30%; background: linear-gradient(180deg, transparent, rgba(196, 242, 90, .16), transparent); animation: scan 3.2s ease-in-out infinite; }
-  @keyframes scan { from { transform: translateY(-40%); } to { transform: translateY(260%); } }
+  .scan { position: absolute; left: 10px; right: 10px; top: 10px; height: 30%; background: linear-gradient(180deg, transparent, rgba(196, 242, 90, .16), transparent); animation: hw-scan 3.2s ease-in-out infinite; }
+  @keyframes hw-scan { from { transform: translateY(-40%); } to { transform: translateY(260%); } }
   .deck { position: relative; height: 16px; margin: 0 -8%; border-radius: 2px 2px 18px 18px; background: linear-gradient(180deg, #E4E9E6 0%, #A9B3AE 55%, #737C78 100%); }
   .notch { position: absolute; left: 50%; top: 0; width: 18%; height: 6px; transform: translateX(-50%); border-radius: 0 0 8px 8px; background: #9AA49F; }
 
@@ -315,13 +315,13 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .lcard b { font-size: 15px; }
   .lcard em { margin-left: auto; font-style: normal; font-size: 12px; font-weight: 700; color: var(--lime); }
   .blur { filter: blur(5px); }
-  .ldot { width: 9px; height: 9px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); flex: none; animation: blink 1.6s ease-in-out infinite; }
-  @keyframes blink { 50% { opacity: .35; } }
+  .ldot { width: 9px; height: 9px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); flex: none; animation: hw-blink 1.6s ease-in-out infinite; }
+  @keyframes hw-blink { 50% { opacity: .35; } }
   .c1 { left: 40%; top: 15%; transform: translateX(-60px); }
   .c2 { left: 54%; top: 20%; transform: translateX(80px); }
-  .hw[data-open='leads'] .c1 { transform: none; transition-delay: .85s; animation: bob 6s ease-in-out 2s infinite; }
-  .hw[data-open='leads'] .c2 { transform: none; transition-delay: 1s; animation: bob 7s ease-in-out 2.4s infinite reverse; }
-  @keyframes bob { 50% { translate: 0 -8px; } }
+  .hw[data-open='leads'] .c1 { transform: none; transition-delay: .85s; animation: hw-bob 6s ease-in-out 2s infinite; }
+  .hw[data-open='leads'] .c2 { transform: none; transition-delay: 1s; animation: hw-bob 7s ease-in-out 2.4s infinite reverse; }
+  @keyframes hw-bob { 50% { translate: 0 -8px; } }
 
   .credits {
     left: 70%; top: 32%; padding: 12px 16px; border-radius: 16px; display: grid; gap: 2px; min-width: 150px;
@@ -332,8 +332,8 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .credits small { font-size: 11.5px; color: rgba(255, 255, 255, .65); }
   .credits b { font-family: var(--font-display); font-size: 26px; font-variant-numeric: tabular-nums; }
   .minus { position: absolute; right: 12px; top: 10px; font-size: 12px; font-weight: 700; color: #FCA5A5; opacity: 0; }
-  .hw[data-open='leads'] .minus { animation: minus 1.6s ease-out 1.6s both; }
-  @keyframes minus { 0% { opacity: 0; transform: translateY(6px); } 30% { opacity: 1; transform: none; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
+  .hw[data-open='leads'] .minus { animation: hw-minus 1.6s ease-out 1.6s both; }
+  @keyframes hw-minus { 0% { opacity: 0; transform: translateY(6px); } 30% { opacity: 1; transform: none; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
 
   .toast {
     left: 48%; top: 72%; display: flex; align-items: center; gap: 14px; padding: 14px 18px 14px 14px; border-radius: 18px;
@@ -345,18 +345,18 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .hw[data-open='leads'] .toast { transform: none; transition-delay: 1.3s; }
   .tick { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: var(--lime); }
   .tick svg { width: 18px; height: 18px; fill: none; stroke: #0B1A10; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 20; stroke-dashoffset: 20; }
-  .hw[data-open='leads'] .tick svg { animation: draw .5s ease-out 1.7s forwards; }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .hw[data-open='leads'] .tick svg { animation: hw-draw .5s ease-out 1.7s forwards; }
+  @keyframes hw-draw { to { stroke-dashoffset: 0; } }
   .toast b { display: block; font-size: 15px; }
   .toast small { font-size: 12.5px; color: rgba(255, 255, 255, .7); }
 
   /* Y5Ads scene */
   .rings { left: calc(72% + 125px); top: 50%; width: 0; height: 0; }
   .rings i { position: absolute; left: -260px; top: -260px; width: 520px; height: 520px; border-radius: 50%; border: 1px solid rgba(196, 242, 90, .45); opacity: 0; }
-  .hw[data-open='ads'] .rings i { animation: ring 3.6s ease-out infinite; }
+  .hw[data-open='ads'] .rings i { animation: hw-ring 3.6s ease-out infinite; }
   .hw[data-open='ads'] .rings i:nth-child(2) { animation-delay: 1.2s; }
   .hw[data-open='ads'] .rings i:nth-child(3) { animation-delay: 2.4s; }
-  @keyframes ring { 0% { transform: scale(.35); opacity: .8; } 100% { transform: scale(1.25); opacity: 0; } }
+  @keyframes hw-ring { 0% { transform: scale(.35); opacity: .8; } 100% { transform: scale(1.25); opacity: 0; } }
 
   .phone {
     left: 72%; top: 50%; width: 250px; height: 515px; border-radius: 44px; padding: 10px;
@@ -373,8 +373,8 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .bar circle { fill: #2F6B00; stroke: none; }
   .ad { position: relative; flex: 1; border-radius: 22px; overflow: hidden; color: #fff; min-height: 0; display: block; }
   .ad img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .hw[data-open='ads'] .ad img { animation: adzoom 6s ease-in-out infinite alternate; }
-  @keyframes adzoom { to { transform: scale(1.1); } }
+  .hw[data-open='ads'] .ad img { animation: hw-adzoom 6s ease-in-out infinite alternate; }
+  @keyframes hw-adzoom { to { transform: scale(1.1); } }
   .ad::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, .7)); }
   .tag { position: absolute; z-index: 1; top: 10px; left: 10px; font-size: 9px; font-weight: 700; background: rgba(0, 0, 0, .5); padding: 2px 6px; border-radius: 5px; }
   .txt { position: absolute; z-index: 1; left: 14px; right: 14px; bottom: 14px; display: grid; }
@@ -382,8 +382,8 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .txt b { font-family: var(--font-display); font-size: 19px; line-height: 1.05; letter-spacing: -.02em; }
   .go { position: relative; overflow: hidden; text-align: center; background: #14211A; color: #fff; border-radius: 14px; padding: 13px; font-size: 12px; font-weight: 600; }
   .tap { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: rgba(196, 242, 90, .6); opacity: 0; }
-  .hw[data-open='ads'] .tap { animation: tap 2.8s ease-out 1.8s infinite; }
-  @keyframes tap { 0% { transform: scale(.2); opacity: .9; } 40% { transform: scale(4); opacity: 0; } 100% { opacity: 0; } }
+  .hw[data-open='ads'] .tap { animation: hw-tap 2.8s ease-out 1.8s infinite; }
+  @keyframes hw-tap { 0% { transform: scale(.2); opacity: .9; } 40% { transform: scale(4); opacity: 0; } 100% { opacity: 0; } }
 
   .venue {
     display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; padding: 9px 14px; border-radius: 999px; white-space: nowrap;
@@ -393,9 +393,9 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .v1 { left: 56%; top: 15%; transform: translateY(-20px); }
   .v2 { left: 64%; top: 22%; transform: translateY(-20px); }
   .v3 { left: 86%; top: 80%; transform: translateY(20px); }
-  .hw[data-open='ads'] .v1 { transform: none; transition-delay: .9s; animation: bob 6s ease-in-out 2s infinite; }
-  .hw[data-open='ads'] .v2 { transform: none; transition-delay: 1.05s; animation: bob 7s ease-in-out 2.3s infinite reverse; }
-  .hw[data-open='ads'] .v3 { transform: none; transition-delay: 1.2s; animation: bob 6.5s ease-in-out 2.6s infinite; }
+  .hw[data-open='ads'] .v1 { transform: none; transition-delay: .9s; animation: hw-bob 6s ease-in-out 2s infinite; }
+  .hw[data-open='ads'] .v2 { transform: none; transition-delay: 1.05s; animation: hw-bob 7s ease-in-out 2.3s infinite reverse; }
+  .hw[data-open='ads'] .v3 { transform: none; transition-delay: 1.2s; animation: hw-bob 6.5s ease-in-out 2.6s infinite; }
 
   .stat {
     left: 57%; top: 75%; width: 200px; padding: 16px 18px; border-radius: 18px; display: grid; gap: 4px;
