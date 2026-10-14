@@ -247,8 +247,8 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .sub { font-size: clamp(16px, 1.25vw, 20px); font-weight: 500; color: rgba(255, 255, 255, .82); letter-spacing: -.005em; max-width: 34ch; line-height: 1.45; }
 
   .rest { position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 14px; transition: opacity .5s, transform 1s var(--out), filter .6s; }
-  .leads .rest { left: 13%; top: max(150px, 24%); align-items: flex-start; }
-  .ads .rest { right: 13%; bottom: 15%; align-items: flex-end; text-align: right; }
+  .leads .rest { left: 27.5%; top: max(150px, 25%); align-items: flex-start; }
+  .ads .rest { right: 27.5%; bottom: 13%; align-items: flex-end; text-align: right; }
   .hw:not([data-open='none']) .leads .rest { opacity: 0; transform: translateY(-40px); filter: blur(6px); }
   .hw:not([data-open='none']) .ads .rest { opacity: 0; transform: translateY(40px); filter: blur(6px); }
 
