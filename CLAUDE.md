@@ -35,12 +35,12 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
 
 - `src/config/site.ts`: company details, navigation, logins, product summaries and pricing.
 - `src/config/content.ts`: client logos, venues, industries, reasons, and the journey steps.
-- `src/components/home/HeroMotion.astro`: the home page opener (option D, chosen 14 Oct 2026). A diagonal
-  S-curve splits Y5Leads (top left, `LeadsFeed.astro`: a live lead feed through an unlock window) and
-  Y5Ads (bottom right, white, `AdsPhones.astro`: a laptop and phones cycling WiFi login ads). Clicking a
-  side opens it to about 80/20 and that product's sections (`[data-product]` in `index.astro`) show
-  below. `/#y5leads` and `/#y5ads` open a side directly; the nav links use them. The names use the Y5
-  logo (`public/images/brand/y5-logo.svg`). The other options (A, B, C) stay as `/hero-*` mockups.
+- `src/components/home/HeroSlant.astro`: the home page hero (option A chosen by the CEO, 14 Oct 2026, with
+  option D's colours). A straight corner-to-corner divider with an AND badge: Y5Leads top left on dark
+  emerald, Y5Ads bottom right on white. At rest only label, name (Y5 logo + word), one line and Explore
+  more. Hovering a side swings the divider and brings in its details and graphic (`LeadsFeed.astro`,
+  `AdsPhones.astro`). Each side links to its product page; both products' sections show below on home.
+  Options B, C, D stay as `/hero-*` mockups (`HeroCross`, `HeroWave`, `HeroMotion`).
 - `src/components/SiteControls.astro`: floating Back (previous page) and Back to top buttons on every page.
 - `src/components/Journey.astro`: the step-by-step journey. It plays while in view, and
   picking a step stops it. With reduced motion it never auto-plays.

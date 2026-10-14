@@ -15,8 +15,8 @@ export const site = {
 
   nav: [
     { label: 'Home', href: '/' },
-    { label: 'Y5Ads', href: '/#y5ads' },
-    { label: 'Y5Leads', href: '/#y5leads' },
+    { label: 'Y5Ads', href: '/y5ads' },
+    { label: 'Y5Leads', href: '/y5leads' },
     { label: 'Industries', href: '/#industries' },
     { label: 'Contact', href: '/contact' },
   ],

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroMotion from '../components/home/HeroMotion.astro';
+import HeroSlant from '../components/home/HeroSlant.astro';
 import ClientStrip from '../components/home/ClientStrip.astro';
 import Journey from '../components/Journey.astro';
 import WifiPhone from '../components/mocks/WifiPhone.astro';
@@ -15,9 +15,9 @@ import { wifiSteps, leadSteps } from '../config/content';
 
 ---
 <BaseLayout>
-  <HeroMotion />
+  <HeroSlant />
 
-  <div id="product-y5ads" data-product="y5ads" hidden>
+  <div id="product-y5ads" data-product="y5ads">
     <Journey
       id="wifi-journey"
       kicker="How Y5Ads works"
@@ -34,7 +34,7 @@ import { wifiSteps, leadSteps } from '../config/content';
     <Venues cta={{ label: 'Plan a campaign', href: '/contact?interest=y5ads' }} />
   </div>
 
-  <div id="product-y5leads" data-product="y5leads" hidden>
+  <div id="product-y5leads" data-product="y5leads">
     <LeadSource />
     <Journey
       id="lead-journey"
