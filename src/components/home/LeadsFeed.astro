@@ -45,7 +45,8 @@ const track = [...leads, ...leads];
   .lfd-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 60%; opacity: .26; mix-blend-mode: luminosity; }
   .lfd::after { content: ''; position: absolute; inset: 0; background: linear-gradient(175deg, rgba(3, 20, 13, .15) 0%, rgba(3, 20, 13, .75) 100%); }
 
-  .lfd-stage { --card: 66px; --gap: 10px; --rows: 6; position: absolute; z-index: 1; left: 2.5%; bottom: 13%; width: 380px; opacity: .6; transform: perspective(1200px) rotateY(16deg) rotateX(6deg) scale(1.22); transform-origin: left bottom; }
+  .lfd-stage { --card: 66px; --gap: 10px; --rows: 6; position: absolute; z-index: 1; left: 2%; bottom: 9%; width: 380px; opacity: .62; transform: perspective(1200px) rotateY(16deg) rotateX(6deg) scale(1.5); transform-origin: left bottom;
+    -webkit-mask-image: linear-gradient(100deg, #000 38%, rgba(0, 0, 0, .22) 68%); mask-image: linear-gradient(100deg, #000 38%, rgba(0, 0, 0, .22) 68%); }
   .lfd-live { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; font: 700 11px var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: #C4F25A; }
   .lfd-live i { width: 8px; height: 8px; border-radius: 50%; background: #C4F25A; box-shadow: 0 0 10px #C4F25A; animation: lfd-blink 1.6s ease-in-out infinite; }
   @keyframes lfd-blink { 50% { opacity: .3; } }
