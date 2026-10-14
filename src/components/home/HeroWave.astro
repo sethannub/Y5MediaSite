@@ -31,14 +31,14 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
 
     <div class="rest">
       <span class="kind">Real Estate Leads</span>
-      <h2 class="name"><span class="y5">Y5</span>Leads</h2>
+      <h2 class="name"><span class="y5"><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" /></span>Leads</h2>
       <p class="sub">Property buyer leads, ready to call.</p>
       <span class="more-pill" aria-hidden="true">Explore more <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
     </div>
 
     <div class="open-copy">
       <span class="kind">Real Estate Leads</span>
-      <h2 class="name"><span class="y5">Y5</span>Leads</h2>
+      <h2 class="name"><span class="y5"><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" /></span>Leads</h2>
       <p class="sub">Property buyer leads from our own UAE database, matched to your projects. Unlock only the ones you want.</p>
       <div class="ctas">
         <a class="explore" href={products.leads.href}>Explore Y5Leads <span aria-hidden="true">→</span></a>
@@ -63,14 +63,14 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
 
     <div class="rest">
       <span class="kind">WiFi Display Ads</span>
-      <h2 class="name"><span class="y5">Y5</span>Ads</h2>
+      <h2 class="name"><span class="y5"><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" /></span>Ads</h2>
       <p class="sub">Your ad on the WiFi login screen across the UAE.</p>
       <span class="more-pill" aria-hidden="true">Explore more <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
     </div>
 
     <div class="open-copy">
       <span class="kind">WiFi Display Ads</span>
-      <h2 class="name"><span class="y5">Y5</span>Ads</h2>
+      <h2 class="name"><span class="y5"><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" /></span>Ads</h2>
       <p class="sub">WiFi display advertising: your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation, with every impression reported.</p>
       <div class="ctas">
         <a class="explore" href={products.wifi.href}>Explore Y5Ads <span aria-hidden="true">→</span></a>
@@ -426,4 +426,6 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
     .hw, .photo, .scene > *, .open-copy > *, .rest { transition-duration: .01ms !important; transition-delay: 0s !important; }
     .grain, .photo-wrap, .sparks i, .seam, .name .y5, .more-pill::after, .scan, .rings i, .tap, .ldot, .ad img { animation: none !important; }
   }
+  .name .y5 { background: none; animation: none; color: inherit; display: inline-block; }
+  .y5-logo { display: inline-block; height: .74em; width: auto; margin-right: .03em; vertical-align: -.02em; }
 </style>

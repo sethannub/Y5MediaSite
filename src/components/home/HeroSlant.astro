@@ -9,10 +9,10 @@ import { products } from '../../config/site';
 <section class="slant on-dark" aria-label="Choose a product">
   <a class="pane ads" href={products.wifi.href}>
     <img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" fetchpriority="high" />
-    <span class="rest" aria-hidden="true">Y5Ads</span>
+    <span class="rest" aria-hidden="true"><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" />Ads</span>
     <div class="detail">
       <span class="who">WiFi advertising</span>
-      <h2>Y5Ads</h2>
+      <h2><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" />Ads</h2>
       <p class="line">Be seen the moment people connect.</p>
       <p>Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.</p>
       <ul class="facts"><li>Banner &amp; video</li><li>Location targeting</li><li>Live reports</li></ul>
@@ -36,10 +36,10 @@ import { products } from '../../config/site';
 
   <a class="pane leads" href={products.leads.href}>
     <img class="photo" src="/images/hero/y5leads.webp" alt="" width="1800" height="1125" />
-    <span class="rest" aria-hidden="true">Y5Leads</span>
+    <span class="rest" aria-hidden="true"><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" />Leads</span>
     <div class="detail">
       <span class="who">Property leads</span>
-      <h2>Y5Leads</h2>
+      <h2><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" />Leads</h2>
       <p class="line">Property buyers, ready to call.</p>
       <p>Leads matched to your projects from our own UAE database. Unlock only the ones you want, from AED 250 each.</p>
       <ul class="facts"><li>Matched to your projects</li><li>Pay per lead</li><li>Refunds for bad leads</li></ul>
@@ -213,4 +213,6 @@ import { products } from '../../config/site';
     .slant { transition: none; }
     .detail > *, .phone, .stat, .list, .unlock, .rest, .photo { transition: none !important; }
   }
+  .y5-logo { display: inline-block; height: .74em; width: auto; margin-right: .03em; vertical-align: -.02em; }
+  .ads .y5-logo { filter: brightness(0); opacity: .9; }
 </style>

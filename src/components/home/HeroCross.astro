@@ -26,7 +26,7 @@ const logos = clients.filter((c) => ['e& (Etisalat)', 'du', 'Union Coop', 'Panas
     <img class="photo" src="/images/hero/wifi.webp" alt="" width="1800" height="1125" fetchpriority="high" />
     <div class="copy">
       <span class="who">WiFi advertising</span>
-      <h2>Y5Ads</h2>
+      <h2><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" />Ads</h2>
       <p>Your brand on the WiFi login screen in malls, cafés and homes across the UAE.</p>
       <span class="pick">Explore Y5Ads <span aria-hidden="true">→</span></span>
     </div>
@@ -36,7 +36,7 @@ const logos = clients.filter((c) => ['e& (Etisalat)', 'du', 'Union Coop', 'Panas
     <img class="photo" src="/images/hero/y5leads.webp" alt="" width="1800" height="1125" />
     <div class="copy">
       <span class="who">Property leads</span>
-      <h2>Y5Leads</h2>
+      <h2><img class="y5-logo" src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" />Leads</h2>
       <p>Buyer leads matched to your real estate projects, from AED 250 each.</p>
       <span class="pick">Explore Y5Leads <span aria-hidden="true">→</span></span>
     </div>
@@ -135,4 +135,6 @@ const logos = clients.filter((c) => ['e& (Etisalat)', 'du', 'Union Coop', 'Panas
     .copy { left: 24px !important; right: 24px !important; width: auto; }
   }
   @media (prefers-reduced-motion: reduce) { .cross { transition: none; } .ring { animation: none; } }
+  .y5-logo { display: inline-block; height: .74em; width: auto; margin-right: .03em; vertical-align: -.02em; }
+  .ads .y5-logo { filter: brightness(0); opacity: .9; }
 </style>
