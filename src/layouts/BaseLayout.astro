@@ -5,6 +5,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import SiteControls from '../components/SiteControls.astro';
 import { site } from '../config/site';
 
 interface Props {
@@ -48,6 +49,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <Footer />
+    <SiteControls />
     <CookieConsent />
     <script>
       import { initMotion } from '../scripts/motion';

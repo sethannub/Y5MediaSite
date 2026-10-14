@@ -35,11 +35,13 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
 
 - `src/config/site.ts`: company details, navigation, logins, product summaries and pricing.
 - `src/config/content.ts`: client logos, venues, industries, reasons, and the journey steps.
-- `src/components/home/HomeSplit.astro`: the home page opener, a split screen (approved 13 Oct 2026,
-  after the Dribbble "Split Screen Interaction" shot). Y5Ads is the lime half, Y5Leads the
-  deep green half. Picking one opens it in place, the other collapses to a strip, and that
-  product's sections (`[data-product]` in `index.astro`) show below. `/#wifi` and `/#y5leads`
-  open a side directly; the nav links use them.
+- `src/components/home/HeroMotion.astro`: the home page opener (option D, chosen 14 Oct 2026). A diagonal
+  S-curve splits Y5Leads (top left, `LeadsFeed.astro`: a live lead feed through an unlock window) and
+  Y5Ads (bottom right, white, `AdsPhones.astro`: a laptop and phones cycling WiFi login ads). Clicking a
+  side opens it to about 80/20 and that product's sections (`[data-product]` in `index.astro`) show
+  below. `/#y5leads` and `/#y5ads` open a side directly; the nav links use them. The names use the Y5
+  logo (`public/images/brand/y5-logo.svg`). The other options (A, B, C) stay as `/hero-*` mockups.
+- `src/components/SiteControls.astro`: floating Back (previous page) and Back to top buttons on every page.
 - `src/components/Journey.astro`: the step-by-step journey. It plays while in view, and
   picking a step stops it. With reduced motion it never auto-plays.
 - `src/components/mocks/`: the HTML phone (Y5Ads) and app (Y5Leads) screens the

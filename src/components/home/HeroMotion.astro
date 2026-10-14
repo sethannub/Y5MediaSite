@@ -151,14 +151,34 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
       requestAnimationFrame(step);
     }, delay);
   };
+  // Sections below the hero that belong to one product (index.astro marks them data-product).
+  const KEY: Record<string, string> = { leads: 'y5leads', ads: 'y5ads' };
+  const narrow = matchMedia('(max-width: 960px)');
+  const showSections = (v: string) => {
+    document.querySelectorAll<HTMLElement>('[data-product]').forEach((sec) => {
+      sec.hidden = narrow.matches ? false : sec.dataset.product !== KEY[v];
+      if (!sec.hidden) sec.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => el.classList.add('is-in'));
+    });
+  };
   document.querySelectorAll<HTMLElement>('[data-hw]').forEach((root) => {
-    const set = (v: string) => {
+    const set = (v: string, push = true) => {
+      if (root.dataset.open === v) return;
       root.dataset.open = v;
       if (v === 'leads' || v === 'ads') root.querySelectorAll<HTMLElement>(`.s-${v} [data-count]`).forEach((el) => count(el, 1100));
+      showSections(v);
+      if (push) history.replaceState(null, '', v === 'none' ? location.pathname : `#${KEY[v]}`);
     };
     root.querySelectorAll<HTMLElement>('[data-open-to]').forEach((b) => b.addEventListener('click', () => set(b.dataset.openTo!)));
     root.querySelectorAll<HTMLElement>('[data-close]').forEach((b) => b.addEventListener('click', () => set('none')));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set('none'); });
+    const fromHash = () => {
+      const h = location.hash.slice(1);
+      if (h === 'y5leads') { set('leads', false); window.scrollTo({ top: 0 }); }
+      else if (h === 'y5ads') { set('ads', false); window.scrollTo({ top: 0 }); }
+    };
+    window.addEventListener('hashchange', fromHash);
+    showSections(root.dataset.open || 'none');
+    fromHash();
   });
 </script>
 
