@@ -77,14 +77,14 @@ const slides = (offset: number) => ads.map((a, i) => ({ ...a, delay: (i * 3 + of
   .ap-flow { animation: ap-flow 6s linear infinite; }
   @keyframes ap-flow { to { stroke-dashoffset: -240; } }
 
-  .ap-rings { position: absolute; left: 79%; top: 34%; width: 0; height: 0; }
+  .ap-rings { position: absolute; left: 80%; top: 40%; width: 0; height: 0; }
   .ap-rings i { position: absolute; left: -260px; top: -260px; width: 520px; height: 520px; border-radius: 50%; border: 1.5px solid rgba(117, 182, 48, .35); opacity: 0; animation: ap-ring 5s ease-out infinite; }
   .ap-rings i:nth-child(2) { animation-delay: 2.5s; }
   @keyframes ap-ring { 0% { transform: scale(.3); opacity: .9; } 100% { transform: scale(1.15); opacity: 0; } }
 
-  .ap-cluster { position: absolute; left: 67%; top: 15%; width: 450px; height: 340px; transition: opacity .8s, transform 1.2s cubic-bezier(.16, 1, .3, 1); }
+  .ap-cluster { position: absolute; left: 62%; top: 22%; width: 540px; height: 400px; transition: opacity .8s, transform 1.2s cubic-bezier(.16, 1, .3, 1); }
 
-  .ap-laptop { position: absolute; left: 0; top: 34px; width: 290px; transform: perspective(1400px) rotateY(14deg) rotateX(4deg); animation: ap-float 8s ease-in-out infinite; }
+  .ap-laptop { position: absolute; left: 20px; top: 40px; width: 350px; transform: perspective(1400px) rotateY(14deg) rotateX(4deg); animation: ap-float 8s ease-in-out infinite; }
   .ap-lid { border-radius: 12px 12px 4px 4px; padding: 7px 7px 10px; background: linear-gradient(180deg, #2A302D, #121614); box-shadow: 0 0 0 1px rgba(0, 0, 0, .1), 0 40px 70px -30px rgba(20, 50, 30, .45); }
   .ap-portal { aspect-ratio: 16 / 10; border-radius: 5px; background: #fff; display: flex; flex-direction: column; gap: 6px; padding: 8px; overflow: hidden; }
   .ap-ptop { display: flex; align-items: center; gap: 8px; font: 600 9px var(--font-body); color: #46544B; }
@@ -100,8 +100,8 @@ const slides = (offset: number) => ads.map((a, i) => ({ ...a, delay: (i * 3 + of
     box-shadow: 0 0 0 1px rgba(0, 0, 0, .12), 0 40px 60px -26px rgba(20, 50, 30, .5);
     animation: ap-float 6s ease-in-out infinite;
   }
-  .ph0 { left: 236px; top: 0; width: 120px; height: 248px; transform: rotate(-6deg); }
-  .ph1 { left: 342px; top: 70px; width: 104px; height: 216px; transform: rotate(5deg); animation-delay: -3s; }
+  .ph0 { left: 290px; top: 0; width: 142px; height: 292px; transform: rotate(-6deg); }
+  .ph1 { left: 418px; top: 82px; width: 122px; height: 252px; transform: rotate(5deg); animation-delay: -3s; }
   @keyframes ap-float { 50% { translate: 0 -10px; } }
   .ap-screen { height: 100%; border-radius: 22px; overflow: hidden; background: #fff; padding: 22px 7px 7px; display: flex; flex-direction: column; gap: 6px; }
   .ap-bar { display: flex; align-items: center; justify-content: center; gap: 4px; font: 600 8px var(--font-body); color: #46544B; }
@@ -124,7 +124,7 @@ const slides = (offset: number) => ads.map((a, i) => ({ ...a, delay: (i * 3 + of
   .ap-skip { text-align: center; font: 500 7px var(--font-body); color: #5E6E64; }
 
   .ap-plus {
-    position: absolute; left: 290px; top: -18px; font: 600 12px var(--font-body); color: #fff; background: #2F6B00; padding: 5px 11px; border-radius: 999px;
+    position: absolute; left: 350px; top: -20px; font: 600 12px var(--font-body); color: #fff; background: #2F6B00; padding: 5px 11px; border-radius: 999px;
     box-shadow: 0 10px 20px -8px rgba(47, 107, 0, .6); opacity: 0; animation: ap-plus 5s ease-out infinite;
   }
   @keyframes ap-plus { 0% { opacity: 0; transform: translateY(16px) scale(.85); } 12% { opacity: 1; transform: none; } 55% { opacity: 1; } 75%, 100% { opacity: 0; transform: translateY(-30px); } }

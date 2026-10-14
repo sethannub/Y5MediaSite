@@ -7,7 +7,7 @@
 // Clicking a side sweeps the curve to about 80/20 and that product's scene
 // builds in: device, floating cards, counters. The other side becomes a strip.
 import { products } from '../../config/site';
-import LeadsMap from './LeadsMap.astro';
+import LeadsFeed from './LeadsFeed.astro';
 import AdsPhones from './AdsPhones.astro';
 
 const N = 18;
@@ -29,18 +29,18 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
 <section class="hw on-dark" data-hw data-variant="motion" data-open="none" aria-label="Our products">
   <!-- ================= Y5Leads ================= -->
   <div class="pane leads" style={`clip-path: ${leadsClip}`}>
-    <LeadsMap />
+    <LeadsFeed />
 
     <div class="rest">
       <span class="kind">Real Estate Leads</span>
-      <h2 class="name"><span class="y5">Y5</span>Leads</h2>
+      <h2 class="name"><span class="y5"><img src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" /></span>Leads</h2>
       <p class="sub">Property buyer leads, ready to call.</p>
       <span class="more-pill" aria-hidden="true">Explore more <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
     </div>
 
     <div class="open-copy">
       <span class="kind">Real Estate Leads</span>
-      <h2 class="name"><span class="y5">Y5</span>Leads</h2>
+      <h2 class="name"><span class="y5"><img src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" /></span>Leads</h2>
       <p class="sub">Property buyer leads from our own UAE database, matched to your projects. Unlock only the ones you want.</p>
       <div class="ctas">
         <a class="explore" href={products.leads.href}>Explore Y5Leads <span aria-hidden="true">→</span></a>
@@ -63,14 +63,14 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
 
     <div class="rest">
       <span class="kind">WiFi Display Ads</span>
-      <h2 class="name"><span class="y5">Y5</span>Ads</h2>
+      <h2 class="name"><span class="y5"><img src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" /></span>Ads</h2>
       <p class="sub">Your ad on the WiFi login screen across the UAE.</p>
       <span class="more-pill" aria-hidden="true">Explore more <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
     </div>
 
     <div class="open-copy">
       <span class="kind">WiFi Display Ads</span>
-      <h2 class="name"><span class="y5">Y5</span>Ads</h2>
+      <h2 class="name"><span class="y5"><img src="/images/brand/y5-logo.svg" alt="Y5" width="326" height="168" /></span>Ads</h2>
       <p class="sub">WiFi display advertising: your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation, with every impression reported.</p>
       <div class="ctas">
         <a class="explore" href={products.wifi.href}>Explore Y5Ads <span aria-hidden="true">→</span></a>
@@ -456,4 +456,7 @@ const sparks = Array.from({ length: 14 }, (_, i) => ({
   .s-ads .rings i { border-color: rgba(117, 182, 48, .45); }
   .s-ads .phone { box-shadow: 0 0 0 1px rgba(0, 0, 0, .12), 0 60px 100px -40px rgba(11, 38, 27, .55); }
   .s-ads .phone .floor { background: radial-gradient(closest-side, rgba(11, 38, 27, .35), transparent); }
+  /* The Y5 logo in place of the letters */
+  .name .y5 { background: none; animation: none; color: inherit; display: inline-block; }
+  .name .y5 img { display: inline-block; height: .74em; width: auto; margin-right: .03em; vertical-align: -.02em; }
 </style>

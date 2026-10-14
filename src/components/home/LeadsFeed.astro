@@ -1,0 +1,94 @@
+---
+// Y5Leads background loop: a live feed of buyer leads scrolls up through an
+// unlock window. Outside the window names are hidden; inside it the lead is
+// revealed and tagged unlocked. Two identical tracks move in step: the
+// blurred one everywhere, the clear one clipped to the window. CSS only.
+const leads = [
+  { p: 'Creek Vista', a: 'Dubai Creek', b: '2M – 3M', n: 'Rania Khalil', t: '+971 50 482 1937' },
+  { p: 'Marina Heights', a: 'Dubai Marina', b: '5M+', n: 'Omar Haddad', t: '+971 55 210 7731' },
+  { p: 'Palm Residences', a: 'Palm Jumeirah', b: '1M – 2M', n: 'Priya Nair', t: '+971 52 664 0918' },
+  { p: 'Emaar Beachfront', a: 'Dubai Harbour', b: '3M – 5M', n: 'Liam Murphy', t: '+971 56 903 2245' },
+  { p: 'Downtown Views', a: 'Downtown', b: '2M – 3M', n: 'Aisha Rahman', t: '+971 50 771 4420' },
+  { p: 'Al Reem Bay', a: 'Abu Dhabi', b: '1M – 2M', n: 'Chen Wei', t: '+971 54 318 0062' },
+];
+const track = [...leads, ...leads];
+---
+<div class="lfd" aria-hidden="true">
+  <img class="lfd-photo" src="/images/hero/y5leads-hd.webp" alt="" width="2400" height="1500" />
+
+  <div class="lfd-stage">
+    <span class="lfd-live"><i></i>Live · new buyer leads</span>
+    <div class="lfd-view">
+      {['dim', 'clear'].map((layer) => (
+        <div class={`lfd-layer ${layer}`}>
+          <div class="lfd-track">
+            {track.map((l) => (
+              <div class="lfd-card">
+                <span class="lfd-ico"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11M9 20v-6h6v6" /></svg></span>
+                <span class="lfd-main"><small>{l.p} · {l.a}</small><b>{l.n}</b><em>{l.t}</em></span>
+                <span class="lfd-bud">AED {l.b}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+      <div class="lfd-window">
+        <span class="lfd-tag"><svg viewBox="0 0 16 16"><path d="M4.5 8.2l2.3 2.3 4.7-5" /></svg>Unlocked · AED 250</span>
+        <span class="lfd-call"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" /></svg></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lfd { position: absolute; inset: 0; background: radial-gradient(70% 70% at 30% 60%, #0E4430 0%, #072A1C 55%, #03140D 100%); transition: opacity 1s, filter 1s; }
+  .lfd-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 60%; opacity: .26; mix-blend-mode: luminosity; }
+  .lfd::after { content: ''; position: absolute; inset: 0; background: linear-gradient(175deg, rgba(3, 20, 13, .15) 0%, rgba(3, 20, 13, .75) 100%); }
+
+  .lfd-stage { --card: 64px; --gap: 10px; --rows: 6; position: absolute; z-index: 1; left: 7%; top: 53%; width: 340px; transform: perspective(1200px) rotateY(16deg) rotateX(6deg); transform-origin: left center; }
+  .lfd-live { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; font: 700 11px var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: #C4F25A; }
+  .lfd-live i { width: 8px; height: 8px; border-radius: 50%; background: #C4F25A; box-shadow: 0 0 10px #C4F25A; animation: lfd-blink 1.6s ease-in-out infinite; }
+  @keyframes lfd-blink { 50% { opacity: .3; } }
+
+  .lfd-view { position: relative; height: 300px; }
+  .lfd-layer { position: absolute; inset: 0; overflow: hidden; -webkit-mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent); }
+  .lfd-layer.clear { clip-path: inset(118px 0 118px 0 round 16px); }
+  .lfd-track { display: grid; gap: var(--gap); animation: lfd-roll 21s linear infinite; }
+  @keyframes lfd-roll { to { transform: translateY(calc(-6 * (var(--card) + var(--gap)))); } }
+
+  .lfd-card {
+    height: var(--card); display: flex; align-items: center; gap: 12px; padding: 0 14px; border-radius: 14px;
+    background: rgba(8, 30, 20, .72); border: 1px solid rgba(255, 255, 255, .12);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  .lfd-ico { width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center; background: rgba(196, 242, 90, .12); }
+  .lfd-ico svg { width: 18px; height: 18px; fill: none; stroke: #C4F25A; stroke-width: 1.8; stroke-linejoin: round; }
+  .lfd-main { display: grid; min-width: 0; flex: 1; }
+  .lfd-main small { font: 500 11px var(--font-body); color: rgba(255, 255, 255, .6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lfd-main b { font: 600 15px var(--font-body); color: #fff; }
+  .lfd-main em { display: none; font: 500 11px var(--font-body); font-style: normal; color: #C4F25A; }
+  .lfd-bud { font: 700 12px var(--font-body); color: #C4F25A; white-space: nowrap; }
+  .dim .lfd-main b { filter: blur(5px); opacity: .8; }
+
+  .clear .lfd-card { background: rgba(20, 70, 40, .95); border-color: rgba(196, 242, 90, .6); }
+  .clear .lfd-main em { display: block; }
+  .clear .lfd-main small { display: none; }
+
+  .lfd-window {
+    position: absolute; left: -6px; right: -6px; top: 112px; height: 76px; border-radius: 18px; pointer-events: none;
+    border: 1.5px solid #C4F25A; box-shadow: 0 0 24px -2px rgba(196, 242, 90, .55), inset 0 0 18px -6px rgba(196, 242, 90, .5);
+  }
+  .lfd-tag {
+    position: absolute; left: 14px; top: -13px; display: inline-flex; align-items: center; gap: 6px;
+    font: 700 11px var(--font-body); color: #0B1A10; background: #C4F25A; padding: 4px 10px 4px 8px; border-radius: 999px;
+  }
+  .lfd-tag svg { width: 12px; height: 12px; fill: none; stroke: #0B1A10; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .lfd-call { position: absolute; right: -20px; top: 50%; width: 40px; height: 40px; margin-top: -20px; border-radius: 50%; display: grid; place-items: center; background: #C4F25A; box-shadow: 0 0 0 0 rgba(196, 242, 90, .6); animation: lfd-ring 1.8s ease-out infinite; }
+  .lfd-call svg { width: 18px; height: 18px; fill: none; stroke: #0B1A10; stroke-width: 2; stroke-linejoin: round; animation: lfd-shake 1.8s ease-in-out infinite; }
+  @keyframes lfd-ring { 0% { box-shadow: 0 0 0 0 rgba(196, 242, 90, .6); } 100% { box-shadow: 0 0 0 18px rgba(196, 242, 90, 0); } }
+  @keyframes lfd-shake { 0%, 60%, 100% { transform: rotate(0); } 10%, 30%, 50% { transform: rotate(-12deg); } 20%, 40% { transform: rotate(12deg); } }
+
+  :global(.hw[data-open='leads']) .lfd { opacity: .32; filter: blur(1.5px); }
+  :global(.hw[data-open='ads']) .lfd { opacity: .5; }
+  @media (prefers-reduced-motion: reduce) { .lfd *, .lfd { animation: none !important; } }
+</style>

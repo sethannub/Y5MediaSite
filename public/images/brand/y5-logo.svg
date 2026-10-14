@@ -1,0 +1,36 @@
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 325.98 168.33">
+  <defs>
+    <style>
+      .st0 {
+        fill: url(#y5l-g2);
+      }
+
+      .st1 {
+        fill: #58595b;
+      }
+
+      .st2 {
+        fill: url(#y5l-g1);
+      }
+    </style>
+    <linearGradient id="y5l-g1" x1="128.81" y1="85.79" x2="325.98" y2="85.79" gradientTransform="translate(0 170) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#007c00"/>
+      <stop offset="1" stop-color="#81a900"/>
+    </linearGradient>
+    <linearGradient id="y5l-g2" x1="36.55" y1="167.12" x2="213.45" y2="36.44" gradientTransform="translate(0 170) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#006838"/>
+      <stop offset=".1" stop-color="#167636"/>
+      <stop offset=".27" stop-color="#388d34"/>
+      <stop offset=".44" stop-color="#529f32"/>
+      <stop offset=".62" stop-color="#65ab31"/>
+      <stop offset=".8" stop-color="#71b330"/>
+      <stop offset="1" stop-color="#75b630"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path class="st2" d="M261.97,158.44h13.8c27.6,0,49.98-22.37,49.98-49.97s-22.37-49.97-49.98-49.97h-13.8l-51.5.91v-18.3h115.51V9.98h-115.32l-37.98.41v78.98l14.43.13,87.34.44c9.3.05,16.84,7.61,16.84,16.92s-7.58,16.92-16.92,16.92h-102.1l.1,34.05-43.57-49.99.08,50,133.07.59h0Z"/>
+    <polygon class="st0" points="211.82 9.99 157.38 9.89 104.69 71.81 56.3 9.92 0 9.92 80.84 107.58 80.84 157.96 128.84 157.96 128.84 107.82 160.96 67.49 211.82 9.99"/>
+  </g>
+  <polygon class="st1" points="211.82 9.99 172.69 64.17 172.69 54.24 211.82 9.99"/>
+  <polygon class="st1" points="128.81 107.85 134.44 114.3 128.89 157.85 128.81 107.85"/>
+</svg>
