@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import IndustrySection from '../components/industries/IndustrySection.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { industries, industryPages } from '../config/content';
+
+const focus = ['Real Estate', 'Luxury Cars', 'Retail & E-commerce', 'Healthcare'];
+const others = industries.filter((i) => !focus.includes(i.name));
+---
+<BaseLayout title="Industries" description="How Y5Ads and Y5Leads work for real estate, automotive, retail and healthcare businesses in the UAE, and for every other industry.">
+  <PageHero
+    kicker="Industries"
+    title="Built for how"
+    accent="your industry sells."
+    text="Every sector reaches its buyers differently. Y5Ads gets your brand seen on WiFi across the UAE, and Y5Leads delivers verified customers who are ready to talk. Here is how each one works for you."
+  >
+    <nav class="jump" slot="side" aria-label="Industries on this page">
+      {industryPages.map((ind) => (
+        <a href={`#${ind.id}`}>
+          <img src={ind.img} alt="" width="1000" height="750" style={'imgPos' in ind ? `object-position:${ind.imgPos}` : undefined} />
+          <span><b>{ind.name}</b><small>{ind.short}</small></span>
+        </a>
+      ))}
+    </nav>
+  </PageHero>
+
+  <nav class="tabs" aria-label="Jump to an industry" data-tabs>
+    <div class="container">
+      {industryPages.map((ind) => <a href={`#${ind.id}`} data-spy={ind.id}>{ind.name}</a>)}
+      <a href="#other-industries" data-spy="other-industries">Other industries</a>
+    </div>
+  </nav>
+
+  {industryPages.map((ind, i) => <IndustrySection ind={ind} flip={i % 2 === 1} />)}
+
+  <section class="section others" id="other-industries">
+    <div class="container">
+      <div class="head">
+        <div>
+          <div class="kicker" data-reveal>Other industries</div>
+          <h2 data-reveal>Selling something else? <span class="accent">We cover it too.</span></h2>
+        </div>
+        <p class="lede" data-reveal>Y5Ads and Y5Leads work across every industry in the UAE. Tell us what you sell and we will show you how we would reach your buyers.</p>
+      </div>
+      <ul>
+        {others.map((ind, i) => (
+          <li data-reveal data-reveal-delay={`${i * 0.05}s`}>
+            <img src={ind.img} alt="" width="1000" height="750" loading="lazy" />
+            <span>{ind.name}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Tell us what you sell. We’ll find your buyers." text="One conversation covers both products. We’ll suggest Y5Ads, Y5Leads or both, based on your audience and budget." />
+</BaseLayout>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+  const tabs = document.querySelector<HTMLElement>('[data-tabs]');
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-spy]')];
+  const setTop = () => { if (nav && tabs) tabs.style.top = `${nav.offsetHeight}px`; };
+  const update = () => {
+    const y = window.scrollY + (nav?.offsetHeight ?? 0) + 90;
+    let current: string | null = null;
+    links.forEach((a) => { const el = document.getElementById(a.dataset.spy!); if (el && el.offsetTop <= y) current = a.dataset.spy!; });
+    links.forEach((a) => a.setAttribute('aria-current', a.dataset.spy === current ? 'true' : 'false'));
+  };
+  setTop();
+  update();
+  window.addEventListener('resize', setTop);
+  window.addEventListener('scroll', update, { passive: true });
+</script>
+
+<style>
+  .jump { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .jump a { position: relative; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 4 / 3; color: var(--white); }
+  .jump img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out); }
+  .jump a:hover img { transform: scale(1.05); }
+  .jump a::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(11, 38, 27, .92)); }
+  .jump span { position: absolute; z-index: 1; left: 16px; right: 16px; bottom: 14px; display: grid; gap: 2px; }
+  .jump b { font-family: var(--font-display); font-weight: 600; font-size: 21px; letter-spacing: -.02em; }
+  .jump small { font-size: 13px; color: var(--on-dark-muted); }
+
+  .tabs { position: sticky; top: 64px; z-index: 40; background: rgba(244, 247, 243, .92); border-bottom: 1px solid var(--gray-200); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .tabs .container { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+  .tabs a { flex: 0 0 auto; font-size: 15px; font-weight: 600; padding: 10px 18px; border-radius: var(--radius-pill); color: var(--gray-600); }
+  .tabs a:hover { color: var(--ink); background: var(--gray-100); }
+  .tabs a[aria-current='true'] { background: var(--ink); color: var(--white); }
+
+  .others { scroll-margin-top: 130px; }
+  .others .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 40px; }
+  .others h2 { max-width: 18ch; }
+  .others .lede { max-width: 46ch; color: var(--gray-600); }
+  .others ul { list-style: none; margin-top: 32px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .others li { position: relative; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16 / 10; color: var(--white); }
+  .others li img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .others li::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(11, 38, 27, .88)); }
+  .others li span { position: absolute; z-index: 1; left: 16px; bottom: 14px; font-family: var(--font-display); font-weight: 600; font-size: 19px; }
+  @media (max-width: 900px) { .others ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .jump b { font-size: 18px; } }
+</style>

@@ -49,6 +49,11 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
   `/#y5ads` and `/#y5leads` pick one too. Below 961px both always show. The full detail lives on the
   product pages, not on home.
   Options B, C, D stay as `/hero-*` mockups (`HeroCross`, `HeroWave`, `HeroMotion`).
+- `src/pages/industries.astro`: the /industries page (15 Oct 2026). Real Estate, Automotive, Retail and
+  Healthcare each get a section (`components/industries/IndustrySection.astro`, content in `industryPages` in
+  `content.ts`): photo with an example lead card, venues, and Y5Leads and Y5Ads benefit cards with a "Best fit"
+  badge (Y5Ads for retail, Y5Leads for the rest). The other industries sit in a smaller strip. Nav and footer
+  link here; the home Industries section links to it.
 - `src/components/y5ads/`: the /y5ads page, laid out like y5media.net, with its graphics as full-width
   section backgrounds: `AdsHero` (three cross-fading slides: lime, dark traffic, UAE map), `AdsAttention`
   (with the transparent portal video, `public/video/portal-steps.webm`, 500x582 VP9 with alpha),
