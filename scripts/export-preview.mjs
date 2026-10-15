@@ -21,6 +21,7 @@ const mapPath = (p) => {
 };
 const rewrite = (text) => text
   .replace(/(\s(?:href|src|action|content)=")(\/[^"]*)"/g, (_, a, p) => `${a}${mapPath(p)}"`)
+  .replace(/(content="\d+;url=)(\/[^"]*)"/g, (_, a, p) => `${a}${mapPath(p)}"`)
   .replace(/(srcset=")([^"]*)"/g, (_, a, list) => a + list.split(',').map((s) => s.trim().replace(/^\S+/, mapPath)).join(', ') + '"')
   .replace(/url\((['"]?)(\/[^'")]+)\1\)/g, (_, q, p) => `url(${q}${mapPath(p)}${q})`);
 

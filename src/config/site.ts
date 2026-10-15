@@ -17,7 +17,7 @@ export const site = {
     { label: 'Home', href: '/' },
     { label: 'Y5Ads', href: '/y5ads' },
     { label: 'Y5Leads', href: '/y5leads' },
-    { label: 'Industries', href: '/industries' },
+    { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ],
 
@@ -33,6 +33,8 @@ export const site = {
     phone: '+971 4 566 2317',
     phoneHref: '+97145662317',
     address: ['2nd Floor, EDB Building', 'Rebat St., Al Garhoud', 'Dubai, UAE'],
+    hours: 'Monday to Friday, 8am to 5pm',
+    founded: 2020,
   },
 
   social: [] as { label: string; href: string }[],

@@ -1,0 +1,195 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IndustrySelector from '../components/about/IndustrySelector.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../config/site';
+import { companyTimeline } from '../config/content';
+
+const numbers = [
+  { n: '500+', t: 'WiFi locations across the UAE' },
+  { n: '50K+', t: 'Public and private hotspots' },
+  { n: '50M+', t: 'Ad impressions delivered' },
+  { n: '4', t: 'Venue types: malls, cafés, homes and staff accommodation' },
+];
+const icons = {
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',
+  chart: '<path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/>',
+  refresh: '<path d="M20 12a8 8 0 1 1-3-6.2M20 4v5h-5"/>',
+  pin: '<path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+};
+const values = [
+  { icon: icons.target, t: 'Our own platform', d: 'No Google, no Meta, no borrowed ads. Every campaign and every lead runs through Y5Media.' },
+  { icon: icons.chart, t: 'Numbers you can check', d: 'Impressions and clicks for every campaign. Every lead and every credit on your dashboard.' },
+  { icon: icons.refresh, t: 'Fair when things go wrong', d: 'Report a bad lead and our team checks it. Approved reports get the credits back.' },
+  { icon: icons.pin, t: 'A team in Dubai', d: 'Talk to the people who run your campaigns, in the same city as your business.' },
+];
+const latest = companyTimeline.length - 1;
+---
+<BaseLayout title="About" description="Y5Media is a Dubai marketing company, founded in 2020. See how we help real estate, automotive, retail, healthcare and education businesses across the UAE get seen and get customers.">
+  <section class="hero forest on-dark">
+    <div class="container">
+      <div class="intro">
+        <div>
+          <div class="kicker">About Y5Media</div>
+          <h1>Marketing that fits <span class="accent">how your industry sells.</span></h1>
+        </div>
+        <p class="lede">Every sector reaches its buyers differently. Pick yours to see how we get you seen and bring you customers.</p>
+      </div>
+      <IndustrySelector />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container company">
+      <div>
+        <div class="kicker" data-reveal>The company</div>
+        <h2 data-reveal>We help UAE brands <span class="accent">get seen and get customers.</span></h2>
+        <p class="lede" data-reveal>Y5Media is a Dubai marketing company. We run our own 360° marketing platform, with WiFi advertising across the UAE and buyer leads for every industry, so a business can build awareness and win customers with one partner.</p>
+      </div>
+      <ul class="facts" aria-label="Y5Media at a glance" data-reveal>
+        <li><span>Based in</span><b>Al Garhoud, Dubai</b></li>
+        <li><span>Founded</span><b>{site.contact.founded}</b></li>
+        <li><span>Products</span><b>Y5Ads and Y5Leads</b></li>
+        <li><span>Coverage</span><b>Every emirate, every industry</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section flush">
+    <div class="container mv">
+      <article class="mission" data-reveal>
+        <small>Our mission</small>
+        <p>Help businesses reach the right people and turn their interest into customers, with marketing they can measure.</p>
+      </article>
+      <article class="vision" data-reveal data-reveal-delay=".08s">
+        <small>Our vision</small>
+        <p>To be the UAE’s leading 360° marketing platform, connecting brands and buyers through technology and precise targeting.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section flush">
+    <div class="container story">
+      <div>
+        <div class="kicker" data-reveal>Our story</div>
+        <h2 data-reveal>From WiFi screens to <span class="accent">ready-to-call buyers.</span></h2>
+        <p class="lede" data-reveal>We started by putting brands in front of people at the moment they connect to WiFi. Years of campaigns across malls, cafés, homes and staff accommodation built an audience that knows us, and that audience now powers Y5Leads.</p>
+      </div>
+      <ol class="timeline">
+        {companyTimeline.map((s, i) => (
+          <li class:list={{ now: i === latest }} data-reveal data-reveal-delay={`${i * 0.06}s`}>
+            <time>{s.year}</time><b>{s.title}</b><span>{s.text}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section forest on-dark numbers">
+    <div class="container">
+      <div class="kicker" data-reveal>Our network</div>
+      <h2 data-reveal>Built in the UAE, <span class="accent">for the UAE.</span></h2>
+      <ul>
+        {numbers.map((x, i) => (
+          <li data-reveal data-reveal-delay={`${i * 0.06}s`}><b>{x.n}</b><span>{x.t}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="kicker" data-reveal>How we work</div>
+      <h2 data-reveal>What you can <span class="accent">expect from us.</span></h2>
+      <ul class="values">
+        {values.map((v, i) => (
+          <li data-reveal data-reveal-delay={`${i * 0.06}s`}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" set:html={v.icon} />
+            <b>{v.t}</b><span>{v.d}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section flush">
+    <div class="container">
+      <div class="kicker" data-reveal>Visit us</div>
+      <h2 data-reveal>Come and see us <span class="accent">in Garhoud.</span></h2>
+      <div class="office">
+        <div data-reveal><small>Office</small><b>{site.contact.address[0]}</b><span>{site.contact.address.slice(1).join(', ')}</span></div>
+        <div data-reveal data-reveal-delay=".06s"><small>Phone</small><a href={`tel:${site.contact.phoneHref}`}><b>{site.contact.phone}</b></a><span>{site.contact.hours}</span></div>
+        <div data-reveal data-reveal-delay=".12s"><small>Email</small><a href={`mailto:${site.contact.email}`}><b>{site.contact.email}</b></a><span>For campaigns, leads and support.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Let’s talk about your next campaign." text="Tell us what you sell and what you want to achieve. We’ll suggest the right way to reach your buyers." />
+</BaseLayout>
+
+<style>
+  .hero { padding-top: clamp(120px, 12vw, 160px); padding-bottom: var(--section); }
+  .intro { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 48px; }
+  .intro > div > * { animation: up .9s var(--ease-out) both; }
+  .intro > div > :nth-child(2) { animation-delay: .08s; }
+  .intro .lede { max-width: 44ch; animation: up .9s var(--ease-out) .16s both; }
+  h1 { font-size: clamp(38px, 5vw, 68px); line-height: 1.02; max-width: 16ch; }
+  @keyframes up { from { opacity: 0; transform: translateY(24px); } }
+
+  .flush { padding-top: 0; }
+  .lede { font-size: var(--text-lg); color: var(--gray-600); max-width: 60ch; }
+  .on-dark .lede { color: var(--on-dark-muted); }
+
+  .company { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+  .company .lede { margin-top: 18px; }
+  .facts { list-style: none; display: grid; gap: 10px; }
+  .facts li { display: flex; justify-content: space-between; gap: 16px; padding: 16px 20px; border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--gray-200); }
+  .facts span { color: var(--gray-500); font-size: 14px; }
+  .facts b { font-weight: 600; text-align: right; }
+
+  .mv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .mv article { border-radius: var(--radius-lg); padding: clamp(28px, 3.5vw, 48px); display: grid; gap: 16px; align-content: start; }
+  .mission { background: var(--white); border: 1px solid var(--gray-200); }
+  .vision { background: var(--gradient); color: #0B1A10; }
+  .mv small { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gray-500); }
+  .vision small { color: #1D3320; }
+  .mv p { font-family: var(--font-display); font-weight: 600; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.18; letter-spacing: -.02em; }
+
+  .story { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 80px); }
+  .story .lede { margin-top: 18px; }
+  .timeline { list-style: none; border-left: 2px solid var(--gray-200); }
+  .timeline li { position: relative; padding: 0 0 32px 32px; display: grid; gap: 6px; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li::before { content: ''; position: absolute; left: -8px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--paper); border: 3px solid var(--green); }
+  .timeline li.now::before { background: var(--green); }
+  .timeline time { font-size: 14px; font-weight: 700; color: var(--green-ink); font-variant-numeric: tabular-nums; }
+  .timeline b { font-family: var(--font-display); font-weight: 600; font-size: 21px; letter-spacing: -.01em; }
+  .timeline span { color: var(--gray-600); font-size: 16px; }
+
+  .numbers ul { list-style: none; margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid rgba(255, 255, 255, .14); }
+  .numbers li { padding: 28px 24px 0 0; display: grid; gap: 8px; }
+  .numbers li b { font-family: var(--font-display); font-weight: 600; font-size: clamp(36px, 4vw, 60px); letter-spacing: -.03em; line-height: 1; color: var(--lime); font-variant-numeric: tabular-nums; }
+  .numbers li span { color: var(--on-dark-muted); font-size: 15px; max-width: 26ch; }
+
+  .values { list-style: none; margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .values li { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 26px; display: grid; gap: 10px; align-content: start; }
+  .values svg { width: 40px; height: 40px; padding: 9px; border-radius: 12px; background: var(--green-tint); color: var(--green-ink); fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .values b { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: -.01em; }
+  .values span { color: var(--gray-600); font-size: 15px; }
+
+  .office { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 36px; }
+  .office div { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 24px; display: grid; gap: 6px; align-content: start; }
+  .office small { font-size: 13px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: .06em; }
+  .office b { font-weight: 600; font-size: 17px; }
+  .office span { color: var(--gray-600); }
+  .office a:hover b { color: var(--green-ink); }
+
+  @media (max-width: 1000px) { .values { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .company, .story { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) {
+    .mv, .office { grid-template-columns: 1fr; }
+    .numbers ul { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+  }
+  @media (max-width: 560px) { .values { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .intro > div > *, .intro .lede { animation: none; } }
+</style>

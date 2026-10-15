@@ -20,7 +20,8 @@ const year = new Date().getFullYear();
         </div>
         <div>
           <h2>Company</h2>
-          <a href="/industries">Industries</a>
+          <a href="/about">About</a>
+          <a href="/about#industries">Industries</a>
           <a href="/contact">Contact</a>
           {site.logins.filter((l) => l.href).map((l) => <a href={l.href}>{l.label} log in</a>)}
         </div>

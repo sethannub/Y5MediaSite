@@ -7,6 +7,7 @@ export default defineConfig({
   trailingSlash: 'never',
   build: { format: 'file', inlineStylesheets: 'always' },
   server: { port: 4340 },
+  redirects: { '/industries': '/about#industries' },
   integrations: [
     sitemap({
       filter: (page) => !/\/(privacy|terms|404|hero-slant|hero-cross|hero-wave|hero-motion)$/.test(page.replace(/\/$/, '')),

@@ -1,0 +1,194 @@
+---
+import { industryPages, venues } from '../../config/content';
+import { site } from '../../config/site';
+
+const venueImg = (name: string) => venues.find((v) => v.name === name)?.img;
+const pos = (ind: (typeof industryPages)[number]) => ('imgPos' in ind ? `object-position:${ind.imgPos}` : undefined);
+---
+<div class="selector" id="industries" data-selector>
+  <div class="tabs" role="tablist" aria-label="Industries">
+    {industryPages.map((ind, i) => (
+      <button type="button" class="tab" role="tab" id={`tab-${ind.id}`} aria-controls={`panel-${ind.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-id={ind.id}>
+        <img src={ind.img} alt="" width="36" height="36" style={pos(ind)} />{ind.name}<span class="bar"></span>
+      </button>
+    ))}
+  </div>
+
+  <div class="stage">
+    <div class="arrows">
+      <button type="button" data-step="-1" aria-label="Previous industry"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" /></svg></button>
+      <button type="button" data-step="1" aria-label="Next industry"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg></button>
+    </div>
+    {industryPages.map((ind, i) => (
+      <article class:list={['panel', { in: i === 0 }]} role="tabpanel" id={`panel-${ind.id}`} aria-labelledby={`tab-${ind.id}`} hidden={i !== 0}>
+        <div class="media">
+          <img src={ind.img} alt={ind.alt} width="1000" height="750" loading={i === 0 ? 'eager' : 'lazy'} style={pos(ind)} />
+          <div class="lead" aria-label="Example lead">
+            <div class="row"><span class="pill">AVAILABLE</span><span class="ex">Example</span></div>
+            <div class="proj">{ind.example.project}</div>
+            <div class="blur" aria-hidden="true"></div>
+            <div class="meta">{ind.example.meta}</div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="kicker">{ind.name}</div>
+          <h2>{ind.title} <span class="accent">{ind.accent}</span></h2>
+          <p class="lede">{ind.lede}</p>
+          <ul class="benefits">
+            {ind.benefits.map((b) => (
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" /></svg>{b}</li>
+            ))}
+          </ul>
+          <div class="venues">
+            <span>Best venues</span>
+            {ind.venues.map((v) => <i>{venueImg(v) && <img src={venueImg(v)} alt="" width="24" height="24" loading="lazy" />}{v}</i>)}
+          </div>
+          <a class="btn btn-dark go" href={site.cta.href}>Talk to us about {ind.name.toLowerCase()} <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    ))}
+  </div>
+  <p class="also">We also work with <b>hospitality and travel</b>, <b>banking and finance</b> and <b>B2B</b> brands, and every other industry in the UAE.</p>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-selector]');
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')!) as HTMLElement);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const DUR = 8000;
+    let current = 0;
+    let timer: number | undefined;
+    let auto = !reduce;
+    let paused = false;
+
+    const schedule = (ms = DUR) => {
+      window.clearTimeout(timer);
+      if (auto && !paused) timer = window.setTimeout(() => show(current + 1), ms);
+    };
+    const show = (i: number, focus = false) => {
+      current = (i + tabs.length) % tabs.length;
+      tabs.forEach((t, k) => {
+        const on = k === current;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        const bar = t.querySelector<HTMLElement>('.bar')!;
+        bar.classList.remove('run');
+        void bar.offsetWidth;
+        if (on && auto && !paused) bar.classList.add('run');
+        panels[k].hidden = !on;
+        panels[k].classList.toggle('in', on);
+      });
+      if (focus) tabs[current].focus();
+      schedule();
+    };
+    const stopAuto = () => {
+      auto = false;
+      window.clearTimeout(timer);
+      tabs.forEach((t) => t.querySelector('.bar')!.classList.remove('run'));
+    };
+
+    tabs.forEach((t, k) => {
+      t.addEventListener('click', () => { stopAuto(); show(k); });
+      t.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (e.key === 'Home') { e.preventDefault(); stopAuto(); show(0, true); }
+        else if (e.key === 'End') { e.preventDefault(); stopAuto(); show(tabs.length - 1, true); }
+        else if (step) { e.preventDefault(); stopAuto(); show(current + step, true); }
+      });
+    });
+    root.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) => {
+      b.addEventListener('click', () => { stopAuto(); show(current + Number(b.dataset.step)); });
+    });
+    root.addEventListener('mouseenter', () => {
+      paused = true;
+      window.clearTimeout(timer);
+      tabs[current].querySelector<HTMLElement>('.bar')!.style.animationPlayState = 'paused';
+    });
+    root.addEventListener('mouseleave', () => {
+      paused = false;
+      const bar = tabs[current].querySelector<HTMLElement>('.bar')!;
+      bar.style.animationPlayState = 'running';
+      const done = bar.getBoundingClientRect().width / tabs[current].getBoundingClientRect().width;
+      schedule(DUR * (1 - done));
+    });
+
+    const fromHash = tabs.findIndex((t) => `#${t.dataset.id}` === location.hash);
+    if (fromHash >= 0) { stopAuto(); show(fromHash); root.scrollIntoView(); }
+    else show(0);
+  }
+</script>
+
+<style>
+  .selector { margin-top: 40px; scroll-margin-top: 96px; }
+  .tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .tab {
+    position: relative; flex: 0 0 auto; display: flex; align-items: center; gap: 10px;
+    padding: 8px 18px 8px 8px; border-radius: var(--radius-pill); overflow: hidden; cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .05);
+    color: var(--on-dark-muted); font-weight: 600; font-size: 15px;
+    transition: background .3s, color .3s, border-color .3s;
+  }
+  .tab img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+  .tab:hover { color: var(--white); border-color: rgba(255, 255, 255, .32); }
+  .tab[aria-selected='true'] { background: var(--white); color: var(--ink); border-color: var(--white); }
+  .bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--green); }
+  .bar.run { animation: fill 8s linear forwards; }
+  @keyframes fill { to { width: 100%; } }
+
+  .stage { position: relative; margin-top: 16px; }
+  .panel {
+    background: var(--paper); color: var(--ink); border-radius: var(--radius-lg); padding: clamp(14px, 1.6vw, 20px);
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(24px, 3.5vw, 56px); align-items: center;
+  }
+  .panel[hidden] { display: none; }
+  .panel.in .media, .panel.in .content > * { animation: rise .7s var(--ease-out) both; }
+  .panel.in .content > :nth-child(2) { animation-delay: .05s; }
+  .panel.in .content > :nth-child(3) { animation-delay: .1s; }
+  .panel.in .content > :nth-child(4) { animation-delay: .15s; }
+  .panel.in .content > :nth-child(5) { animation-delay: .2s; }
+  .panel.in .content > :nth-child(6) { animation-delay: .25s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+  .media { position: relative; height: 100%; min-height: 420px; }
+  .media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: calc(var(--radius-lg) - 8px); }
+  .lead {
+    position: absolute; left: 18px; bottom: 18px; width: min(300px, 86%); background: var(--white);
+    border-radius: var(--radius-md); padding: 16px 18px; display: grid; gap: 8px;
+    box-shadow: 0 24px 50px -16px rgba(20, 33, 26, .45);
+  }
+  .row { display: flex; justify-content: space-between; align-items: center; }
+  .pill { font-size: 11px; font-weight: 700; letter-spacing: .08em; padding: 5px 10px; border-radius: var(--radius-pill); background: #DBEAFE; color: #1D4ED8; }
+  .ex { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--gray-500); }
+  .proj { font-family: var(--font-display); font-weight: 600; font-size: 18px; }
+  .blur { height: 12px; width: 60%; border-radius: 6px; background: var(--gray-200); }
+  .meta { font-size: 13px; color: var(--gray-600); }
+  .content { padding: clamp(8px, 2vw, 28px) clamp(4px, 1.5vw, 24px) clamp(8px, 2vw, 28px) 0; display: grid; gap: 18px; align-content: center; }
+  .content .kicker { margin: 0; color: var(--green-ink); }
+  .content h2 { font-size: clamp(30px, 3.4vw, 46px); }
+  .content .accent { color: var(--green-ink); }
+  .content .lede { font-size: 17px; color: var(--gray-600); }
+  .benefits { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; }
+  .benefits li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; font-size: 15px; font-weight: 500; line-height: 1.45; }
+  .benefits svg { width: 26px; height: 26px; padding: 5px; border-radius: 50%; background: var(--green-tint); color: var(--green-ink); fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .venues { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .venues > span { font-size: 13px; font-weight: 600; color: var(--gray-500); margin-right: 4px; }
+  .venues i { font-style: normal; display: flex; align-items: center; gap: 7px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-pill); padding: 4px 12px 4px 4px; font-size: 13px; font-weight: 500; }
+  .venues i img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+  .go { justify-self: start; }
+  .content :focus-visible { outline-color: var(--green-ink); }
+  .arrows { position: absolute; right: clamp(14px, 1.6vw, 20px); top: -60px; display: flex; gap: 8px; }
+  .arrows button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .28); background: transparent; color: var(--white); display: grid; place-items: center; cursor: pointer; }
+  .arrows button:hover { border-color: var(--white); }
+  .arrows svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .also { margin-top: 18px; font-size: 15px; color: var(--on-dark-muted); }
+  .also b { color: var(--white); font-weight: 600; }
+  @media (max-width: 960px) {
+    .panel { grid-template-columns: 1fr; }
+    .media { min-height: 300px; }
+    .content { padding: 4px 8px 12px; }
+    .arrows { display: none; }
+  }
+  @media (max-width: 560px) { .benefits { grid-template-columns: 1fr; } .go { white-space: normal; } }
+  @media (prefers-reduced-motion: reduce) { .panel.in .media, .panel.in .content > * { animation: none; } .bar { display: none; } }
+</style>
