@@ -6,9 +6,6 @@ const icons = {
   data: '<ellipse cx="12" cy="6" rx="7" ry="2.8"/><path d="M5 6v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V6M5 12v6c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-6"/>',
   match: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
   inbox: '<path d="M4 13l2.5-7.5h11L20 13v5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18z"/><path d="M4 13h4.5l1.5 2.5h4l1.5-2.5H20"/>',
-  shield: '<path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/>',
-  pin: '<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
-  block: '<circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/>',
 };
 const svg = (k: keyof typeof icons) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${icons[k]}</svg>`;
 
@@ -47,24 +44,6 @@ const flow = [
       </ol>
     </div>
 
-    <ul class="cards">
-      <li data-reveal>
-        <span class="c-icon" set:html={svg('shield')} />
-        <h3>Our own platform</h3>
-        <p>Every lead comes through the Y5Media 360° marketing platform, run by our team in Dubai, not from an outside lead seller.</p>
-      </li>
-      <li data-reveal data-reveal-delay=".08s">
-        <span class="c-icon" set:html={svg('pin')} />
-        <h3>Built in the UAE market</h3>
-        <p>An audience grown over years in the UAE, across real estate, automotive, retail and more.</p>
-      </li>
-      <li class="not" data-reveal data-reveal-delay=".16s">
-        <span class="c-icon" set:html={svg('block')} />
-        <h3>Not from Google or Meta ads</h3>
-        <p>Our leads aren’t sourced from third-party advertising platforms like Google and Meta.</p>
-        <div class="chips"><span>Google Ads</span><span>Meta ads</span></div>
-      </li>
-    </ul>
   </div>
 </section>
 
@@ -86,7 +65,7 @@ const flow = [
     border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 14px 30px -14px rgba(0, 0, 0, .6);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   }
-  .icon :global(svg), .c-icon :global(svg) { width: 28px; height: 28px; }
+  .icon :global(svg) { width: 28px; height: 28px; }
   .icon.first { background: var(--lime); color: #0B1A10; border-color: transparent; }
   .step { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--lime); }
   .nodes b { font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 1.2; }
@@ -99,21 +78,11 @@ const flow = [
   html.motion .pipeline.is-in .nodes li { animation: ls-node-in .7s var(--ease-out) both; animation-delay: calc(var(--i) * .14s + .15s); }
   @keyframes ls-node-in { from { opacity: 0; transform: translateY(16px); } }
 
-  .cards { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
-  .cards li { padding: 26px; border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--gray-200); display: grid; gap: 8px; align-content: start; }
-  .c-icon { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: var(--green-tint); color: var(--green-ink); margin-bottom: 6px; }
-  .cards h3 { font-size: 20px; }
-  .cards p { color: var(--gray-500); font-size: 15.5px; }
-  .cards .not { background: #FFF5F4; border-color: #F6D3CF; }
-  .not .c-icon { background: #FDE2DE; color: #B42318; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-  .chips span { font-size: 13px; font-weight: 500; padding: 5px 11px; border-radius: 999px; border: 1px solid #F1B5AD; color: #8A1C12; text-decoration: line-through; text-decoration-thickness: 2px; }
 
   @media (prefers-reduced-motion: reduce) { .pulse { animation: none; display: none; } }
   @media (max-width: 960px) {
     .nodes { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
     .track { display: none; }
-    .cards { grid-template-columns: 1fr; }
   }
   @media (max-width: 520px) { .nodes { grid-template-columns: 1fr; } }
 </style>

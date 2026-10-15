@@ -52,7 +52,7 @@ const fmt = (n: number) => n.toLocaleString('en-US');
             <button
               type="button" role="radio" class="pack" data-pack={r.key}
               aria-checked={r.key === start.key ? 'true' : 'false'} tabindex={r.key === start.key ? 0 : -1}
-              data-credits={fmt(r.credits) + (r.last ? '+' : '')} data-leads={r.leads} data-before={aed(r.before)}
+              data-leads={r.leads + (r.last ? '+' : '')} data-before={aed(r.before)}
               data-discount={r.discount} data-save={'−' + aed(r.save)} data-pay={aed(r.pay)} data-tax={aed(r.tax)}
               data-total={aed(r.total)} data-each={aed(r.each)} data-name={r.name}
             >
@@ -72,11 +72,12 @@ const fmt = (n: number) => n.toLocaleString('en-US');
         <div class="receipt" aria-live="polite">
           <div class="r-head">
             <span><b data-out="name">{start.name}</b> pack</span>
-            <span class="each">Each lead <b data-out="each">{aed(start.each)}</b></span>
+            <span class="each">
+              <span>Each lead <b data-out="each">{aed(start.each)}</b></span>
+              <span class="count"><span data-out="leads">{start.leads}</span> leads</span>
+            </span>
           </div>
           <dl>
-            <div><dt>Credits</dt><dd data-out="credits">{fmt(start.credits)}</dd></div>
-            <div><dt>Leads it unlocks</dt><dd>about <span data-out="leads">{start.leads}</span></dd></div>
             <div><dt>Price at the standard rate</dt><dd data-out="before">{aed(start.before)}</dd></div>
             <div class="save"><dt>Pack discount (<span data-out="discount">{start.discount}</span>%)</dt><dd data-out="save">−{aed(start.save)}</dd></div>
             <div class="sub"><dt>You pay</dt><dd data-out="pay">{aed(start.pay)}</dd></div>
@@ -104,7 +105,7 @@ const fmt = (n: number) => n.toLocaleString('en-US');
     const pick = (b: HTMLButtonElement) => {
       packs.forEach((p) => { const on = p === b; p.setAttribute('aria-checked', String(on)); p.tabIndex = on ? 0 : -1; });
       const d = b.dataset;
-      out('name', d.name!); out('each', d.each!); out('credits', d.credits!); out('leads', d.leads!);
+      out('name', d.name!); out('each', d.each!); out('leads', d.leads!);
       out('before', d.before!); out('discount', d.discount!); out('save', d.save!); out('pay', d.pay!);
       out('tax', d.tax!); out('total', d.total!);
       if (fill) fill.style.width = `${(Number(d.discount) / max) * 100}%`;
@@ -171,7 +172,8 @@ const fmt = (n: number) => n.toLocaleString('en-US');
   .receipt { border-radius: 18px; background: #F4F7F3; color: var(--ink); padding: 20px 22px; display: grid; gap: 12px; }
   .r-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px dashed var(--gray-300); }
   .r-head b { font-family: var(--font-display); font-size: 20px; }
-  .each { font-size: 14px; color: var(--gray-500); }
+  .each { font-size: 14px; color: var(--gray-500); display: grid; justify-items: end; gap: 2px; text-align: right; }
+  .count { font-size: 13px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
   .each b { font-family: var(--font-display); font-size: 18px; color: var(--green-ink); }
   dl { display: grid; gap: 7px; font-variant-numeric: tabular-nums; }
   dl div { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
