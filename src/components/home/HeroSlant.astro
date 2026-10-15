@@ -12,30 +12,30 @@ import AdsPhones from './AdsPhones.astro';
 const LOGO = '/images/brand/y5-logo.svg';
 ---
 <section class="slant on-dark" aria-label="Our products">
-  <a class="pane leads" href={products.leads.href} aria-label="Explore Y5Leads">
+  <a class="pane leads" href={products.leads.href} aria-label="Explore Y5Leads" data-side="y5leads">
     <LeadsFeed />
 
     <div class="rest">
-      <span class="kind">Real Estate Leads</span>
+      <span class="kind">Buyer Leads</span>
       <h2 class="name"><img class="y5-logo" src={LOGO} alt="Y5" width="326" height="168" />Leads</h2>
-      <p class="sub">Property buyer leads, ready to call.</p>
+      <p class="sub">Ready-to-call buyer leads, for every industry.</p>
       <span class="more-pill">Explore more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
     </div>
 
     <div class="detail" aria-hidden="true">
-      <span class="kind">Real Estate Leads</span>
+      <span class="kind">Buyer Leads</span>
       <span class="name"><img class="y5-logo" src={LOGO} alt="" width="326" height="168" />Leads</span>
-      <p class="sub">Property buyer leads from our own UAE database, matched to your projects. Unlock only the ones you want.</p>
+      <p class="sub">Real buyers from our own 360° marketing platform, in every industry from property to luxury cars. Unlock only the ones you want.</p>
       <span class="explore">Explore Y5Leads <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
       <ul class="feats">
-        <li><b>First-party</b><span>UAE data</span></li>
+        <li><b>360°</b><span>own platform</span></li>
         <li><b>AED 250</b><span>per lead</span></li>
         <li><b>Refunds</b><span>for bad leads</span></li>
       </ul>
     </div>
   </a>
 
-  <a class="pane ads" href={products.wifi.href} aria-label="Explore Y5Ads">
+  <a class="pane ads" href={products.wifi.href} aria-label="Explore Y5Ads" data-side="y5ads">
     <AdsPhones />
 
     <div class="rest">
@@ -65,6 +65,48 @@ const LOGO = '/images/brand/y5-logo.svg';
     <span class="go go-leads"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" /></svg><small>Y5Leads</small></span>
   </span>
 </section>
+
+<script>
+  const wide = matchMedia('(min-width: 961px)');
+  const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+  let current = '';
+  const show = (product: string) => {
+    if (!wide.matches || product === current) return;
+    current = product;
+    document.querySelectorAll<HTMLElement>('[data-product]').forEach((sec) => {
+      const on = sec.dataset.product === product;
+      sec.hidden = !on;
+      if (on) {
+        sec.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => el.classList.add('is-in'));
+        sec.classList.remove('product-in');
+        void sec.offsetWidth;
+        sec.classList.add('product-in');
+      }
+    });
+  };
+  const showAll = () => {
+    current = '';
+    document.querySelectorAll<HTMLElement>('[data-product]').forEach((sec) => { sec.hidden = false; });
+  };
+  document.querySelectorAll<HTMLElement>('.slant [data-side]').forEach((pane) => {
+    const product = pane.dataset.side!;
+    let timer = 0;
+    pane.addEventListener('pointerenter', () => {
+      if (!canHover.matches) return;
+      clearTimeout(timer);
+      timer = window.setTimeout(() => show(product), 250);
+    });
+    pane.addEventListener('pointerleave', () => clearTimeout(timer));
+    pane.addEventListener('focus', () => show(product));
+  });
+  const fromHash = () => {
+    const h = location.hash.slice(1);
+    if (h === 'y5ads' || h === 'y5leads') show(h);
+  };
+  wide.addEventListener('change', () => { if (!wide.matches) showAll(); });
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+</script>
 
 <style>
   @property --top { syntax: '<percentage>'; inherits: true; initial-value: 100%; }
@@ -202,7 +244,10 @@ const LOGO = '/images/brand/y5-logo.svg';
     .slant:has(.pane:hover) .rest { opacity: 1; filter: none; transform: none; }
     .name { font-size: 56px; }
   }
+  :global([data-product].product-in) { animation: sl-product-in .7s var(--ease-out, ease) both; }
+  @keyframes sl-product-in { from { opacity: 0; transform: translateY(24px); } }
   @media (prefers-reduced-motion: reduce) {
+    :global([data-product].product-in) { animation: none; }
     .slant, .rest, .detail > * { transition: none; }
     .seam, .and::after, .go svg { animation: none; }
   }

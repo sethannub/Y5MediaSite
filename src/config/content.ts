@@ -16,6 +16,13 @@ export const clients = [
   ['daytoday-logo', 'Day to Day'],
   ['coolandcool-color-logo', 'Cool & Cool'],
   ['five-logo', 'FIVE'],
+  ['mashreq-bank-logo', 'Mashreq'],
+  ['pepsico-logo', 'PepsiCo'],
+  ['mcdonalds', 'McDonald’s'],
+  ['lulu-exchange-logo', 'Lulu Exchange'],
+  ['alfardan-logo-black', 'Al Fardan Exchange'],
+  ['sharaf-exchange-logo-1', 'Sharaf Exchange'],
+  ['aafaq-logo', 'Aafaq Islamic Finance'],
   ['helping-small', 'Helping Small'],
 ].map(([file, name]) => ({ src: `/images/clients/${file}.png`, name }));
 
@@ -48,11 +55,13 @@ export const venues = [
 
 export const industries = [
   { name: 'Real Estate', img: '/images/industries/real-estate.webp', both: true },
-  { name: 'Retail & E-commerce', img: '/images/industries/retail.webp' },
-  { name: 'Banking & Finance', img: '/images/industries/finance.webp' },
-  { name: 'Healthcare', img: '/images/industries/healthcare.webp' },
-  { name: 'Education', img: '/images/industries/education.webp' },
-  { name: 'B2B & Corporate', img: '/images/industries/corporate.webp' },
+  { name: 'Luxury Cars', img: '/images/industries/luxury-cars.webp', both: true },
+  { name: 'Hospitality & Travel', img: '/images/industries/hospitality.webp', both: true },
+  { name: 'Retail & E-commerce', img: '/images/industries/retail.webp', both: true },
+  { name: 'Banking & Finance', img: '/images/industries/finance.webp', both: true },
+  { name: 'Healthcare', img: '/images/industries/healthcare.webp', both: true },
+  { name: 'Education', img: '/images/industries/education.webp', both: true },
+  { name: 'B2B & Corporate', img: '/images/industries/corporate.webp', both: true },
 ];
 
 export const reasons = [

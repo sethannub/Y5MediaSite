@@ -11,6 +11,9 @@ import LeadSource from '../components/LeadSource.astro';
 import Industries from '../components/home/Industries.astro';
 import Why from '../components/home/Why.astro';
 import CtaBand from '../components/CtaBand.astro';
+import AdsStats from '../components/y5ads/AdsStats.astro';
+import AdsAdvantages from '../components/y5ads/AdsAdvantages.astro';
+import AdsNetwork from '../components/y5ads/AdsNetwork.astro';
 import { wifiSteps, leadSteps } from '../config/content';
 
 ---
@@ -18,6 +21,7 @@ import { wifiSteps, leadSteps } from '../config/content';
   <HeroSlant />
 
   <div id="product-y5ads" data-product="y5ads">
+    <AdsStats />
     <Journey
       id="wifi-journey"
       kicker="How Y5Ads works"
@@ -31,6 +35,8 @@ import { wifiSteps, leadSteps } from '../config/content';
     >
       <WifiPhone slot="stage" />
     </Journey>
+    <AdsAdvantages />
+    <AdsNetwork pricing={false} />
     <Venues cta={{ label: 'Plan a campaign', href: '/contact?interest=y5ads' }} />
   </div>
 

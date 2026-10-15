@@ -4,7 +4,7 @@ export const site = {
   name: 'Y5Media',
   tagline: 'WiFi advertising and lead generation in the UAE',
   description:
-    'Y5Media helps brands reach people across the UAE with Y5Ads in malls, cafés, homes and staff accommodation, and delivers property buyer leads through Y5Leads.',
+    'Y5Media helps brands reach people across the UAE with Y5Ads in malls, cafés, homes and staff accommodation, and delivers buyer leads for every industry, from property to luxury cars, through Y5Leads.',
 
   analytics: {
     ga4Id: (import.meta.env.PUBLIC_GA4_ID as string | undefined) ?? '',
@@ -24,7 +24,7 @@ export const site = {
   cta: { label: 'Talk to us', href: '/contact' },
 
   logins: [
-    { label: 'Y5Leads', note: 'Property leads', href: 'https://leads.y5media.net/login' },
+    { label: 'Y5Leads', note: 'Buyer leads', href: 'https://leads.y5media.net/login' },
     { label: 'Y5Ads', note: 'Campaign reports', href: '' as string }, // TODO: WiFi platform login URL
   ],
 
@@ -55,9 +55,9 @@ export const products = {
   leads: {
     name: 'Y5Leads',
     href: '/y5leads',
-    tagline: 'Property buyer leads, ready to call',
+    tagline: 'Buyer leads for every industry, ready to call',
     summary:
-      'Buyers who are interested in property are matched to your projects and delivered to your Y5Leads dashboard. Unlock the ones you want with credits, then call, WhatsApp or copy them into your own CRM.',
+      'Real buyers in every industry, from property and luxury cars to retail, healthcare and services, are matched to your projects and delivered to your Y5Leads dashboard. Unlock the ones you want with credits, then call, WhatsApp or copy them into your own CRM.',
     points: [
       'Leads matched to your projects and budget',
       'Pay only for the leads you unlock',

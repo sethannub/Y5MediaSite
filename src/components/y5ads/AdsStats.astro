@@ -1,0 +1,51 @@
+---
+interface Props {
+  cta?: { label: string; href: string };
+}
+const { cta = { label: 'Get free ad credit', href: '/contact?interest=y5ads' } } = Astro.props;
+const formats = ['Banner ads', 'Video ads', 'SMS', 'Email', 'Vouchers'];
+const stats = [
+  { b: '50K+', s: 'WiFi hotspots' },
+  { b: '500+', s: 'locations across the UAE' },
+  { b: '50M+', s: 'ad impressions' },
+  { b: '100%', s: 'user attention' },
+];
+---
+<section class="section ads-stats forest on-dark">
+  <img class="bg" src="/images/y5ads/traffic.webp" alt="" width="1610" height="1080" loading="lazy" />
+  <div class="container grid">
+    <div>
+      <div class="kicker" data-reveal>Y5Ads · WiFi advertising</div>
+      <h2 data-reveal>Traffic that <span class="accent">drives results.</span></h2>
+      <p class="lede" data-reveal>Boost your marketing performance with WiFi ads and high-quality ad traffic, across 50K+ hotspots in the UAE.</p>
+      <ul class="formats" data-reveal>
+        {formats.map((f) => <li>{f}</li>)}
+      </ul>
+      <a class="btn btn-primary" href={cta.href} data-reveal>{cta.label} <span aria-hidden="true">→</span></a>
+    </div>
+    <ul class="stats">
+      {stats.map((s, i) => (
+        <li data-reveal data-reveal-delay={`${i * 0.08}s`}><b>{s.b}</b><span>{s.s}</span></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ads-stats { position: relative; overflow: hidden; }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; }
+  .ads-stats::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, var(--forest) 25%, rgba(11, 38, 27, .55)); }
+  .grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 56px; align-items: center; }
+  .lede { margin: 18px 0 22px; color: var(--on-dark-muted); }
+  .formats { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
+  .formats li { font-size: 13.5px; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-border); }
+  .stats { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .stats li {
+    display: grid; gap: 4px; padding: 26px; border-radius: var(--radius-md);
+    background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  }
+  .stats b { font-family: var(--font-display); font-size: clamp(36px, 3.6vw, 52px); font-weight: 600; letter-spacing: -.03em; line-height: 1; color: var(--lime); }
+  .stats span { color: var(--on-dark-muted); font-size: 15px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; gap: 36px; } }
+</style>

@@ -25,3 +25,15 @@ All photos are free-licence (Unsplash License / Pexels License). Commercial use 
 |---|---|---|---|
 | hero/y5leads-hd.webp | https://unsplash.com/photos/a-view-of-a-city-at-night-from-the-top-of-a-skyscraper-WyfXOHgI49s | Fabien Bellanger | Unsplash |
 | hero/y5ads-hd.webp | https://www.pexels.com/photo/close-up-photo-of-woman-in-black-coat-using-smartphone-787929/ | Andrea Piacquadio | Pexels |
+
+## Industries added 15 Oct 2026
+
+| File | Photo page | Photographer | Site |
+|---|---|---|---|
+| industries/luxury-cars.webp | https://unsplash.com/photos/collection-of-luxury-cars-in-a-showroom-A-6ymDPGMbU | Mubashir Shoukat | Unsplash |
+| industries/hospitality.webp | https://unsplash.com/photos/modern-hotel-lobby-with-lounge-seating-and-reception-desk--l1mdvHjaR4 | Maverick Frame | Unsplash |
+
+## From y5media.net (Y5Media's own artwork)
+
+`public/images/y5ads/*.webp`, `public/video/portal-steps.webm` and the extra client logos in
+`public/images/clients` were taken from https://y5media.net on 15 Oct 2026.

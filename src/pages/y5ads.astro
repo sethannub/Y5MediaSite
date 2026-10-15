@@ -4,20 +4,15 @@ import PageHero from '../components/PageHero.astro';
 import Journey from '../components/Journey.astro';
 import WifiPhone from '../components/mocks/WifiPhone.astro';
 import Venues from '../components/home/Venues.astro';
-import FeatureGrid from '../components/FeatureGrid.astro';
 import Industries from '../components/home/Industries.astro';
 import CtaBand from '../components/CtaBand.astro';
+import AdsStats from '../components/y5ads/AdsStats.astro';
+import AdsAttention from '../components/y5ads/AdsAttention.astro';
+import AdsAdvantages from '../components/y5ads/AdsAdvantages.astro';
+import AdsSetup from '../components/y5ads/AdsSetup.astro';
+import AdsNetwork from '../components/y5ads/AdsNetwork.astro';
 import { site, products } from '../config/site';
 import { wifiSteps } from '../config/content';
-
-const features = [
-  { title: 'Banner ads', text: 'A full-screen image on the WiFi login page, seen by everyone who connects.' },
-  { title: 'Video ads', text: 'A short video that plays before people get online, for launches and big moments.' },
-  { title: 'Location targeting', text: 'Choose the areas and types of venue that match your customers.' },
-  { title: 'Click through to you', text: 'Send people to your website, an offer page, a form or your app store listing.' },
-  { title: 'Campaign reports', text: 'Visits, impressions and clicks by day, plus devices, operating systems and phone models.' },
-  { title: 'Planned with you', text: 'Our team helps you pick venues, dates and creative, then reports back on how it went.' },
-];
 ---
 <BaseLayout title={products.wifi.name} description="Put your banner or video ad on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE, and see every impression and click.">
   <PageHero
@@ -31,11 +26,14 @@ const features = [
       <a class="btn btn-glass" href="#venues">See the audiences</a>
     </Fragment>
     <ul class="facts" slot="side">
-      <li><b>4</b><span>types of venue: malls, cafés, homes and staff accommodation</span></li>
-      <li><b>2</b><span>ad formats: banner and video</span></li>
-      <li><b>1</b><span>report with every impression and click</span></li>
+      <li><b>50K+</b><span>WiFi hotspots in malls, cafés, homes and staff accommodation</span></li>
+      <li><b>500+</b><span>locations across the UAE</span></li>
+      <li><b>5</b><span>formats: banner, video, SMS, email and vouchers</span></li>
     </ul>
   </PageHero>
+
+  <AdsStats />
+  <AdsAttention />
 
   <Journey
     id="wifi-journey"
@@ -50,16 +48,10 @@ const features = [
     <WifiPhone slot="stage" />
   </Journey>
 
+  <AdsAdvantages />
+  <AdsSetup />
+  <AdsNetwork />
   <Venues cta={{ label: 'Plan a campaign', href: '/contact?interest=y5ads' }} />
-
-  <FeatureGrid
-    kicker="What you get"
-    title="Everything a campaign"
-    accent="needs."
-    text="Pricing depends on venues, dates and format. Tell us your goal and we’ll send you a plan with costs."
-    items={features}
-    tone="white"
-  />
 
   <section class="section report">
     <div class="container grid">
@@ -86,10 +78,10 @@ const features = [
 <style>
   .facts { list-style: none; display: grid; gap: 12px; }
   .facts li {
-    display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 16px; padding: 18px 20px;
+    display: grid; grid-template-columns: 112px 1fr; align-items: center; gap: 16px; padding: 18px 20px;
     border-radius: var(--radius-md); background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
   }
-  .facts b { font-family: var(--font-display); font-size: 44px; font-weight: 600; line-height: 1; color: var(--lime); }
+  .facts b { font-family: var(--font-display); font-size: 38px; font-weight: 600; line-height: 1; color: var(--lime); }
   .facts span { color: var(--on-dark-muted); font-size: 15px; }
   .report .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
   .report .lede { margin: 18px 0 28px; }
