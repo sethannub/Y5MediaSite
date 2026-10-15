@@ -57,7 +57,7 @@ export const products = {
     href: '/y5leads',
     tagline: 'Buyer leads for every industry, ready to call',
     summary:
-      'Real buyers in every industry, from property and luxury cars to retail, healthcare and services, are matched to your projects and delivered to your Y5Leads dashboard. Unlock the ones you want with credits, then call, WhatsApp or copy them into your own CRM.',
+      'Customers interested in what you sell are matched to your product or service and delivered to your Y5Leads dashboard. Unlock the ones you want, and we can push them to your own CRM.',
     points: [
       'Leads matched to your projects and budget',
       'Pay only for the leads you unlock',

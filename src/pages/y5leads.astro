@@ -21,11 +21,11 @@ const features = [
 ];
 
 const faqs = [
-  { q: 'Where do the leads come from?', a: 'From Y5Media’s own 360° marketing platform, powered by an audience built over years across every industry in the UAE. No Google, no Meta, no third-party ads.' },
+  { q: 'Where do the leads come from?', a: 'From Y5Media’s own 360° marketing platform, powered by an audience we’ve built over years across every industry in the UAE. No Google. No Meta. No third-party ads.' },
   { q: 'What is a credit?', a: `Credits are how you pay for leads. One credit is one dirham, and a lead costs ${perLeadText()} at the standard rate. Buy credits in a pack and the discount applies straight away.` },
   { q: 'Do I pay for every lead I receive?', a: 'No. Leads arrive blurred and cost nothing until you choose to unlock them.' },
   { q: 'What happens if a lead is wrong?', a: 'Use the Report button on the lead and tell us what was wrong. Our team reviews every report, and approved reports get the credits back.' },
-  { q: 'Which industries does Y5Leads cover?', a: 'Every industry: real estate, luxury cars and automotive, retail, healthcare, services and more. Tell us what you sell and we’ll match buyers to it.' },
+  { q: 'Which industries does Y5Leads cover?', a: 'Every industry. Whether you’re in real estate, automotive, retail, healthcare or services, Y5Leads matches you with verified customers across the UAE.' },
   { q: 'Can I pause a project?', a: 'Yes. Ask for a pause or a restart from the Projects page and our team will action it.' },
   { q: 'Can I try it first?', a: 'Talk to us. We can set your account up and walk you through it before you buy credits.' },
 ];
@@ -35,7 +35,7 @@ function perLeadText() { return aed(leadPricing.perLead); }
 <BaseLayout title={products.leads.name} description="Buyer leads for every industry, from property to luxury cars, matched to your projects. Unlock only the leads you want, from AED 250 a lead, and report a bad lead for a refund.">
   <PageHero
     kicker={`${products.leads.name} · Every industry`}
-    title="Buyer leads for every industry,"
+    title="Verified leads,"
     accent="ready to call."
     text={products.leads.summary}
     bg="/images/hero/y5leads-hd.webp"

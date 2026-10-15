@@ -14,9 +14,9 @@ const svg = (k: keyof typeof icons) => `<svg viewBox="0 0 24 24" fill="none" str
 
 const flow = [
   { icon: 'platform', k: 'Source', t: 'Y5Media 360° platform', d: 'Our own marketing platform, run by our team in Dubai.' },
-  { icon: 'data', k: 'Data', t: 'Real buyers in every industry', d: 'An audience built over years across every industry in the UAE.' },
-  { icon: 'match', k: 'Match', t: 'Smart Profile Matching', d: 'Verified leads, matched to your project and its budget.' },
-  { icon: 'inbox', k: 'Delivered', t: 'Your Y5Leads list', d: 'Ready to unlock and call, or push to your own CRM.' },
+  { icon: 'data', k: 'Data', t: 'Real buyers in every industry', d: 'Real estate, automotive, retail and more.' },
+  { icon: 'match', k: 'Match', t: 'Smart Profile Matching', d: 'Only verified leads with real interest in your offer.' },
+  { icon: 'inbox', k: 'Delivered', t: 'Your Y5Leads list', d: 'Ready to unlock, call and follow up.' },
 ] as const;
 ---
 <section class="section source" id="lead-source">
@@ -24,11 +24,11 @@ const flow = [
     <div class="section-head">
       <div>
         <div class="kicker" data-reveal>Where our leads come from</div>
-        <h2 data-reveal>Our own 360° platform. <span class="accent">Not someone else’s ads.</span></h2>
+        <h2 data-reveal>Y5Media’s 360° marketing platform. <span class="accent">No Google. No Meta. No borrowed ads.</span></h2>
       </div>
       <p class="lede" data-reveal>
-        Our leads come from Y5Media’s own 360° marketing platform, powered by an audience built over years across
-        every industry in the UAE. No Google. No Meta. No third-party ads.
+        With the 360° platform you reach buyers who are already interested. Our audience has grown over years in the
+        UAE market, so your campaigns start with people who are ready to engage.
       </p>
     </div>
 
@@ -51,12 +51,12 @@ const flow = [
       <li data-reveal>
         <span class="c-icon" set:html={svg('shield')} />
         <h3>Our own platform</h3>
-        <p>Every lead comes through the Y5Media 360 marketing platform, not from an outside lead seller.</p>
+        <p>Every lead comes through the Y5Media 360° marketing platform, run by our team in Dubai, not from an outside lead seller.</p>
       </li>
       <li data-reveal data-reveal-delay=".08s">
         <span class="c-icon" set:html={svg('pin')} />
         <h3>Built in the UAE market</h3>
-        <p>Every lead comes from an audience built over years across every industry in the UAE.</p>
+        <p>An audience grown over years in the UAE, across real estate, automotive, retail and more.</p>
       </li>
       <li class="not" data-reveal data-reveal-delay=".16s">
         <span class="c-icon" set:html={svg('block')} />

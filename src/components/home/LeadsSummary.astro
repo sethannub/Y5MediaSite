@@ -2,7 +2,7 @@
 import { products, leadPricing, aed } from '../../config/site';
 const top = leadPricing.packs[leadPricing.packs.length - 1].discount;
 const points = [
-  { b: 'Every industry', s: 'Property, luxury cars, retail, healthcare and more' },
+  { b: 'Every industry', s: 'Real estate, automotive, retail, healthcare and services' },
   { b: `${aed(leadPricing.perLead)} a lead`, s: `Up to ${top}% less with credit packs` },
   { b: 'Pay to unlock', s: 'See the project and budget first' },
   { b: 'Refunds', s: 'Report a bad lead, get your credits back' },
@@ -12,10 +12,10 @@ const points = [
   <div class="container grid">
     <div class="copy">
       <div class="kicker" data-reveal>Y5Leads · Buyer leads</div>
-      <h2 data-reveal>Real buyers, <span class="accent">ready to call.</span></h2>
+      <h2 data-reveal>Verified leads, <span class="accent">ready to call.</span></h2>
       <p class="lede" data-reveal>
-        Leads from Y5Media’s own 360° marketing platform, powered by an audience built over years across every
-        industry in the UAE. No Google. No Meta. No third-party ads.
+        Customers interested in what you sell, from Y5Media’s own 360° marketing platform, matched to your product or
+        service. No Google. No Meta. No borrowed ads.
       </p>
       <ul class="points">
         {points.map((p, i) => (
