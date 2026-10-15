@@ -43,13 +43,19 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
   option D's colours). A straight corner-to-corner divider with an AND badge: Y5Leads top left on dark
   emerald, Y5Ads bottom right on white. At rest only label, name (Y5 logo + word), one line and Explore
   more. Hovering a side swings the divider and brings in its details and graphic (`LeadsFeed.astro`,
-  `AdsPhones.astro`). Each side links to its product page. Both products' sections show below on home
-  until a side is hovered; then only that product's `[data-product]` block shows, and it stays after the
-  pointer leaves. `/#y5ads` and `/#y5leads` pick one too. Below 961px both always show.
+  `AdsPhones.astro`). Each side links to its product page. Below the hero, home shows one short summary per
+  product (`AdsSummary`, `LeadsSummary`, each with Learn more to its page). Both show until a side is
+  hovered; then only that product's `[data-product]` block shows, and it stays after the pointer leaves.
+  `/#y5ads` and `/#y5leads` pick one too. Below 961px both always show. The full detail lives on the
+  product pages, not on home.
   Options B, C, D stay as `/hero-*` mockups (`HeroCross`, `HeroWave`, `HeroMotion`).
-- `src/components/y5ads/`: the Y5Ads sections built from y5media.net (`AdsStats`, `AdsAttention`,
-  `AdsAdvantages`, `AdsSetup`, `AdsNetwork`). Their images are in `public/images/y5ads`, and the
-  transparent login-portal animation is `public/video/portal-steps.webm` (500x582, VP9 with alpha).
+- `src/components/y5ads/`: the /y5ads page, laid out like y5media.net, with its graphics as full-width
+  section backgrounds: `AdsHero` (three cross-fading slides: lime, dark traffic, UAE map), `AdsAttention`
+  (with the transparent portal video, `public/video/portal-steps.webm`, 500x582 VP9 with alpha),
+  `AdsAdvantages` (phones), `AdsSetup` (lime laptop), `AdsNetwork` (laptop on white), `AdsClients`, and
+  `AdsControl` (watermark). Images are in `public/images/y5ads`.
+- `src/components/PageHero.astro`: product page hero. `bg` adds a photo and `full` makes it full-screen
+  (used by /y5leads).
 - `src/components/SiteControls.astro`: floating Back (previous page) and Back to top buttons on every page.
 - `src/components/Journey.astro`: the step-by-step journey. It plays while in view, and
   picking a step stops it. With reduced motion it never auto-plays.

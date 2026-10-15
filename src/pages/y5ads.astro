@@ -1,43 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
 import Journey from '../components/Journey.astro';
 import WifiPhone from '../components/mocks/WifiPhone.astro';
 import Venues from '../components/home/Venues.astro';
-import Industries from '../components/home/Industries.astro';
 import CtaBand from '../components/CtaBand.astro';
-import AdsStats from '../components/y5ads/AdsStats.astro';
+import AdsHero from '../components/y5ads/AdsHero.astro';
 import AdsAttention from '../components/y5ads/AdsAttention.astro';
 import AdsAdvantages from '../components/y5ads/AdsAdvantages.astro';
 import AdsSetup from '../components/y5ads/AdsSetup.astro';
 import AdsNetwork from '../components/y5ads/AdsNetwork.astro';
+import AdsClients from '../components/y5ads/AdsClients.astro';
+import AdsControl from '../components/y5ads/AdsControl.astro';
 import { site, products } from '../config/site';
 import { wifiSteps } from '../config/content';
 ---
 <BaseLayout title={products.wifi.name} description="Put your banner or video ad on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE, and see every impression and click.">
-  <PageHero
-    kicker={products.wifi.name}
-    title="Advertising that meets people"
-    accent="where they connect."
-    text={products.wifi.summary}
-  >
-    <Fragment slot="buttons">
-      <a class="btn btn-primary" href="/contact?interest=y5ads">Plan a campaign</a>
-      <a class="btn btn-glass" href="#venues">See the audiences</a>
-    </Fragment>
-    <ul class="facts" slot="side">
-      <li><b>50K+</b><span>WiFi hotspots in malls, cafés, homes and staff accommodation</span></li>
-      <li><b>500+</b><span>locations across the UAE</span></li>
-      <li><b>5</b><span>formats: banner, video, SMS, email and vouchers</span></li>
-    </ul>
-  </PageHero>
-
-  <AdsStats />
+  <AdsHero />
   <AdsAttention />
+  <AdsAdvantages />
+  <AdsSetup />
+  <AdsNetwork />
 
   <Journey
     id="wifi-journey"
-    kicker="How it works"
+    kicker="See it in action"
     title="From a WiFi login"
     accent="to your website."
     text="Four steps, from the moment someone connects to the numbers in your report."
@@ -48,9 +34,6 @@ import { wifiSteps } from '../config/content';
     <WifiPhone slot="stage" />
   </Journey>
 
-  <AdsAdvantages />
-  <AdsSetup />
-  <AdsNetwork />
   <Venues cta={{ label: 'Plan a campaign', href: '/contact?interest=y5ads' }} />
 
   <section class="section report">
@@ -71,18 +54,12 @@ import { wifiSteps } from '../config/content';
     </div>
   </section>
 
-  <Industries links={false} />
+  <AdsClients />
+  <AdsControl />
   <CtaBand title="Put your brand on the screen people check first." text={`Tell us who you want to reach and when. We’ll come back with venues, formats and a price. Or call us on ${site.contact.phone}.`} />
 </BaseLayout>
 
 <style>
-  .facts { list-style: none; display: grid; gap: 12px; }
-  .facts li {
-    display: grid; grid-template-columns: 112px 1fr; align-items: center; gap: 16px; padding: 18px 20px;
-    border-radius: var(--radius-md); background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-  }
-  .facts b { font-family: var(--font-display); font-size: 38px; font-weight: 600; line-height: 1; color: var(--lime); }
-  .facts span { color: var(--on-dark-muted); font-size: 15px; }
   .report .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
   .report .lede { margin: 18px 0 28px; }
   .shot { position: relative; padding: 32px 32px 0; border-radius: var(--radius-lg); background: var(--forest-glow), var(--forest); overflow: hidden; height: 460px; }

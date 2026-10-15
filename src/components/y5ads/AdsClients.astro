@@ -1,0 +1,32 @@
+---
+import { clients } from '../../config/content';
+---
+<section class="section ads-clients on-dark">
+  <div class="container">
+    <div class="head">
+      <h2 data-reveal>Our satisfied <span class="accent">clients.</span></h2>
+      <p class="lede" data-reveal>
+        Our WiFi ads platform performs above clients’ expectations, meeting the main KPIs for CPC and CPM campaigns,
+        with 40% to 60% more conversion than other digital advertising platforms, including Google, Facebook,
+        Instagram and LinkedIn.
+      </p>
+    </div>
+    <ul class="logos">
+      {clients.map((c, i) => (
+        <li data-reveal data-reveal-delay={`${(i % 6) * 0.04}s`}><img src={c.src} alt={c.name} width="240" height="103" loading="lazy" /></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ads-clients { background: radial-gradient(70% 90% at 50% 0%, #2A2A2A, #121212 70%); color: #fff; }
+  .head { text-align: center; display: grid; justify-items: center; gap: 18px; max-width: 720px; margin: 0 auto 44px; }
+  .head .lede { margin-inline: auto; }
+  .logos { list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px 20px; max-width: 1100px; margin: 0 auto; }
+  .logos li { display: grid; place-items: center; height: 88px; }
+  .logos img { max-width: 150px; width: 100%; height: auto; opacity: .9; transition: opacity .2s, transform .3s var(--ease-out); }
+  .logos li:hover img { opacity: 1; transform: scale(1.05); }
+  @media (max-width: 1000px) { .logos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .logos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

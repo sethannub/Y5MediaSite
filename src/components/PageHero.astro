@@ -4,10 +4,13 @@ interface Props {
   title: string;
   accent?: string;
   text: string;
+  bg?: string;
+  full?: boolean;
 }
-const { kicker, title, accent, text } = Astro.props;
+const { kicker, title, accent, text, bg, full = false } = Astro.props;
 ---
-<section class="page-hero forest on-dark">
+<section class:list={['page-hero forest on-dark', { full, photo: bg }]}>
+  {bg && <img class="bg" src={bg} alt="" width="2400" height="1500" />}
   <div class="container grid">
     <div class="copy">
       <div class="kicker">{kicker}</div>
@@ -17,11 +20,17 @@ const { kicker, title, accent, text } = Astro.props;
     </div>
     <div class="side"><slot name="side" /></div>
   </div>
+  {full && <a class="down" href="#after-hero" aria-label="Scroll down"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6" /></svg></a>}
 </section>
+{full && <span id="after-hero"></span>}
 
 <style>
-  .page-hero { padding-top: clamp(130px, 13vw, 170px); padding-bottom: clamp(56px, 7vw, 96px); overflow: hidden; }
-  .grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: center; }
+  .page-hero { position: relative; padding-top: clamp(130px, 13vw, 170px); padding-bottom: clamp(56px, 7vw, 96px); overflow: hidden; }
+  .full { min-height: 100svh; max-height: 1000px; display: flex; align-items: center; padding-top: 110px; }
+  .full .container { width: 100%; }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .38; animation: ph-zoom 14s ease-out both; }
+  .photo::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(3, 20, 13, .92) 25%, rgba(3, 20, 13, .35)); }
+  .grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: center; }
   h1 { font-size: clamp(40px, 5.2vw, 72px); max-width: 15ch; }
   .lede { margin-top: 24px; }
   .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
@@ -32,6 +41,10 @@ const { kicker, title, accent, text } = Astro.props;
   .copy > :nth-child(4) { animation-delay: .24s; }
   .side { animation: up 1s var(--ease-out) .25s both; }
   .side:empty { display: none; }
+  .down { position: absolute; z-index: 2; right: var(--gutter); bottom: 32px; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .4); color: #fff; }
+  .down svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   @keyframes up { from { opacity: 0; transform: translateY(24px); } }
-  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+  @keyframes ph-zoom { from { transform: scale(1.08); } }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } .full { max-height: none; } .down { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .bg { animation: none; } }
 </style>

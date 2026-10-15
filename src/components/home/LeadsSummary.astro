@@ -1,0 +1,48 @@
+---
+import { products, leadPricing, aed } from '../../config/site';
+const top = leadPricing.packs[leadPricing.packs.length - 1].discount;
+const points = [
+  { b: 'Every industry', s: 'Property, luxury cars, retail, healthcare and more' },
+  { b: `${aed(leadPricing.perLead)} a lead`, s: `Up to ${top}% less with credit packs` },
+  { b: 'Pay to unlock', s: 'See the project and budget first' },
+  { b: 'Refunds', s: 'Report a bad lead, get your credits back' },
+];
+---
+<section class="section leads-sum forest on-dark" id="y5leads-summary">
+  <div class="container grid">
+    <div class="copy">
+      <div class="kicker" data-reveal>Y5Leads · Buyer leads</div>
+      <h2 data-reveal>Real buyers, <span class="accent">ready to call.</span></h2>
+      <p class="lede" data-reveal>
+        Leads from Y5Media’s own 360° marketing platform, powered by an audience built over years across every
+        industry in the UAE. No Google. No Meta. No third-party ads.
+      </p>
+      <ul class="points">
+        {points.map((p, i) => (
+          <li data-reveal data-reveal-delay={`${(i % 2) * 0.08}s`}><b>{p.b}</b><span>{p.s}</span></li>
+        ))}
+      </ul>
+      <div class="buttons" data-reveal>
+        <a class="btn btn-primary" href={products.leads.href}>Learn more <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="/y5leads#pricing">See pricing</a>
+      </div>
+    </div>
+    <figure class="shot" data-reveal>
+      <img src="/images/y5leads/claim-1-leads.webp" alt="New buyer leads in the Y5Leads app, with names hidden until unlocked" width="1920" height="1200" loading="lazy" />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
+  .lede { margin: 18px 0 28px; }
+  .points { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 30px; }
+  .points li { display: grid; gap: 4px; padding: 18px 20px; border-radius: var(--radius-md); background: var(--glass); border: 1px solid var(--glass-border); }
+  .points b { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--lime); }
+  .points span { font-size: 14px; color: var(--on-dark-muted); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+  .shot { border-radius: var(--radius-lg); padding: 12px; background: rgba(255, 255, 255, .06); border: 1px solid var(--glass-border); transform: perspective(1400px) rotateY(-8deg); box-shadow: 0 50px 90px -40px rgba(0, 0, 0, .8); }
+  .shot img { width: 100%; height: auto; border-radius: 14px; display: block; }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } .shot { transform: none; } }
+  @media (max-width: 520px) { .points { grid-template-columns: 1fr; } }
+</style>

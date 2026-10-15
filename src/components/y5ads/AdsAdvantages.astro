@@ -2,55 +2,53 @@
 interface Props {
   cta?: { label: string; href: string };
 }
-const { cta = { label: 'Launch a campaign', href: '/contact?interest=y5ads' } } = Astro.props;
+const { cta = { label: 'Launch campaign', href: '/contact?interest=y5ads' } } = Astro.props;
+const icons = {
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>',
+  pin: '<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
+  layers: '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
+  chart: '<path d="M4 20h16"/><path d="M6 16l4-5 3 3 5-7"/><circle cx="18" cy="7" r="1.6"/>',
+};
 const items = [
-  { t: 'Targeted ads', d: 'Flexible targeting sets your campaign up so that only your target audience sees your offer.' },
-  { t: 'Premium locations', d: 'Premium, high-traffic WiFi hotspots, so you reach customers that were hard to reach without a big outdoor budget.' },
-  { t: 'Multi-format', d: 'Banner, video, SMS, email, questionnaire and gift voucher promotions.' },
-  { t: 'High conversion', d: 'Clients who follow best practice see conversion rise by 15% to 30%. Try your first campaign with AED 200 of free ad credit.' },
-];
+  { icon: 'target', t: 'Targeted ads', d: 'Flexible targeting sets your campaign up so that only your target audience sees your offer.' },
+  { icon: 'pin', t: 'Premium locations', d: 'Premium, high-traffic WiFi hotspots, so you reach customers that were hard to reach without a big outdoor budget.' },
+  { icon: 'layers', t: 'Multi-format', d: 'Banner, video, SMS, email, questionnaire and gift voucher promotions.' },
+  { icon: 'chart', t: 'High conversion', d: 'Clients who follow best practice see conversion rise by 15% to 30%. Try your first campaign with AED 200 of free ad credit.' },
+] as const;
+const svg = (k: keyof typeof icons) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${icons[k]}</svg>`;
 ---
 <section class="section ads-adv">
+  <img class="bg" src="/images/y5ads/portal-phones.webp" alt="" width="1919" height="1132" loading="lazy" />
   <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="kicker" data-reveal>Built for WiFi advertising</div>
-        <h2 data-reveal>One platform, made for <span class="accent">WiFi ads.</span></h2>
-      </div>
-      <p class="lede" data-reveal>The user gets free internet in exchange for attention to your product or service. Here’s what makes it work.</p>
-    </div>
-    <div class="grid">
-      <ul class="cards">
+    <div class="copy">
+      <h2 data-reveal>Y5Media platform, designed for <span class="accent">WiFi advertising.</span></h2>
+      <p class="lede" data-reveal>The most honest advertising there is. The user gets free internet in exchange for attention to your product or service.</p>
+      <ul class="items">
         {items.map((it, i) => (
           <li data-reveal data-reveal-delay={`${(i % 2) * 0.08}s`}>
-            <span class="tick" aria-hidden="true"></span>
+            <span class="ico" set:html={svg(it.icon)} />
             <h3>{it.t}</h3>
             <p>{it.d}</p>
           </li>
         ))}
       </ul>
-      <figure class="art" data-reveal>
-        <img src="/images/y5ads/ad-layouts.webp" alt="Y5Ads banner and video layouts on WiFi login screens" width="1919" height="1132" loading="lazy" />
-        <a class="btn btn-dark" href={cta.href}>{cta.label} <span aria-hidden="true">→</span></a>
-      </figure>
+      <a class="btn btn-primary" href={cta.href} data-reveal>{cta.label} <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
 <style>
-  .ads-adv { background: var(--paper); }
-  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
-  .cards { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .cards li { padding: 26px; border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--gray-200); display: grid; gap: 10px; align-content: start; }
-  .tick {
-    width: 36px; height: 36px; border-radius: 11px; margin-bottom: 6px;
-    background: var(--green-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-5' fill='none' stroke='%232F6B00' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 22px no-repeat;
-  }
-  .cards h3 { font-size: 20px; }
-  .cards p { color: var(--gray-500); font-size: 15.5px; }
-  .art { position: relative; border-radius: var(--radius-lg); background: #F8F8F8; border: 1px solid var(--gray-200); overflow: hidden; min-height: 420px; }
-  .art img { position: absolute; top: 46%; left: -96%; width: 205%; max-width: none; transform: translateY(-50%); }
-  .art .btn { position: absolute; left: 28px; bottom: 28px; }
-  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } .art { min-height: 340px; } }
-  @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+  .ads-adv { position: relative; overflow: hidden; background: #F8F8F8; }
+  .bg { position: absolute; top: 0; right: 0; height: 100%; width: auto; max-width: none; object-fit: cover; object-position: right center; }
+  .container { position: relative; z-index: 1; }
+  .copy { max-width: 600px; }
+  .lede { margin: 18px 0 34px; }
+  .items { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; margin-bottom: 34px; }
+  .items li { display: grid; gap: 8px; align-content: start; }
+  .ico { width: 44px; height: 44px; color: var(--green); }
+  .ico :global(svg) { width: 44px; height: 44px; }
+  .items h3 { font-size: 19px; }
+  .items p { color: var(--gray-500); font-size: 15px; }
+  @media (max-width: 1100px) { .bg { opacity: .35; } }
+  @media (max-width: 560px) { .items { grid-template-columns: 1fr; } }
 </style>

@@ -1,31 +1,29 @@
 ---
 const steps = [
-  { k: '01', t: 'Connect', d: 'To get online, the visitor taps Connect on the first page of the WiFi login.' },
-  { k: '02', t: 'Full-page image or video', d: 'Once connected, they see your full-page image or watch your 10 to 15 second video.' },
-  { k: '03', t: 'Landing page', d: 'A tap on your banner or video takes them straight to your campaign URL, now with WiFi access.' },
+  { t: 'Connect', d: 'To get online, the visitor taps Connect on the first page of the WiFi login.' },
+  { t: 'Full-page image or video', d: 'Once connected, they see your full-page image or watch your 10 to 15 second video.' },
+  { t: 'Landing page', d: 'A tap on your banner or video takes them straight to your campaign URL, now with WiFi access.' },
 ];
 ---
-<section class="section ads-attention">
+<section class="section ads-attention" id="attention">
   <div class="container grid">
-    <div class="stage" data-reveal>
-      <img class="phones" src="/images/y5ads/portal-phones.webp" alt="Y5Ads campaigns on WiFi login screens: Panasonic, Al Fardan Exchange, Union Coop and Cool & Cool" width="1919" height="1132" loading="lazy" />
-      <video class="portal" src="/video/portal-steps.webm" width="500" height="582" autoplay muted loop playsinline aria-label="A WiFi login screen showing a Y5Ads campaign, step by step"></video>
-    </div>
     <div>
-      <div class="kicker" data-reveal>100% user attention</div>
-      <h2 data-reveal>The most honest ad <span class="accent">there is.</span></h2>
+      <h2 data-reveal><span class="accent">100%</span> user attention.</h2>
       <p class="lede" data-reveal>
-        WiFi ads show when someone connects to a WiFi network. They get free internet in exchange for their attention
-        to your product or service, and after seeing your offer they’re online.
+        WiFi ads show when someone connects to a WiFi network. After they interact with your offer, they get access
+        to the internet.
       </p>
       <ol class="steps">
         {steps.map((s, i) => (
           <li data-reveal data-reveal-delay={`${i * 0.08}s`}>
-            <span class="k">{s.k}</span>
+            <span class="tick" aria-hidden="true"></span>
             <div><h3>{s.t}</h3><p>{s.d}</p></div>
           </li>
         ))}
       </ol>
+    </div>
+    <div class="stage" data-reveal>
+      <video src="/video/portal-steps.webm" width="500" height="582" autoplay muted loop playsinline aria-label="A WiFi login screen showing a Y5Ads campaign, step by step"></video>
     </div>
   </div>
 </section>
@@ -33,17 +31,16 @@ const steps = [
 <style>
   .ads-attention { background: var(--white); }
   .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
-  .stage { position: relative; border-radius: var(--radius-lg); background: var(--paper); aspect-ratio: 1 / 1; overflow: hidden; }
-  .phones { position: absolute; left: -52%; top: 42%; width: 175%; max-width: none; transform: translateY(-50%); }
-  .portal {
-    position: absolute; left: 5%; bottom: 5%; width: 44%; height: auto; display: block;
-    border-radius: 20px; background: #fff; box-shadow: 0 0 0 1px var(--gray-200), 0 30px 60px -24px rgba(11, 38, 27, .45);
+  .lede { margin: 18px 0 30px; }
+  .steps { list-style: none; display: grid; gap: 22px; }
+  .steps li { display: grid; grid-template-columns: 30px 1fr; gap: 16px; align-items: start; }
+  .tick {
+    width: 30px; height: 30px; margin-top: 2px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12.5l5 5L20 6.5' fill='none' stroke='%2314211A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 26px no-repeat;
   }
-  .lede { margin: 18px 0 28px; }
-  .steps { list-style: none; display: grid; gap: 12px; }
-  .steps li { display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding: 20px; border-radius: var(--radius-md); background: var(--paper); border: 1px solid var(--gray-200); }
-  .k { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: var(--green-tint); color: var(--green-ink); font-family: var(--font-display); font-weight: 600; }
   .steps h3 { font-size: 19px; margin-bottom: 4px; }
-  .steps p { color: var(--gray-500); font-size: 15px; }
+  .steps p { color: var(--gray-500); font-size: 15.5px; }
+  .stage { display: grid; place-items: center; }
+  .stage video { width: min(500px, 100%); height: auto; display: block; }
   @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
 </style>

@@ -1,0 +1,109 @@
+---
+// The /y5ads hero, after the y5media.net slider: three full-screen slides that
+// cross-fade every few seconds. The dots pick a slide; hovering pauses it.
+const slides = [
+  {
+    bg: '/images/y5ads/lime-hero.webp', tone: 'lime',
+    kicker: 'WiFi Advertisement', title: 'Reach new audiences', accent: 'with WiFi ads.',
+    text: 'Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation across the UAE.',
+    cta: { label: 'Start with free ad credit', href: '/contact?interest=y5ads' },
+  },
+  {
+    bg: '/images/y5ads/traffic.webp', tone: 'dark',
+    kicker: 'Banner · Video · SMS · Email · Vouchers', title: 'Traffic that', accent: 'drives results.',
+    text: 'Boost your marketing performance with WiFi ads and high-quality ad traffic.',
+    cta: { label: 'Get free ad credit', href: '/contact?interest=y5ads' },
+  },
+  {
+    bg: '/images/y5ads/uae-map.webp', tone: 'map',
+    kicker: 'Launch your ads', title: 'Across 50K+', accent: 'hotspots.',
+    text: 'Public and private WiFi in 500+ locations across the UAE, from Abu Dhabi to Ras Al Khaimah.',
+    cta: { label: 'Start your campaign', href: '/contact?interest=y5ads' },
+  },
+];
+---
+<section class="ads-hero on-dark" data-ads-hero aria-roledescription="carousel" aria-label="Y5Ads">
+  {slides.map((s, i) => (
+    <div class:list={['slide', s.tone, { on: i === 0 }]} data-slide aria-hidden={i === 0 ? 'false' : 'true'}>
+      <img class="bg" src={s.bg} alt="" width="1920" height="1080" loading={i === 0 ? 'eager' : 'lazy'} />
+      <div class="container copy">
+        <div class="kicker">{s.kicker}</div>
+        {i === 0 ? <h1>{s.title} <span class="accent">{s.accent}</span></h1> : <h2>{s.title} <span class="accent">{s.accent}</span></h2>}
+        <p class="lede">{s.text}</p>
+        <a class="btn" href={s.cta.href} tabindex={i === 0 ? undefined : -1}>{s.cta.label} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  ))}
+  <div class="dots" role="tablist" aria-label="Choose a slide">
+    {slides.map((s, i) => <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-label={`${s.title} ${s.accent}`} data-dot={i}><span></span></button>)}
+  </div>
+  <a class="down" href="#attention" aria-label="Scroll to how it works"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6" /></svg></a>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ads-hero]').forEach((root) => {
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>('[data-dot]')];
+    const still = matchMedia('(prefers-reduced-motion: reduce)');
+    let at = 0;
+    let timer = 0;
+    const go = (n: number) => {
+      at = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        s.classList.toggle('on', i === at);
+        s.setAttribute('aria-hidden', i === at ? 'false' : 'true');
+        s.querySelector('a')?.setAttribute('tabindex', i === at ? '0' : '-1');
+      });
+      dots.forEach((d, i) => d.setAttribute('aria-selected', i === at ? 'true' : 'false'));
+    };
+    const play = () => { stop(); if (!still.matches) timer = window.setInterval(() => go(at + 1), 6500); };
+    const stop = () => clearInterval(timer);
+    dots.forEach((d, i) => d.addEventListener('click', () => { go(i); play(); }));
+    root.addEventListener('pointerenter', stop);
+    root.addEventListener('pointerleave', play);
+    play();
+  });
+</script>
+
+<style>
+  .ads-hero { position: relative; height: 100svh; min-height: 640px; max-height: 980px; overflow: hidden; background: #03140D; color: #fff; }
+  .slide { position: absolute; inset: 0; display: flex; align-items: center; opacity: 0; visibility: hidden; transition: opacity 1.1s var(--ease-out), visibility 0s 1.1s; }
+  .slide.on { opacity: 1; visibility: visible; transition: opacity 1.1s var(--ease-out); }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); transition: transform 7s linear; }
+  .slide.on .bg { transform: none; }
+  .slide::before { content: ''; position: absolute; inset: 0; z-index: 1; }
+  .dark::before { background: linear-gradient(90deg, rgba(3, 20, 13, .7), rgba(3, 20, 13, .15)); }
+  .map::before { background: linear-gradient(90deg, rgba(11, 38, 27, .78) 20%, rgba(11, 38, 27, .2)); }
+  .lime::before { background: radial-gradient(60% 70% at 50% 50%, rgba(0, 0, 0, .12), transparent); }
+
+  .copy { position: relative; z-index: 2; width: 100%; display: grid; justify-items: center; text-align: center; gap: 22px; padding-top: 60px; }
+  .copy > * { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease-out), transform .9s var(--ease-out); }
+  .slide.on .copy > * { opacity: 1; transform: none; }
+  .slide.on .copy > :nth-child(2) { transition-delay: .1s; }
+  .slide.on .copy > :nth-child(3) { transition-delay: .2s; }
+  .slide.on .copy > :nth-child(4) { transition-delay: .3s; }
+  .kicker { justify-content: center; }
+  h1, h2 { font-size: clamp(42px, 6.4vw, 92px); line-height: 1; letter-spacing: -.035em; max-width: 14ch; }
+  .lede { max-width: 50ch; margin-inline: auto; }
+  .btn { margin-top: 8px; }
+
+  .lime .kicker, .lime .lede { color: #0B261B; }
+  .lime .kicker::before { background: #0B261B; }
+  .lime h1, .lime h2 { color: #fff; text-shadow: 0 2px 30px rgba(0, 0, 0, .12); }
+  .lime .accent { color: #0B261B; }
+  .lime .btn { background: #0B261B; color: #fff; }
+  .dark .btn, .map .btn { background: var(--green); color: #0B1A10; }
+
+  .dots { position: absolute; z-index: 3; left: 50%; bottom: 40px; transform: translateX(-50%); display: flex; gap: 8px; }
+  .dots button { padding: 10px 0; background: none; border: 0; cursor: pointer; }
+  .dots span { display: block; width: 34px; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .45); transition: background .3s, width .3s; }
+  .dots [aria-selected='true'] span { background: #fff; width: 52px; }
+  .down { position: absolute; z-index: 3; right: var(--gutter); bottom: 32px; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .4); color: #fff; }
+  .down svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; animation: ah-bob 1.8s ease-in-out infinite; }
+  @keyframes ah-bob { 50% { transform: translateY(4px); } }
+  @media (max-width: 700px) { .down { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .slide, .bg, .copy > * { transition: none; }
+    .down svg { animation: none; }
+  }
+</style>

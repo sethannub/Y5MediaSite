@@ -2,62 +2,21 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroSlant from '../components/home/HeroSlant.astro';
 import ClientStrip from '../components/home/ClientStrip.astro';
-import Journey from '../components/Journey.astro';
-import WifiPhone from '../components/mocks/WifiPhone.astro';
-import ClaimFilm from '../components/mocks/ClaimFilm.astro';
-import Venues from '../components/home/Venues.astro';
-import LeadPricing from '../components/LeadPricing.astro';
-import LeadSource from '../components/LeadSource.astro';
+import AdsSummary from '../components/home/AdsSummary.astro';
+import LeadsSummary from '../components/home/LeadsSummary.astro';
 import Industries from '../components/home/Industries.astro';
 import Why from '../components/home/Why.astro';
 import CtaBand from '../components/CtaBand.astro';
-import AdsStats from '../components/y5ads/AdsStats.astro';
-import AdsAdvantages from '../components/y5ads/AdsAdvantages.astro';
-import AdsNetwork from '../components/y5ads/AdsNetwork.astro';
-import { wifiSteps, leadSteps } from '../config/content';
-
 ---
 <BaseLayout>
   <HeroSlant />
 
   <div id="product-y5ads" data-product="y5ads">
-    <AdsStats />
-    <Journey
-      id="wifi-journey"
-      kicker="How Y5Ads works"
-      title="From a WiFi login"
-      accent="to your website."
-      text="Four steps, from the moment someone connects to the numbers in your report."
-      steps={wifiSteps}
-      tone="light"
-      cta={{ label: 'Plan a campaign', href: '/contact?interest=y5ads' }}
-      secondary={{ label: 'Full Y5Ads page', href: '/y5ads' }}
-    >
-      <WifiPhone slot="stage" />
-    </Journey>
-    <AdsAdvantages />
-    <AdsNetwork pricing={false} />
-    <Venues cta={{ label: 'Plan a campaign', href: '/contact?interest=y5ads' }} />
+    <AdsSummary />
   </div>
 
   <div id="product-y5leads" data-product="y5leads">
-    <LeadSource />
-    <Journey
-      id="lead-journey"
-      kicker="How Y5Leads works"
-      title="Watch a lead go from"
-      accent="hidden to called."
-      text="This is the real Y5Leads app. A new lead arrives, gets unlocked for AED 250, and is one tap from a phone call."
-      steps={leadSteps}
-      tone="light"
-      stageKind="wide"
-      stepMs={5200}
-      cta={{ label: 'Get started', href: '/contact?interest=y5leads' }}
-      secondary={{ label: 'See pricing', href: '#pricing' }}
-    >
-      <ClaimFilm slot="stage" />
-    </Journey>
-    <LeadPricing more />
+    <LeadsSummary />
   </div>
 
   <ClientStrip />

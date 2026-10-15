@@ -1,53 +1,31 @@
 ---
-const control = [
-  { t: 'Pricing', d: 'Set your daily budget and pay only for the impressions you receive.' },
-  { t: 'Targeting', d: 'As detailed as location, operating system, browser and traffic source.' },
-  { t: 'Campaign management', d: 'Track, analyse and optimise your campaigns straight from the dashboard.' },
-];
 ---
-<section class="section ads-setup">
+<section class="section ads-setup on-dark">
+  <img class="bg" src="/images/y5ads/campaign-setup.webp" alt="" width="1920" height="1500" loading="lazy" />
   <div class="container">
-    <div class="band" data-reveal>
-      <img class="shot" src="/images/y5ads/campaign-setup.webp" alt="Creating a campaign in the Y5Ads dashboard: type, duration, budget and targeting" width="1920" height="1500" loading="lazy" />
-      <div class="copy">
-        <div class="kicker">Your Y5Ads account</div>
-        <h2>Set up a campaign <span class="dark">in 2 clicks.</span></h2>
-        <p>
-          Create a full campaign in your Y5Ads account without wasting time. Banner, video and SMS campaigns, run for
-          the dates you choose in the locations you pick. Any manager in your company can do it.
-        </p>
-        <a class="btn btn-dark" href="/contact?interest=y5ads">Start your campaign <span aria-hidden="true">→</span></a>
-      </div>
+    <div class="copy">
+      <h2 data-reveal>Set up an ad campaign <span class="strong">in 2 clicks.</span></h2>
+      <p data-reveal>In your Y5Ads account you can create a full ad campaign without wasting time.</p>
+      <p data-reveal>
+        Target your audience with banner, video and SMS marketing, and run WiFi ads for the dates you choose in the
+        locations you pick. Any manager in your company can do it.
+      </p>
+      <a class="btn" href="/contact?interest=y5ads" data-reveal>Start your campaign <span aria-hidden="true">→</span></a>
     </div>
-    <div class="head">
-      <h3 data-reveal>Get 100% control over your ad campaigns.</h3>
-    </div>
-    <ul class="control">
-      {control.map((c, i) => (
-        <li data-reveal data-reveal-delay={`${i * 0.08}s`}><b>{c.t}</b><p>{c.d}</p></li>
-      ))}
-    </ul>
   </div>
 </section>
 
 <style>
-  .ads-setup { background: var(--white); }
-  .band { position: relative; overflow: hidden; border-radius: var(--radius-lg); background: #6CC414; min-height: 520px; display: flex; align-items: center; }
-  .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 18%; }
-  .copy { position: relative; max-width: 470px; padding: clamp(28px, 4vw, 56px); color: #0B1A10; display: grid; gap: 16px; justify-items: start; }
-  .copy .kicker { color: #0B261B; }
-  .copy .kicker::before { background: #0B261B; }
-  .copy .dark { color: #0B261B; opacity: .7; }
-  .copy p { font-size: var(--text-lg); color: #14311F; }
-  .head { margin: 48px 0 18px; }
-  .head h3 { font-size: var(--text-h3); }
-  .control { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-  .control li { padding: 24px; border-radius: var(--radius-md); background: var(--paper); border: 1px solid var(--gray-200); display: grid; gap: 6px; }
-  .control b { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
-  .control p { color: var(--gray-500); font-size: 15.5px; }
-  @media (max-width: 900px) {
-    .band { min-height: 0; flex-direction: column; align-items: stretch; }
-    .shot { position: relative; height: 280px; order: 2; object-position: 92% 20%; }
-    .control { grid-template-columns: 1fr; }
+  .ads-setup { position: relative; overflow: hidden; background: #5FBF0F; color: #fff; min-height: 760px; display: flex; align-items: center; }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 6%; }
+  .container { position: relative; z-index: 1; width: 100%; }
+  .copy { max-width: 520px; display: grid; gap: 18px; justify-items: start; }
+  h2 { font-weight: 500; }
+  .strong { font-weight: 700; }
+  .copy p { font-size: var(--text-lg); color: rgba(255, 255, 255, .92); }
+  .btn { margin-top: 8px; background: #fff; color: #0B261B; }
+  @media (max-width: 1000px) {
+    .ads-setup { min-height: 0; }
+    .bg { opacity: .3; }
   }
 </style>

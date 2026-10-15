@@ -1,0 +1,49 @@
+---
+import { products } from '../../config/site';
+const stats = [
+  { b: '50K+', s: 'WiFi hotspots' },
+  { b: '500+', s: 'UAE locations' },
+  { b: '50M+', s: 'impressions' },
+  { b: '40–60%', s: 'conversion' },
+];
+const formats = ['Banner', 'Video', 'SMS', 'Email', 'Vouchers'];
+---
+<section class="section ads-sum" id="y5ads-summary">
+  <img class="bg" src="/images/y5ads/ad-layouts.webp" alt="" width="1919" height="1132" loading="lazy" />
+  <div class="container">
+    <div class="copy">
+      <div class="kicker" data-reveal>Y5Ads · WiFi advertising</div>
+      <h2 data-reveal>Reach new audiences <span class="accent">with WiFi ads.</span></h2>
+      <p class="lede" data-reveal>
+        Your ad on the WiFi login screen in malls, cafés, homes and staff accommodation. People see it the moment they
+        connect, tap through to you, and you see every impression and click.
+      </p>
+      <ul class="formats" data-reveal>{formats.map((f) => <li>{f}</li>)}</ul>
+      <ul class="stats" data-reveal>
+        {stats.map((s) => <li><b>{s.b}</b><span>{s.s}</span></li>)}
+      </ul>
+      <div class="buttons" data-reveal>
+        <a class="btn btn-dark" href={products.wifi.href}>Learn more <span aria-hidden="true">→</span></a>
+        <a class="btn btn-outline" href="/contact?interest=y5ads">Plan a campaign</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ads-sum { position: relative; overflow: hidden; background: #F8F8F8; }
+  .bg { position: absolute; top: 50%; right: -6%; height: 120%; width: auto; max-width: none; transform: translateY(-50%); pointer-events: none; }
+  .container { position: relative; z-index: 1; }
+  .copy { max-width: 580px; }
+  .lede { margin: 18px 0 22px; }
+  .formats { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+  .formats li { font-size: 13.5px; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: var(--white); border: 1px solid var(--gray-200); }
+  .stats { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--gray-200); padding-top: 20px; margin-bottom: 30px; }
+  .stats li { display: grid; gap: 2px; }
+  .stats li + li { padding-left: 16px; border-left: 1px solid var(--gray-200); }
+  .stats b { font-family: var(--font-display); font-size: clamp(24px, 2.2vw, 32px); font-weight: 600; letter-spacing: -.02em; color: var(--green-ink); }
+  .stats span { font-size: 13.5px; color: var(--gray-500); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+  @media (max-width: 1100px) { .bg { opacity: .25; } }
+  @media (max-width: 560px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; } .stats li:nth-child(3) { padding-left: 0; border-left: 0; } }
+</style>
