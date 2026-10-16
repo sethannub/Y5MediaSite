@@ -77,13 +77,23 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
   sample leads) used by the claim animation (`ClaimFilm.astro`). Retake them if the app's look changes.
 - `docs/IMAGE_PROMPTS.md`: prompts for any images still to generate.
 
+## Launch on y5media.net (16 Oct 2026)
+
+- The site replaces the WordPress site at y5media.net. The WordPress site moves to
+  old.y5media.net; `public/_redirects` sends its blog, archive, /demo and wp-* paths there.
+- Terms, Privacy and Refund Policy carry the WordPress text word for word, in
+  `src/config/legal.json`, rendered by `components/LegalPage.astro`. PayTabs and the WiFi
+  login screens may link to them, so keep all three. The old `/privacy-policy` path redirects.
+- The Y5Ads login is https://wifiads.y5media.net (a separate system, not touched by the switch).
+- y5media.net mail is Google Workspace. Never switch on Cloudflare Email Routing for the apex
+  domain: it replaces the MX records and stops company email. The contact form must send
+  some other way (see Open items).
+- Contact enquiries go to info@y5media.net.
+
 ## Open items
 
-- The Y5Ads login URL (`site.logins` in `src/config/site.ts`, empty for now).
+- The contact form's delivery (Email Routing on the apex is ruled out, see above).
 - The Y5Leads product card photo (a placeholder for now, see `docs/IMAGE_PROMPTS.md`).
-- Privacy Policy and Terms of Use text.
-- The GitHub repository and the Cloudflare Pages project.
-- At launch: set `indexable: true` in `site.ts` and delete `public/_headers`.
 
 ## Running locally
 

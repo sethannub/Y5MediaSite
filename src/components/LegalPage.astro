@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import legal from '../config/legal.json';
+
+interface Props {
+  page: keyof typeof legal;
+  title: string;
+  intro: string;
+}
+const { page, title, intro } = Astro.props;
+
+type Block = { kind: 'h' | 'p'; text: string } | { kind: 'ul'; items: string[] };
+const blocks: Block[] = [];
+for (const [tag, text] of legal[page] as [string, string][]) {
+  const last = blocks[blocks.length - 1];
+  if (tag === 'li') {
+    if (last?.kind === 'ul') last.items.push(text);
+    else blocks.push({ kind: 'ul', items: [text] });
+  } else {
+    blocks.push({ kind: tag === 'p' ? 'p' : 'h', text });
+  }
+}
+---
+<BaseLayout title={title}>
+  <PageHero kicker="Legal" title={title} text={intro} />
+  <section class="section">
+    <div class="container">
+      <div class="legal">
+        {blocks.map((b) =>
+          b.kind === 'h' ? <h2>{b.text}</h2>
+          : b.kind === 'p' ? <p>{b.text}</p>
+          : <ul>{b.items.map((i) => <li>{i}</li>)}</ul>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal { max-width: 72ch; color: var(--gray-600); line-height: 1.7; }
+  .legal h2 { font-size: var(--text-lg); margin: 2.25rem 0 0.5rem; color: var(--ink); }
+  .legal h2:first-child { margin-top: 0; }
+  .legal p { margin: 0 0 1rem; }
+  .legal ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+  .legal li { margin-bottom: 0.4rem; }
+</style>

@@ -1,9 +1,4 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import { site } from '../config/site';
+import LegalPage from '../components/LegalPage.astro';
 ---
-<BaseLayout title="Terms of Use">
-  <PageHero kicker="Legal" title="Terms of Use" text={`This page is being prepared. Until it is published, email us at ${site.contact.email} with any questions.`} />
-  <section class="section"><div class="container"><p class="lede">Last updated: to be confirmed.</p></div></section>
-</BaseLayout>
+<LegalPage page="terms" title="Terms & Conditions" intro="The terms that apply to this website, to advertising with Y5Media, and to online payments." />

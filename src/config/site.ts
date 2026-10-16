@@ -10,8 +10,7 @@ export const site = {
     ga4Id: (import.meta.env.PUBLIC_GA4_ID as string | undefined) ?? '',
   },
 
-  // Pre-launch: keep search engines out. At launch set true AND delete public/_headers.
-  indexable: false,
+  indexable: true,
 
   nav: [
     { label: 'Home', href: '/' },
@@ -25,7 +24,7 @@ export const site = {
 
   logins: [
     { label: 'Y5Leads', note: 'Buyer leads', href: 'https://leads.y5media.net/login' },
-    { label: 'Y5Ads', note: 'Campaign reports', href: '' as string }, // TODO: WiFi platform login URL
+    { label: 'Y5Ads', note: 'Campaign reports', href: 'https://wifiads.y5media.net' as string },
   ],
 
   contact: {
