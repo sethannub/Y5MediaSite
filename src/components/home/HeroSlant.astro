@@ -2,10 +2,11 @@
 // The home page hero (option A, chosen 14 Oct 2026, with option D's colours).
 // A straight corner-to-corner divider: Y5Leads top left on dark emerald,
 // Y5Ads bottom right on white. At rest each side shows only its label, name,
-// one line and "Explore more". Hovering (or focusing) a side swings the
-// divider so that side takes most of the screen, lays out its details and
-// brings in its graphic: the live lead feed, or the laptop and phones.
-// Each side is a link to its product page.
+// one line and "Explore more". Clicking a side (not hovering: changed 19 Oct
+// 2026 at the user's request) swings the divider so that side takes most of
+// the screen, lays out its details and brings in its graphic: the live lead
+// feed, or the laptop and phones. Each side is a link to its product page;
+// the first click opens the side, a click on the open side follows the link.
 import { products } from '../../config/site';
 import LeadsFeed from './LeadsFeed.astro';
 import AdsPhones from './AdsPhones.astro';
@@ -68,7 +69,11 @@ const LOGO = '/images/brand/y5-logo.svg';
 
 <script>
   const wide = matchMedia('(min-width: 961px)');
-  const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+  const panes = Array.from(document.querySelectorAll<HTMLAnchorElement>('.slant [data-side]'));
+  const activate = (product: string) => {
+    panes.forEach((p) => p.classList.toggle('is-active', p.dataset.side === product));
+    show(product);
+  };
   let current = '';
   const show = (product: string) => {
     if (!wide.matches || product === current) return;
@@ -88,22 +93,21 @@ const LOGO = '/images/brand/y5-logo.svg';
     current = '';
     document.querySelectorAll<HTMLElement>('[data-product]').forEach((sec) => { sec.hidden = false; });
   };
-  document.querySelectorAll<HTMLElement>('.slant [data-side]').forEach((pane) => {
+  panes.forEach((pane) => {
     const product = pane.dataset.side!;
-    let timer = 0;
-    pane.addEventListener('pointerenter', () => {
-      if (!canHover.matches) return;
-      clearTimeout(timer);
-      timer = window.setTimeout(() => show(product), 250);
+    // Wide screens: the first click opens the side; a click on the open side follows the link.
+    // Narrow screens show the details already, so a click goes straight to the product page.
+    pane.addEventListener('click', (e) => {
+      if (!wide.matches || pane.classList.contains('is-active')) return;
+      e.preventDefault();
+      activate(product);
     });
-    pane.addEventListener('pointerleave', () => clearTimeout(timer));
-    pane.addEventListener('focus', () => show(product));
   });
   const fromHash = () => {
     const h = location.hash.slice(1);
-    if (h === 'y5ads' || h === 'y5leads') show(h);
+    if (h === 'y5ads' || h === 'y5leads') activate(h);
   };
-  wide.addEventListener('change', () => { if (!wide.matches) showAll(); });
+  wide.addEventListener('change', () => { if (!wide.matches) { showAll(); panes.forEach((p) => p.classList.remove('is-active')); } });
   window.addEventListener('hashchange', fromHash);
   fromHash();
 </script>
@@ -118,10 +122,11 @@ const LOGO = '/images/brand/y5-logo.svg';
     position: relative; height: 100svh; min-height: 700px; max-height: 1000px; overflow: hidden; background: #03140D;
     transition: --top 1s var(--ease), --bot 1s var(--ease);
   }
-  .slant:has(.leads:is(:hover, :focus-visible)) { --top: 100%; --bot: 66%; }
-  .slant:has(.ads:is(:hover, :focus-visible)) { --top: 34%; --bot: 0%; }
+  .slant:has(.leads.is-active) { --top: 100%; --bot: 66%; }
+  .slant:has(.ads.is-active) { --top: 34%; --bot: 0%; }
 
-  .pane { position: absolute; inset: 0; overflow: hidden; display: block; outline: none; }
+  .pane { position: absolute; inset: 0; overflow: hidden; display: block; outline: none; cursor: pointer; }
+  .pane:focus-visible { outline: 3px solid var(--lime); outline-offset: -3px; }
   .leads { color: #fff; clip-path: polygon(0 0, var(--top) 0, var(--bot) 100%, 0 100%); }
   .ads { color: #0B1A10; clip-path: polygon(var(--top) 0, 100% 0, 100% 100%, var(--bot) 100%); }
 
@@ -154,11 +159,11 @@ const LOGO = '/images/brand/y5-logo.svg';
   @keyframes sl-nudge-r { 50% { transform: translateX(4px); } }
   @keyframes sl-nudge-l { 50% { transform: translateX(-4px); } }
 
-  .slant:has(.pane:is(:hover, :focus-visible)) .and { background: var(--lime); box-shadow: 0 0 0 1px rgba(11, 38, 27, .1), 0 0 0 9px rgba(196, 242, 90, .25), 0 0 40px -6px rgba(196, 242, 90, .7), 0 22px 48px -16px rgba(0, 0, 0, .55); }
-  .slant:has(.pane:is(:hover, :focus-visible)) .and::before { border-color: rgba(11, 38, 27, .25); }
-  .slant:has(.pane:is(:hover, :focus-visible)) .and-t { opacity: 0; transform: scale(.6); }
-  .slant:has(.leads:is(:hover, :focus-visible)) .go-ads,
-  .slant:has(.ads:is(:hover, :focus-visible)) .go-leads { opacity: 1; transform: none; transition-delay: .25s; }
+  .slant:has(.pane.is-active) .and { background: var(--lime); box-shadow: 0 0 0 1px rgba(11, 38, 27, .1), 0 0 0 9px rgba(196, 242, 90, .25), 0 0 40px -6px rgba(196, 242, 90, .7), 0 22px 48px -16px rgba(0, 0, 0, .55); }
+  .slant:has(.pane.is-active) .and::before { border-color: rgba(11, 38, 27, .25); }
+  .slant:has(.pane.is-active) .and-t { opacity: 0; transform: scale(.6); }
+  .slant:has(.leads.is-active) .go-ads,
+  .slant:has(.ads.is-active) .go-leads { opacity: 1; transform: none; transition-delay: .25s; }
 
   /* ---------- Shared type ---------- */
   .kind { font-size: 12.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 10px; }
@@ -187,22 +192,22 @@ const LOGO = '/images/brand/y5-logo.svg';
   .ads .more-pill { background: #0B261B; color: #fff; border: 1px solid #0B261B; box-shadow: 0 14px 30px -14px rgba(11, 38, 27, .6); }
   .more-pill svg, .explore svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 
-  /* The hovered side's rest copy steps aside; the other side's fades away */
-  .slant:has(.pane:is(:hover, :focus-visible)) .rest { opacity: 0; filter: blur(4px); pointer-events: none; }
-  .leads:is(:hover, :focus-visible) .rest { transform: translateY(-24px); }
-  .ads:is(:hover, :focus-visible) .rest { transform: translateY(24px); }
+  /* The open side's rest copy steps aside; the other side's fades away */
+  .slant:has(.pane.is-active) .rest { opacity: 0; filter: blur(4px); pointer-events: none; }
+  .leads.is-active .rest { transform: translateY(-24px); }
+  .ads.is-active .rest { transform: translateY(24px); }
 
-  /* ---------- On hover: the full layout ---------- */
+  /* ---------- Open side: the full layout ---------- */
   .detail { position: absolute; z-index: 3; top: 50%; transform: translateY(-50%); width: min(420px, 28vw); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; pointer-events: none; }
   .leads .detail { left: 7%; }
   .ads .detail { left: 37%; width: min(390px, 26vw); }
   .detail > * { opacity: 0; transform: translateX(-30px); transition: opacity .35s, transform .8s var(--ease); }
-  .pane:is(:hover, :focus-visible) .detail > * { opacity: 1; transform: none; }
-  .pane:is(:hover, :focus-visible) .detail > :nth-child(1) { transition-delay: .25s; }
-  .pane:is(:hover, :focus-visible) .detail > :nth-child(2) { transition-delay: .32s; }
-  .pane:is(:hover, :focus-visible) .detail > :nth-child(3) { transition-delay: .39s; }
-  .pane:is(:hover, :focus-visible) .detail > :nth-child(4) { transition-delay: .46s; }
-  .pane:is(:hover, :focus-visible) .detail > :nth-child(5) { transition-delay: .55s; }
+  .pane.is-active .detail > * { opacity: 1; transform: none; }
+  .pane.is-active .detail > :nth-child(1) { transition-delay: .25s; }
+  .pane.is-active .detail > :nth-child(2) { transition-delay: .32s; }
+  .pane.is-active .detail > :nth-child(3) { transition-delay: .39s; }
+  .pane.is-active .detail > :nth-child(4) { transition-delay: .46s; }
+  .pane.is-active .detail > :nth-child(5) { transition-delay: .55s; }
   .explore { display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; padding: 16px 26px; border-radius: 999px; }
   .leads .explore { background: var(--lime); color: #0B1A10; box-shadow: 0 18px 40px -16px rgba(196, 242, 90, .7); }
   .ads .explore { background: #0B261B; color: #fff; box-shadow: 0 18px 40px -16px rgba(11, 38, 27, .6); }
@@ -220,19 +225,19 @@ const LOGO = '/images/brand/y5-logo.svg';
   .ads .feats b { color: #2F6B00; }
   .ads .feats span { color: #46544B; }
 
-  /* ---------- Graphics: hidden at rest, they come in on hover ---------- */
+  /* ---------- Graphics: hidden at rest, they come in when a side is opened ---------- */
   .leads :global(.lfd-stage) {
     left: 45%; top: 50%; bottom: auto; width: 360px; opacity: 0;
     transform: translateY(-44%) perspective(1200px) rotateY(-16deg) rotateX(4deg) scale(1.05); transform-origin: center;
     -webkit-mask-image: none; mask-image: none;
     transition: opacity .6s, transform 1.1s var(--ease);
   }
-  .leads:is(:hover, :focus-visible) :global(.lfd-stage) { opacity: 1; transform: translateY(-50%) perspective(1200px) rotateY(-12deg) rotateX(3deg) scale(1.15); transition-delay: .3s; }
+  .leads.is-active :global(.lfd-stage) { opacity: 1; transform: translateY(-50%) perspective(1200px) rotateY(-12deg) rotateX(3deg) scale(1.15); transition-delay: .3s; }
 
   .ads :global(.ap-cluster) { top: 50%; margin-top: -220px; left: calc(98% - 560px); opacity: 0; transform: translateY(40px); }
-  .ads:is(:hover, :focus-visible) :global(.ap-cluster) { opacity: 1; transform: none; transition-delay: .3s; }
+  .ads.is-active :global(.ap-cluster) { opacity: 1; transform: none; transition-delay: .3s; }
   .ads :global(.ap-rings) { opacity: 0; transition: opacity .6s; }
-  .ads:is(:hover, :focus-visible) :global(.ap-rings) { opacity: 1; }
+  .ads.is-active :global(.ap-rings) { opacity: 1; }
 
   /* ---------- Phones and tablets: stacked, details shown ---------- */
   @media (max-width: 960px) {
@@ -241,7 +246,7 @@ const LOGO = '/images/brand/y5-logo.svg';
     .seam-wrap, .and, .detail, .leads :global(.lfd-stage), .ads :global(.ap-cluster), .ads :global(.ap-rings) { display: none; }
     .rest { position: absolute; left: 24px !important; right: 24px !important; top: auto !important; bottom: 32px !important; align-items: flex-start !important; text-align: left !important; }
     .ads .rest .kind { flex-direction: row; }
-    .slant:has(.pane:hover) .rest { opacity: 1; filter: none; transform: none; }
+    .slant:has(.pane.is-active) .rest { opacity: 1; filter: none; transform: none; }
     .name { font-size: 56px; }
   }
   :global([data-product].product-in) { animation: sl-product-in .7s var(--ease-out, ease) both; }

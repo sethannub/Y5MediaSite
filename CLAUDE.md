@@ -42,10 +42,11 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
 - `src/components/home/HeroSlant.astro`: the home page hero (option A chosen by the CEO, 14 Oct 2026, with
   option D's colours). A straight corner-to-corner divider with an AND badge: Y5Leads top left on dark
   emerald, Y5Ads bottom right on white. At rest only label, name (Y5 logo + word), one line and Explore
-  more. Hovering a side swings the divider and brings in its details and graphic (`LeadsFeed.astro`,
-  `AdsPhones.astro`). Each side links to its product page. Below the hero, home shows one short summary per
-  product (`AdsSummary`, `LeadsSummary`, each with Learn more to its page). Both show until a side is
-  hovered; then only that product's `[data-product]` block shows, and it stays after the pointer leaves.
+  more. Clicking a side (not hovering; changed 19 Oct 2026 at the user's request) swings the divider and
+  brings in its details and graphic (`LeadsFeed.astro`, `AdsPhones.astro`). A click on the open side
+  follows its link to the product page. Below the hero, home shows one short summary per product
+  (`AdsSummary`, `LeadsSummary`, each with Learn more to its page). Both show until a side is opened;
+  then only that product's `[data-product]` block shows.
   `/#y5ads` and `/#y5leads` pick one too. Below 961px both always show. The full detail lives on the
   product pages, not on home.
   Options B, C, D stay as `/hero-*` mockups (`HeroCross`, `HeroWave`, `HeroMotion`).
