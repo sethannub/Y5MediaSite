@@ -14,7 +14,7 @@ and `www` records. The MX and TXT records must stay as they are.
 
 ## What is already done in the code
 
-- Terms, Privacy and Refund Policy carry the WordPress text word for word
+- Terms and Privacy carry the WordPress text word for word
   (`src/config/legal.json`). PayTabs and the WiFi login screens may link to them.
 - `public/_redirects` sends old WordPress paths to old.y5media.net:
   `/blog`, `/wifi/*`, `/category/*`, `/author/*`, `/2017/*` and the other year archives,
@@ -77,7 +77,7 @@ define('WP_SITEURL', 'https://old.y5media.net');
 ### 5. Check
 
 - https://y5media.net/ shows the new site, and https://www.y5media.net/ does too.
-- https://y5media.net/terms, `/privacy` and `/refund-policy` show the policy text.
+- https://y5media.net/terms and `/privacy` show the policy text, and `/refund-policy` redirects to `/terms`.
 - https://y5media.net/privacy-policy/ redirects to `/privacy`.
 - https://y5media.net/wifi/wifi-marketing-for-restaurant-cafes/ redirects to old.y5media.net
   and the post loads with its images.

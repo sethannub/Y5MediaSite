@@ -1,7 +1,8 @@
 /privacy-policy     /privacy         301
 /privacy-policy/    /privacy         301
 /terms/             /terms           301
-/refund-policy/     /refund-policy   301
+/refund-policy      /terms           301
+/refund-policy/     /terms           301
 /blog               https://old.y5media.net/blog/            301
 /blog/*             https://old.y5media.net/blog/:splat      301
 /wifi/*             https://old.y5media.net/wifi/:splat      301

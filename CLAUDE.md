@@ -81,9 +81,10 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
 
 - The site replaces the WordPress site at y5media.net. The WordPress site moves to
   old.y5media.net; `public/_redirects` sends its blog, archive, /demo and wp-* paths there.
-- Terms, Privacy and Refund Policy carry the WordPress text word for word, in
+- Terms and Privacy carry the WordPress text word for word, in
   `src/config/legal.json`, rendered by `components/LegalPage.astro`. PayTabs and the WiFi
-  login screens may link to them, so keep all three. The old `/privacy-policy` path redirects.
+  login screens may link to them, so keep both. The old `/privacy-policy` path redirects, and the
+  Refund Policy page was removed at the user's request (19 Oct 2026); `/refund-policy` redirects to `/terms`.
 - The Y5Ads login is https://wifiads.y5media.net (a separate system, not touched by the switch).
 - y5media.net mail is Google Workspace. Never switch on Cloudflare Email Routing for the apex
   domain: it replaces the MX records and stops company email. The contact form must send
