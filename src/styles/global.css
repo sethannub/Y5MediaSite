@@ -49,6 +49,17 @@ p { text-wrap: pretty; }
   color: var(--on-dark);
 }
 
+/* Deep violet band for Y5Campaigns */
+.plum {
+  background: radial-gradient(60rem 36rem at 0% 0%, rgba(139, 92, 246, .28), transparent 65%),
+              radial-gradient(40rem 30rem at 100% 100%, rgba(201, 182, 255, .14), transparent 70%), var(--plum);
+  color: var(--on-dark);
+}
+.plum .kicker, .plum.on-dark .kicker, .plum .accent, .plum.on-dark .accent { color: var(--violet); }
+.plum .kicker::before { background: var(--violet); }
+.plum .lede { color: rgba(255, 255, 255, .75); }
+.accent-violet { color: var(--violet-ink); }
+
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;

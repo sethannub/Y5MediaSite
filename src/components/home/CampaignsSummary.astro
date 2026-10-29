@@ -1,0 +1,48 @@
+---
+import { products, campaignPricing } from '../../config/site';
+import CampaignsMail from './CampaignsMail.astro';
+const low = campaignPricing.tiers[campaignPricing.tiers.length - 1].rate;
+const points = [
+  { b: 'Done for you', s: 'Send us your content, we design the email' },
+  { b: 'Any industry', s: 'Pick who you want to reach across the UAE' },
+  { b: 'You approve first', s: 'Nothing goes out until you approve the proof' },
+  { b: `From AED ${low}`, s: 'Per email, less as your campaign grows' },
+];
+---
+<section class="section camp-sum plum on-dark" id="y5campaigns-summary">
+  <div class="container grid">
+    <div class="copy">
+      <div class="kicker" data-reveal>Y5Campaigns · Email campaigns</div>
+      <h2 data-reveal>Email campaigns, <span class="accent">built and sent for you.</span></h2>
+      <p class="lede" data-reveal>{products.campaigns.summary}</p>
+      <ul class="points">
+        {points.map((p, i) => (
+          <li data-reveal data-reveal-delay={`${(i % 2) * 0.08}s`}><b>{p.b}</b><span>{p.s}</span></li>
+        ))}
+      </ul>
+      <div class="buttons" data-reveal>
+        <a class="btn btn-primary" href={products.campaigns.href}>Learn more <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="/y5campaigns#pricing">See pricing</a>
+      </div>
+    </div>
+    <figure class="stage" data-reveal>
+      <CampaignsMail />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
+  .lede { margin: 18px 0 28px; }
+  .points { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 30px; }
+  .points li { display: grid; gap: 4px; padding: 18px 20px; border-radius: var(--radius-md); background: var(--glass); border: 1px solid var(--glass-border); }
+  .points b { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--violet); }
+  .points span { font-size: 14px; color: rgba(255, 255, 255, .72); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+  .stage { position: relative; height: 480px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 50px 90px -40px rgba(0, 0, 0, .8); }
+  .stage :global(.cmf-stage) { position: absolute; left: 50%; top: 50%; margin: -210px 0 0 -280px; }
+  @media (max-width: 1180px) { .stage :global(.cmf-stage) { transform: scale(.85); } }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) { .stage { height: 340px; } .stage :global(.cmf-stage) { transform: scale(.6); } }
+  @media (max-width: 520px) { .points { grid-template-columns: 1fr; } }
+</style>

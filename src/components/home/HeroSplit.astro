@@ -1,0 +1,265 @@
+---
+// The home page hero (option B, chosen 29 Oct 2026): three vertical panels,
+// Y5Leads, Y5Campaigns and Y5Ads, split by glowing seams. At rest each panel
+// shows its label, name, one line and Explore more. Clicking a panel opens it
+// to fill the screen with its details and animated graphic; the other two
+// shrink to dimmed strips with vertical names that light up on hover. A click
+// on the open panel follows its link, and "All three" returns to the split.
+import { products } from '../../config/site';
+import LeadsFeed from './LeadsFeed.astro';
+import CampaignsMail from './CampaignsMail.astro';
+import AdsPhones from './AdsPhones.astro';
+const LOGO = '/images/brand/y5-logo.svg';
+const panes = [
+  {
+    side: 'y5leads', cls: 'leads', word: 'Leads', href: products.leads.href, kind: 'Buyer Leads',
+    rest: 'Ready-to-call buyer leads, for every industry.',
+    text: 'Real buyers from our own 360° marketing platform, in every industry from property to luxury cars. Unlock only the ones you want.',
+    feats: [['360°', 'own platform'], ['AED 250', 'per lead'], ['Refunds', 'for bad leads']],
+  },
+  {
+    side: 'y5campaigns', cls: 'camp', word: 'Campaigns', href: products.campaigns.href, kind: 'Email Campaigns',
+    rest: 'Email campaigns, built and sent for you.',
+    text: 'Send us your content and pick the industry. We build the email, send it to the right audience and report back.',
+    feats: [['Done for you', 'we build & send'], ['Any industry', 'you pick who'], ['Live report', 'opens & clicks']],
+  },
+  {
+    side: 'y5ads', cls: 'ads', word: 'Ads', href: products.wifi.href, kind: 'WiFi Display Ads',
+    rest: 'Your ad on the WiFi login screen across the UAE.',
+    text: 'Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation.',
+    feats: [['Banner', '& video'], ['Location', 'targeting'], ['Live', 'reports']],
+  },
+];
+---
+<section class="hs" aria-label="Our products" data-open="">
+  {panes.map((p, i) => (
+    <a class:list={['pane', p.cls]} href={p.href} aria-label={`Explore Y5${p.word}`} data-side={p.side}>
+      {p.cls === 'leads' && <LeadsFeed />}
+      {p.cls === 'camp' && <CampaignsMail />}
+      {p.cls === 'ads' && <AdsPhones />}
+      {i > 0 && <span class="seam" aria-hidden="true"></span>}
+
+      <div class="rest">
+        <span class="kind">{p.kind}</span>
+        <h2 class="name"><img class="y5-logo" src={LOGO} alt="Y5" width="326" height="168" />{p.word}</h2>
+        <p class="sub">{p.rest}</p>
+        <span class="more-pill">Explore more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      </div>
+
+      <div class="strip" aria-hidden="true">
+        <span class="plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg></span>
+        <span class="vname">Y5{p.word}</span>
+        <span class="vkind">{p.kind}</span>
+      </div>
+
+      <div class="detail" aria-hidden="true">
+        <span class="kind">{p.kind}</span>
+        <span class="name"><img class="y5-logo" src={LOGO} alt="" width="326" height="168" />{p.word}</span>
+        <p class="sub">{p.text}</p>
+        <span class="explore">Explore Y5{p.word} <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+        <ul class="feats">{p.feats.map(([b, s]) => <li><b>{b}</b><span>{s}</span></li>)}</ul>
+      </div>
+
+      <span class="dim" aria-hidden="true"></span>
+    </a>
+  ))}
+
+  <button type="button" class="all" tabindex="-1" data-all>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>All three
+  </button>
+</section>
+
+<script>
+  const wide = matchMedia('(min-width: 961px)');
+  const hero = document.querySelector<HTMLElement>('.hs')!;
+  const panes = Array.from(hero.querySelectorAll<HTMLAnchorElement>('[data-side]'));
+  const all = hero.querySelector<HTMLButtonElement>('[data-all]')!;
+  const sides = panes.map((p) => p.dataset.side!);
+
+  const show = (product: string) => {
+    document.querySelectorAll<HTMLElement>('[data-product]').forEach((sec) => {
+      const on = !product || sec.dataset.product === product;
+      sec.hidden = !on;
+      if (on && product) {
+        sec.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => el.classList.add('is-in'));
+        sec.classList.remove('product-in');
+        void sec.offsetWidth;
+        sec.classList.add('product-in');
+      }
+    });
+  };
+  const open = (product: string) => {
+    if (!wide.matches) return;
+    hero.dataset.open = product;
+    panes.forEach((p) => p.classList.toggle('is-active', p.dataset.side === product));
+    all.tabIndex = product ? 0 : -1;
+    show(product);
+  };
+  const reset = () => {
+    open('');
+    if (sides.includes(location.hash.slice(1))) history.replaceState(null, '', location.pathname + location.search);
+  };
+
+  panes.forEach((pane) => {
+    pane.addEventListener('click', (e) => {
+      if (!wide.matches || pane.classList.contains('is-active')) return;
+      e.preventDefault();
+      open(pane.dataset.side!);
+    });
+  });
+  all.addEventListener('click', reset);
+  const fromHash = () => {
+    const h = location.hash.slice(1);
+    if (sides.includes(h)) open(h);
+  };
+  wide.addEventListener('change', () => { if (!wide.matches) { hero.dataset.open = ''; panes.forEach((p) => p.classList.remove('is-active')); show(''); } });
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+</script>
+
+<style>
+  .hs {
+    --ease: cubic-bezier(.22, 1, .36, 1); --lime: #C4F25A; --violet: #C9B6FF;
+    position: relative; display: flex; height: 100svh; min-height: 700px; max-height: 1000px; overflow: hidden; background: #03140D;
+  }
+
+  .pane { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; display: block; outline: none; cursor: pointer; transition: flex 1s var(--ease); }
+  .pane:focus-visible { outline: 3px solid var(--lime); outline-offset: -3px; }
+  .leads { color: #fff; --glow: 196, 242, 90; }
+  .camp { color: #fff; --glow: 201, 182, 255; }
+  .ads { color: #0B1A10; --glow: 117, 182, 48; }
+  .hs:not([data-open='']) .pane:not(.is-active) { flex: 0 0 92px; }
+
+  .seam {
+    position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; z-index: 6; pointer-events: none;
+    background: linear-gradient(180deg, #75B630 0%, #C4F25A 40%, #fff 50%, #C4F25A 60%, #75B630 100%); background-size: 100% 300%;
+    box-shadow: 0 0 14px rgba(117, 182, 48, .6); animation: hs-travel 4.5s linear infinite;
+  }
+  @keyframes hs-travel { from { background-position: 0 100%; } to { background-position: 0 0; } }
+
+  /* Dim layer: strips are dark until hovered; at rest the panels you are not on dim a little */
+  .dim { position: absolute; inset: 0; z-index: 5; pointer-events: none; background: rgba(2, 10, 6, 0); transition: background .5s ease, box-shadow .5s ease; }
+  .hs:not([data-open='']) .pane:not(.is-active) .dim { background: rgba(2, 10, 6, .62); }
+  .hs:not([data-open='']) .pane:not(.is-active):hover .dim { background: rgba(2, 10, 6, 0); box-shadow: inset 0 0 0 1px rgba(var(--glow), .75), inset 0 0 70px rgba(var(--glow), .4); }
+  .hs[data-open='']:has(.pane:hover) .pane:not(:hover) .dim { background: rgba(2, 10, 6, .45); }
+  .hs[data-open=''] .pane:hover .dim { box-shadow: inset 0 0 90px rgba(var(--glow), .28); }
+
+  /* ---------- Shared type ---------- */
+  .kind { font-size: 12.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 10px; }
+  .kind::before { content: ''; width: 22px; height: 1px; background: currentColor; opacity: .8; }
+  .leads .kind { color: var(--lime); }
+  .camp .kind { color: var(--violet); }
+  .ads .kind { color: #2F6B00; }
+  .name { font-family: var(--font-display); font-weight: 600; line-height: .9; letter-spacing: -.055em; white-space: nowrap; padding: 0 .08em .08em 0; }
+  .y5-logo { display: inline-block; height: .74em; width: auto; margin-right: .03em; vertical-align: -.02em; }
+  .sub { font-size: clamp(15px, 1.15vw, 18px); font-weight: 500; line-height: 1.45; }
+  .leads .sub, .camp .sub { color: rgba(255, 255, 255, .82); }
+  .ads .sub { color: #34463B; }
+
+  /* ---------- At rest ---------- */
+  .rest { position: absolute; z-index: 3; left: clamp(28px, 4vw, 56px); right: 32px; top: 50%; transform: translateY(-40%); display: flex; flex-direction: column; align-items: flex-start; gap: 14px; transition: opacity .45s, transform .9s var(--ease), filter .5s; }
+  .rest .name { font-size: clamp(40px, 3.8vw, 56px); }
+  .rest .sub { max-width: 28ch; }
+  .more-pill {
+    margin-top: 10px; display: inline-flex; align-items: center; gap: 12px;
+    font-size: 14px; font-weight: 600; padding: 14px 22px 14px 24px; border-radius: 999px;
+    transition: background .3s, border-color .3s, transform .4s var(--ease);
+  }
+  .leads .more-pill, .camp .more-pill { background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .ads .more-pill { background: #0B261B; color: #fff; border: 1px solid #0B261B; box-shadow: 0 14px 30px -14px rgba(11, 38, 27, .6); }
+  .more-pill svg, .explore svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+  .hs:not([data-open='']) .rest { opacity: 0; filter: blur(4px); pointer-events: none; transform: translateY(-40%) translateY(16px); }
+
+  /* ---------- Strips: the panels you are not on ---------- */
+  .strip { position: absolute; z-index: 4; inset: 0; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 108px 0 40px; opacity: 0; visibility: hidden; transition: opacity .45s, visibility .45s; }
+  .hs:not([data-open='']) .pane:not(.is-active) .strip { opacity: 1; visibility: visible; transition-delay: .35s; }
+  .plus { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .25); }
+  .ads .plus { background: #0B261B; color: #fff; border: 0; }
+  .plus svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .vname { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-display); font-weight: 600; font-size: 40px; letter-spacing: -.05em; line-height: 1; white-space: nowrap; }
+  .vkind { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; }
+  .leads .vkind { color: var(--lime); }
+  .camp .vkind { color: var(--violet); }
+  .ads .vkind { color: #2F6B00; }
+
+  /* ---------- Open panel: the full layout ---------- */
+  .detail { position: absolute; z-index: 3; left: clamp(56px, 6vw, 96px); top: 50%; transform: translateY(-46%); width: min(430px, 30vw); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; pointer-events: none; }
+  .detail .name { font-size: clamp(56px, 5.6vw, 84px); }
+  .camp .detail .name { font-size: clamp(50px, 5vw, 76px); }
+  .detail > * { opacity: 0; transform: translateX(-30px); transition: opacity .35s, transform .8s var(--ease); }
+  .pane.is-active .detail > * { opacity: 1; transform: none; }
+  .pane.is-active .detail > :nth-child(1) { transition-delay: .3s; }
+  .pane.is-active .detail > :nth-child(2) { transition-delay: .37s; }
+  .pane.is-active .detail > :nth-child(3) { transition-delay: .44s; }
+  .pane.is-active .detail > :nth-child(4) { transition-delay: .51s; }
+  .pane.is-active .detail > :nth-child(5) { transition-delay: .6s; }
+  .explore { display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; padding: 16px 26px; border-radius: 999px; }
+  .leads .explore { background: var(--lime); color: #0B1A10; box-shadow: 0 18px 40px -16px rgba(196, 242, 90, .7); }
+  .camp .explore { background: var(--violet); color: #160B33; box-shadow: 0 18px 40px -16px rgba(201, 182, 255, .7); }
+  .ads .explore { background: #0B261B; color: #fff; box-shadow: 0 18px 40px -16px rgba(11, 38, 27, .6); }
+  .feats { list-style: none; display: flex; width: 100%; padding-top: 16px; margin-top: 4px; }
+  .feats li { flex: 1; display: grid; gap: 2px; padding-right: 14px; }
+  .feats li + li { padding-left: 14px; }
+  .feats b { font-family: var(--font-display); font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+  .feats span { font-size: 13px; }
+  .leads .feats, .camp .feats { border-top: 1px solid rgba(255, 255, 255, .16); }
+  .leads .feats li + li, .camp .feats li + li { border-left: 1px solid rgba(255, 255, 255, .14); }
+  .leads .feats b { color: var(--lime); }
+  .camp .feats b { color: var(--violet); }
+  .leads .feats span, .camp .feats span { color: rgba(255, 255, 255, .7); }
+  .ads .feats { border-top: 1px solid rgba(11, 38, 27, .15); }
+  .ads .feats li + li { border-left: 1px solid rgba(11, 38, 27, .12); }
+  .ads .feats b { color: #2F6B00; }
+  .ads .feats span { color: #46544B; }
+
+  /* ---------- Graphics: hidden at rest, they come in when a panel opens ---------- */
+  .leads :global(.lfd-stage) {
+    left: 50%; top: 50%; bottom: auto; width: 360px; opacity: 0;
+    transform: translateY(-44%) perspective(1200px) rotateY(-16deg) rotateX(4deg) scale(1.05); transform-origin: center;
+    -webkit-mask-image: none; mask-image: none;
+    transition: opacity .6s, transform 1.1s var(--ease);
+  }
+  .leads.is-active :global(.lfd-stage) { opacity: 1; transform: translateY(-50%) perspective(1200px) rotateY(-12deg) rotateX(3deg) scale(1.15); transition-delay: .3s; }
+
+  .camp :global(.cmf-stage) {
+    position: absolute; left: 44%; top: 50%; margin-top: -210px; opacity: 0;
+    transform: translateX(40px) scale(.96); transition: opacity .6s, transform 1.1s var(--ease);
+  }
+  .camp.is-active :global(.cmf-stage) { opacity: 1; transform: scale(1.12); transition-delay: .3s; }
+
+  .ads :global(.ap-cluster) { top: 50%; margin-top: -220px; left: calc(96% - 560px); opacity: 0; transform: translateY(40px); }
+  .ads.is-active :global(.ap-cluster) { opacity: 1; transform: none; transition-delay: .3s; }
+  .ads :global(.ap-rings) { opacity: 0; transition: opacity .6s; }
+  .ads.is-active :global(.ap-rings) { opacity: 1; }
+
+  /* ---------- All three ---------- */
+  .all {
+    position: absolute; z-index: 8; bottom: 36px; right: 40px; display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border-radius: 999px; font: 600 13px var(--font-body); cursor: pointer;
+    background: rgba(255, 255, 255, .12); color: #fff; border: 1px solid rgba(255, 255, 255, .3);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    opacity: 0; visibility: hidden; transition: opacity .4s, visibility .4s, right 1s var(--ease);
+  }
+  .all svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+  .all:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+  .hs:not([data-open='']) .all { opacity: 1; visibility: visible; }
+  .hs[data-open='y5leads'] .all { right: 224px; }
+  .hs[data-open='y5campaigns'] .all { right: 132px; }
+  .hs[data-open='y5ads'] .all { background: #0B261B; border-color: #0B261B; }
+
+  /* ---------- Phones and tablets: stacked, at-rest copy shown ---------- */
+  @media (max-width: 960px) {
+    .hs { height: auto; max-height: none; flex-direction: column; gap: 8px; padding: 74px 8px 8px; }
+    .pane { flex: none !important; min-height: 420px; border-radius: 24px; }
+    .seam, .strip, .detail, .dim, .all, .leads :global(.lfd-stage), .camp :global(.cmf-stage), .ads :global(.ap-cluster), .ads :global(.ap-rings) { display: none; }
+    .rest { top: auto; bottom: 32px; left: 24px; right: 24px; transform: none; }
+    .rest .name { font-size: 52px; }
+  }
+  :global([data-product].product-in) { animation: hs-product-in .7s var(--ease-out, ease) both; }
+  @keyframes hs-product-in { from { opacity: 0; transform: translateY(24px); } }
+  @media (prefers-reduced-motion: reduce) {
+    :global([data-product].product-in) { animation: none; }
+    .pane, .rest, .detail > *, .strip, .dim { transition: none; }
+    .seam { animation: none; }
+  }
+</style>

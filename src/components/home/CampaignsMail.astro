@@ -1,0 +1,110 @@
+---
+// Y5Campaigns background loop: a laptop receives a marketing email. A paper
+// plane lands, a "New email" notification pops up, the email arrives in the
+// inbox, opens, and its button is clicked. CSS only, 10 second loop.
+---
+<div class="cmf" aria-hidden="true">
+  <img class="cmf-photo" src="/images/industries/corporate.webp" alt="" width="1000" height="750" />
+  <svg class="cmf-trail" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"><path d="M-40 800 C 300 740, 620 440, 1480 120" /></svg>
+  <div class="ml cmf-stage">
+  <span class="ml-plane"><svg viewBox="0 0 24 24"><path d="M22 2L2 9.5l7.5 3.2L22 2z" fill="#C9B6FF"></path><path d="M22 2l-7 20-5.5-9.3L22 2z" fill="#A98BFF"></path></svg></span>
+  <div class="ml-laptop">
+  <div class="ml-lid"><div class="ml-screen">
+  <div class="ml-top"><span class="ml-dots"><i></i><i></i><i></i></span><span class="ml-title">Inbox</span><span class="ml-search">Search mail</span></div>
+  <div class="ml-body">
+  <div class="ml-list">
+  <div class="ml-new"><span class="ml-av">YB</span><span class="ml-txt"><b>Your brand</b><small>Your offer, just for you</small></span><span class="ml-dot"></span></div>
+  <div class="ml-row"><span class="ml-av g"></span><span class="ml-txt"><b class="sk w70"></b><small class="sk w90"></small></span></div>
+  <div class="ml-row"><span class="ml-av g"></span><span class="ml-txt"><b class="sk w50"></b><small class="sk w80"></small></span></div>
+  <div class="ml-row"><span class="ml-av g"></span><span class="ml-txt"><b class="sk w60"></b><small class="sk w70"></small></span></div>
+  <div class="ml-row"><span class="ml-av g"></span><span class="ml-txt"><b class="sk w40"></b><small class="sk w90"></small></span></div>
+  </div>
+  <div class="ml-read">
+  <span class="ml-empty">No email selected</span>
+  <div class="ml-mail">
+  <div class="ml-from"><span class="ml-av">YB</span><span class="ml-txt"><b>Your brand</b><small>to you · just now</small></span></div>
+  <div class="ml-hero"><small>Your offer</small><b>Designed and sent by Y5Media</b></div>
+  <span class="sk2 w90"></span>
+  <span class="sk2 w70"></span>
+  <span class="ml-cta">Book a viewing<span class="ml-ripple"></span></span>
+  </div>
+  <span class="ml-cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 2-2 6z"></path></svg></span>
+  </div>
+  </div>
+  </div></div>
+  <div class="ml-deck"></div>
+  </div>
+  <div class="ml-toast"><span class="ml-ticon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span><span class="ml-txt"><b>New email</b><small>Your brand · Your offer, just for you</small></span></div>
+  <span class="ml-badge">Clicked</span>
+  </div>
+</div>
+
+<style>
+  .cmf { position: absolute; inset: 0; background: radial-gradient(70% 70% at 60% 35%, #3A2378 0%, #22104F 55%, #120828 100%); }
+  .cmf-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; opacity: .13; mix-blend-mode: luminosity; }
+  .cmf::after { content: ''; position: absolute; inset: 0; background: linear-gradient(175deg, rgba(18, 8, 40, .15) 0%, rgba(18, 8, 40, .78) 100%); }
+  .cmf-trail { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+  .cmf-trail path { fill: none; stroke: #C9B6FF; stroke-opacity: .22; stroke-width: 1.4; stroke-dasharray: 4 10; }
+  .cmf-stage { z-index: 2; }
+  .ml{position:relative;width:560px;height:420px;font-family:var(--font-body)}
+  .ml *{animation-duration:10s;animation-iteration-count:infinite;animation-fill-mode:both}
+  .ml-laptop{position:absolute;left:40px;top:66px;width:470px;transform:perspective(1400px) rotateY(-12deg) rotateX(4deg);animation-name:ml-float;animation-duration:8s;animation-timing-function:ease-in-out}
+  @keyframes ml-float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+  .ml-lid{border-radius:14px 14px 4px 4px;padding:8px 8px 11px;background:linear-gradient(180deg,#2E2A3D,#14111F);box-shadow:0 0 0 1px rgba(0,0,0,.2),0 50px 80px -30px rgba(8,4,24,.8)}
+  .ml-screen{aspect-ratio:16 / 10;border-radius:6px;background:#FFFFFF;overflow:hidden;display:flex;flex-direction:column;color:#14211A}
+  .ml-deck{height:12px;margin:0 -7%;border-radius:2px 2px 16px 16px;background:linear-gradient(180deg,#ECEAF2 0%,#B9B4C8 60%,#837D93 100%);box-shadow:0 20px 26px -14px rgba(8,4,24,.7)}
+  .ml-top{display:flex;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid #EEEAF6;background:#FAF9FD}
+  .ml-dots{display:flex;gap:4px}
+  .ml-dots i{width:7px;height:7px;border-radius:50%;background:#DCD6EA}
+  .ml-title{font:700 11px var(--font-body)}
+  .ml-search{margin-left:auto;width:120px;font:500 8.5px var(--font-body);color:#9A93AE;background:#F0EDF7;border-radius:6px;padding:4px 8px}
+  .ml-body{flex:1;display:grid;grid-template-columns:170px minmax(0,1fr);min-height:0}
+  .ml-list{border-right:1px solid #EEEAF6;display:flex;flex-direction:column;overflow:hidden}
+  .ml-row,.ml-new{display:flex;align-items:center;gap:8px;padding:0 10px;height:44px;flex:none;border-bottom:1px solid #F3F0F9;box-sizing:border-box}
+  .ml-new{overflow:hidden;animation-name:ml-new}
+  @keyframes ml-new{0%,11%{height:0;opacity:0;background:rgba(201,182,255,.55)}16%{height:44px;opacity:1;background:rgba(201,182,255,.55)}30%{height:44px;background:rgba(201,182,255,.25)}35%,94%{height:44px;opacity:1;background:#EDE7FF}100%{height:0;opacity:0;background:#EDE7FF}}
+  .ml-av{width:24px;height:24px;flex:none;border-radius:50%;background:#6D4AE0;color:#fff;display:grid;place-items:center;font:700 8px var(--font-body)}
+  .ml-av.g{background:#ECE8F4}
+  .ml-txt{display:grid;gap:3px;min-width:0;flex:1}
+  .ml-txt b{font:700 9.5px var(--font-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ml-txt small{font:500 8.5px var(--font-body);color:#6B6480;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sk{display:block;height:6px;border-radius:3px;background:#ECE8F4}
+  .ml-txt small.sk{background:#F3F0F9}
+  .w40{width:40%}.w50{width:50%}.w60{width:60%}.w70{width:70%}.w80{width:80%}.w90{width:90%}
+  .ml-dot{width:7px;height:7px;border-radius:50%;background:#6D4AE0;flex:none;animation-name:ml-dot}
+  @keyframes ml-dot{0%,33%{opacity:1}36%,100%{opacity:0}}
+  .ml-read{position:relative;padding:10px 12px;overflow:hidden}
+  .ml-empty{position:absolute;left:0;right:0;top:44%;text-align:center;font:500 9px var(--font-body);color:#A9A2BC;animation-name:ml-empty}
+  @keyframes ml-empty{0%,32%{opacity:1}35%,96%{opacity:0}100%{opacity:1}}
+  .ml-mail{display:grid;gap:7px;animation-name:ml-mail}
+  @keyframes ml-mail{0%,33%{opacity:0;transform:translateY(10px)}38%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
+  .ml-from{display:flex;align-items:center;gap:8px}
+  .ml-hero{height:78px;border-radius:8px;background:linear-gradient(140deg,#3A2378 0%,#6D4AE0 60%,#C9B6FF 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:8px 10px;box-sizing:border-box;color:#fff}
+  .ml-hero small{font:600 7.5px var(--font-body);letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+  .ml-hero b{font:600 13px/1.1 var(--font-display);letter-spacing:-.02em}
+  .sk2{display:block;height:6px;border-radius:3px;background:#ECE8F4}
+  .ml-cta{position:relative;justify-self:start;margin-top:2px;padding:7px 12px;border-radius:7px;background:#160B33;color:#fff;font:600 9px var(--font-body);overflow:hidden;animation-name:ml-press}
+  @keyframes ml-press{0%,65%{transform:none}67%{transform:scale(.93)}70%,100%{transform:none}}
+  .ml-ripple{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:rgba(201,182,255,.7);animation-name:ml-ripple}
+  @keyframes ml-ripple{0%,66%{transform:scale(0);opacity:0}67%{transform:scale(1);opacity:1}76%,100%{transform:scale(12);opacity:0}}
+  .ml-cursor{position:absolute;left:0;top:0;width:16px;height:16px;animation-name:ml-cursor;animation-timing-function:ease-in-out}
+  .ml-cursor svg{width:100%;height:100%;fill:#14111F;stroke:#FFFFFF;stroke-width:1.5;stroke-linejoin:round}
+  @keyframes ml-cursor{0%,50%{opacity:0;transform:translate(220px,200px)}54%{opacity:1;transform:translate(220px,200px)}65%,72%{opacity:1;transform:translate(52px,176px)}80%,100%{opacity:0;transform:translate(52px,176px)}}
+  .ml-plane{position:absolute;left:0;top:0;width:42px;height:42px;z-index:3;offset-path:path('M-120 40 C 60 -20, 220 40, 300 190');offset-rotate:auto 45deg;animation-name:ml-fly;animation-timing-function:ease-in}
+  .ml-plane svg{width:100%;height:100%;filter:drop-shadow(0 6px 12px rgba(169,139,255,.6))}
+  @keyframes ml-fly{0%{opacity:0;offset-distance:0%}2%{opacity:1}10%{opacity:1;offset-distance:100%;transform:scale(1)}12%,100%{opacity:0;offset-distance:100%;transform:scale(.3)}}
+  .ml-toast{position:absolute;right:-6px;top:18px;z-index:3;display:flex;align-items:center;gap:10px;width:250px;box-sizing:border-box;padding:11px 13px;border-radius:14px;background:rgba(255,255,255,.96);color:#14211A;box-shadow:0 20px 40px -16px rgba(8,4,24,.7);animation-name:ml-toast}
+  @keyframes ml-toast{0%,11%{opacity:0;transform:translateY(-14px) scale(.96)}15%,30%{opacity:1;transform:none}35%,100%{opacity:0;transform:translateY(-10px)}}
+  .ml-ticon{width:30px;height:30px;flex:none;border-radius:9px;background:#6D4AE0;display:grid;place-items:center}
+  .ml-ticon svg{width:16px;height:16px;fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .ml-toast .ml-txt b{font-size:11.5px}
+  .ml-toast .ml-txt small{font-size:10.5px}
+  .ml-badge{position:absolute;left:320px;top:262px;z-index:3;font:700 12px var(--font-body);color:#160B33;background:#C9B6FF;padding:6px 12px;border-radius:999px;box-shadow:0 12px 24px -10px rgba(169,139,255,.8);animation-name:ml-badge}
+  @keyframes ml-badge{0%,68%{opacity:0;transform:translateY(12px) scale(.85)}72%,90%{opacity:1;transform:none}96%,100%{opacity:0;transform:translateY(-14px)}}
+  @media (prefers-reduced-motion: reduce) {
+    .cmf *, .cmf { animation: none !important; }
+    .ml-new { height: 44px; opacity: 1; }
+    .ml-mail { opacity: 1; }
+    .ml-empty, .ml-plane, .ml-toast, .ml-badge, .ml-cursor { opacity: 0; }
+  }
+</style>

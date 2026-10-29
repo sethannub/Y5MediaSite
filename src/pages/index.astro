@@ -1,22 +1,27 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroSlant from '../components/home/HeroSlant.astro';
+import HeroSplit from '../components/home/HeroSplit.astro';
 import ClientStrip from '../components/home/ClientStrip.astro';
 import AdsSummary from '../components/home/AdsSummary.astro';
 import LeadsSummary from '../components/home/LeadsSummary.astro';
+import CampaignsSummary from '../components/home/CampaignsSummary.astro';
 import Industries from '../components/home/Industries.astro';
 import Why from '../components/home/Why.astro';
 import CtaBand from '../components/CtaBand.astro';
 ---
 <BaseLayout>
-  <HeroSlant />
-
-  <div id="product-y5ads" data-product="y5ads">
-    <AdsSummary />
-  </div>
+  <HeroSplit />
 
   <div id="product-y5leads" data-product="y5leads">
     <LeadsSummary />
+  </div>
+
+  <div id="product-y5campaigns" data-product="y5campaigns">
+    <CampaignsSummary />
+  </div>
+
+  <div id="product-y5ads" data-product="y5ads">
+    <AdsSummary />
   </div>
 
   <ClientStrip />

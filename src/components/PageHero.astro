@@ -6,10 +6,11 @@ interface Props {
   text: string;
   bg?: string;
   full?: boolean;
+  tone?: 'forest' | 'plum';
 }
-const { kicker, title, accent, text, bg, full = false } = Astro.props;
+const { kicker, title, accent, text, bg, full = false, tone = 'forest' } = Astro.props;
 ---
-<section class:list={['page-hero forest on-dark', { full, photo: bg }]}>
+<section class:list={['page-hero on-dark', tone, { full, photo: bg }]}>
   {bg && <img class="bg" src={bg} alt="" width="2400" height="1500" />}
   <div class="container grid">
     <div class="copy">
@@ -30,6 +31,8 @@ const { kicker, title, accent, text, bg, full = false } = Astro.props;
   .full .container { width: 100%; }
   .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .38; animation: ph-zoom 14s ease-out both; }
   .photo::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(3, 20, 13, .92) 25%, rgba(3, 20, 13, .35)); }
+  .plum.photo::before { background: linear-gradient(90deg, rgba(18, 8, 40, .92) 25%, rgba(18, 8, 40, .4)); }
+  .plum .bg { mix-blend-mode: luminosity; }
   .grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: center; }
   h1 { font-size: clamp(40px, 5.2vw, 72px); max-width: 15ch; }
   .lede { margin-top: 24px; }

@@ -1,0 +1,213 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CampaignsMail from '../components/home/CampaignsMail.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import CampaignPricing from '../components/CampaignPricing.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { products, campaignPricing } from '../config/site';
+
+const low = campaignPricing.tiers[campaignPricing.tiers.length - 1];
+const high = campaignPricing.tiers[0];
+
+const industries = ['Real estate', 'Automotive', 'Retail', 'Healthcare', 'Education', 'Finance', 'Hospitality'];
+
+const steps = [
+  { title: 'Send us your content', text: 'Upload your logo, photos and offer, or a ready-made HTML email. Pick the industry and the campaign size.' },
+  { title: 'We design the email', text: 'Our team builds a clean, mobile-friendly email from your content.' },
+  { title: 'Approve the proof', text: 'Check the proof in your Y5Media dashboard. Ask for changes, or approve it to book the send.' },
+  { title: 'We send and report', text: 'Your email goes out to the industry you picked. Watch the opens and clicks come in.' },
+];
+
+const features = [
+  { title: 'Designed for you', text: 'No designer needed. We turn your logo, photos and offer into a clean email that works on every phone.' },
+  { title: 'Choose the industry', text: 'Reach property buyers, car shoppers, retail customers and more, anywhere in the UAE.' },
+  { title: 'Approve before it sends', text: 'Nothing goes out until you approve the proof. Ask for changes until it’s right.' },
+  { title: 'Pay for what goes out', text: 'Credits come off when you approve. Emails we couldn’t send are returned to your balance.' },
+  { title: 'Live report', text: 'Follow the send as it happens, then see opens and clicks when it’s done.' },
+  { title: 'One balance for everything', text: 'The same credits pay for Y5Leads and Y5Campaigns, so you top up once.' },
+];
+
+const faqs = [
+  { q: 'Do I need my own mailing list?', a: 'No. You pick the industry you want to reach and we send your campaign to people in that industry across the UAE.' },
+  { q: 'What do I need to send you?', a: 'Your logo, a few photos and the offer you want to promote. If you already have a finished HTML email, you can upload that instead.' },
+  { q: 'When am I charged?', a: 'When you approve the proof. If some emails can’t be sent, those credits go back to your balance once the results are in. Cancel before it sends and you get everything back.' },
+  { q: 'How big does a campaign have to be?', a: `The smallest campaign is ${campaignPricing.minEmails.toLocaleString('en-US')} emails. The price per email drops at 500,000 and again at 1 million.` },
+  { q: 'Can I see the email before it goes out?', a: 'Yes. We upload a proof to your dashboard, and nothing is sent until you approve it.' },
+  { q: 'What will I see in the report?', a: 'How many emails were sent, opened and clicked, live while it sends and in full when it’s done.' },
+];
+---
+<BaseLayout title={products.campaigns.name} description="Email campaigns, built and sent for you. Send us your content, pick the industry you want to reach, approve the proof, and see who opened and clicked. From AED 0.1652 per email.">
+  <PageHero
+    kicker={`${products.campaigns.name} · Email marketing, done for you`}
+    title="Email campaigns,"
+    accent="built and sent for you."
+    text={products.campaigns.summary}
+    bg="/images/industries/corporate.webp"
+    tone="plum"
+    full
+  >
+    <Fragment slot="buttons">
+      <a class="btn btn-primary" href="/contact?interest=y5campaigns">Start a campaign</a>
+      <a class="btn btn-glass" href="#pricing">See pricing</a>
+    </Fragment>
+    <div class="price-card" slot="side">
+      <small>From</small>
+      <b>AED {low.rate}</b>
+      <span>per email at 1 million emails or more. AED {high.rate} per email from {campaignPricing.minEmails.toLocaleString('en-US')}.</span>
+      <a href="#pricing">See pricing <span aria-hidden="true">→</span></a>
+    </div>
+  </PageHero>
+
+  <section class="section audience">
+    <div class="container split">
+      <div>
+        <div class="kicker" data-reveal>Who receives it</div>
+        <h2 data-reveal>You pick the industry. <span class="accent-violet">We find the inboxes.</span></h2>
+      </div>
+      <div>
+        <p class="lede" data-reveal>Tell us who you want to reach, from property buyers to car shoppers, shoppers, patients or parents. We send your campaign to people in that industry across the UAE, so you don’t need a mailing list of your own.</p>
+        <ul class="chips" data-reveal>{industries.map((i) => <li>{i}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section how">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker" data-reveal>How it works</div>
+          <h2 data-reveal>From your brief <span class="accent-violet">to their inbox.</span></h2>
+        </div>
+        <p class="lede" data-reveal>You do two things: send us your content and approve the proof. We do the rest.</p>
+      </div>
+      <div class="journey">
+        <ol class="steps">
+          {steps.map((s, i) => (
+            <li data-reveal data-reveal-delay={`${i * 0.06}s`}>
+              <span class="num">0{i + 1}</span>
+              <span class="st"><b>{s.title}</b><span>{s.text}</span></span>
+            </li>
+          ))}
+        </ol>
+        <figure class="stage" data-reveal>
+          <CampaignsMail />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <FeatureGrid kicker="Inside Y5Campaigns" title="Built for teams" accent="with no time for email." items={features} tone="white" />
+
+  <section class="section report-band">
+    <div class="container report-grid">
+      <div>
+        <div class="kicker" data-reveal>Your report</div>
+        <h2 data-reveal>See who opened <span class="accent-violet">and who clicked.</span></h2>
+        <p class="lede" data-reveal>Follow your campaign from your Y5Media dashboard while it sends, then see the results when it’s done.</p>
+      </div>
+      <div class="report" data-reveal>
+        <div class="r-top">
+          <span class="r-name"><b>Spring launch</b><small>Real estate buyers · 150,000 emails</small></span>
+          <span class="r-badge">Sending · 62%</span>
+        </div>
+        <div class="r-bar"><span></span></div>
+        <div class="r-stats">
+          <div><small>Sent</small><b>93,000</b></div>
+          <div><small>Opened</small><b>21,390</b></div>
+          <div><small>Clicked</small><b>2,140</b></div>
+        </div>
+        <p class="r-fine">Example figures for illustration.</p>
+      </div>
+    </div>
+  </section>
+
+  <CampaignPricing />
+
+  <section class="section faq">
+    <div class="container grid">
+      <div>
+        <div class="kicker" data-reveal>Questions</div>
+        <h2 data-reveal>Good to <span class="accent-violet">know.</span></h2>
+      </div>
+      <div class="list">
+        {faqs.map((f) => (
+          <details data-reveal>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Send your first campaign this month." text="Tell us what you’re promoting and who you want to reach. We’ll take it from there." />
+</BaseLayout>
+
+<style>
+  .price-card {
+    display: grid; gap: 6px; padding: 32px; border-radius: var(--radius-lg); max-width: 380px; margin-left: auto;
+    background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  }
+  .price-card small { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--violet); }
+  .price-card b { font-family: var(--font-display); font-size: clamp(42px, 4.4vw, 60px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+  .price-card span { color: rgba(255, 255, 255, .72); }
+  .price-card a { margin-top: 12px; font-weight: 600; color: var(--violet); }
+  @media (max-width: 960px) { .price-card { margin-left: 0; } }
+
+  .kicker { color: var(--violet-ink); }
+  .kicker::before { background: var(--violet-ink); }
+
+  .audience { background: #F6F4FB; }
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .chips li { font-size: 14px; font-weight: 600; padding: 9px 14px; border-radius: var(--radius-pill); background: var(--white); border: 1px solid #E2DCF3; color: #2A1A55; }
+
+  .how { background: var(--white); }
+  .journey { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px; align-items: center; }
+  .steps { list-style: none; display: grid; gap: 10px; }
+  .steps li { display: flex; gap: 16px; padding: 20px 22px; border-radius: var(--radius-md); border: 1px solid #ECE8F7; background: #F8F7FC; }
+  .num { font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--violet-ink); padding-top: 2px; }
+  .st { display: grid; gap: 4px; }
+  .st b { font-size: 17px; }
+  .st span { font-size: 15px; color: var(--gray-500); }
+  .stage { position: relative; height: 500px; border-radius: var(--radius-lg); overflow: hidden; }
+  .stage :global(.cmf-stage) { position: absolute; left: 50%; top: 50%; margin: -210px 0 0 -280px; }
+  @media (max-width: 1180px) { .stage :global(.cmf-stage) { transform: scale(.85); } }
+
+  .report-band { background: #F6F4FB; }
+  .report-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .report-grid .lede { margin-top: 18px; }
+  .report { padding: 28px; border-radius: var(--radius-lg); background: var(--white); border: 1px solid #ECE8F7; box-shadow: 0 30px 60px -36px rgba(58, 35, 120, .45); }
+  .r-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .r-name { display: grid; gap: 4px; }
+  .r-name b { font-size: 18px; }
+  .r-name small { font-size: 13px; color: var(--gray-500); }
+  .r-badge { font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: var(--radius-pill); background: #EDE7FF; color: #4C2DB0; white-space: nowrap; }
+  .r-bar { height: 10px; border-radius: 5px; background: #F0EDF7; margin: 22px 0; overflow: hidden; }
+  .r-bar span { display: block; width: 62%; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #8B5CF6, var(--violet)); }
+  .r-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .r-stats div { padding: 16px; border-radius: 14px; background: #F8F7FC; display: grid; gap: 4px; }
+  .r-stats small { font-size: 12.5px; color: var(--gray-500); }
+  .r-stats b { font-family: var(--font-display); font-size: 26px; font-weight: 600; letter-spacing: -.03em; }
+  .r-fine { margin-top: 16px; font-size: 12.5px; color: var(--gray-500); }
+
+  .faq { background: var(--white); }
+  .faq .grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; }
+  .list { display: grid; gap: 10px; }
+  details { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 0 22px; }
+  summary { cursor: pointer; list-style: none; padding: 20px 0; font-family: var(--font-display); font-weight: 600; font-size: 19px; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; font-size: 24px; line-height: 1; color: var(--violet-ink); transition: transform .25s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { padding-bottom: 20px; color: var(--gray-500); max-width: 60ch; }
+
+  @media (max-width: 960px) {
+    .split, .journey, .report-grid { grid-template-columns: 1fr; }
+    .stage { height: 380px; }
+    .stage :global(.cmf-stage) { transform: scale(.65); }
+  }
+  @media (max-width: 860px) { .faq .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .r-stats { grid-template-columns: 1fr; } }
+</style>

@@ -1,11 +1,15 @@
 # CLAUDE.md: Y5Media website
 
-The public website for Y5Media. It presents two products on one site:
+The public website for Y5Media. It presents three products on one site:
 
 - **Y5Ads**: banner and video ads on WiFi login screens in malls, cafés,
   homes and staff accommodation (the existing WiFi display platform).
 - **Y5Leads**: buyer leads for every industry, from property to luxury cars
   (the app at https://leads.y5media.net, source in `C:\Codex\Y5LeadsCRM`).
+- **Y5Campaigns** (added 29 Oct 2026): email campaigns, done for you. The client sends their
+  content and picks an industry; Y5Media designs, sends and reports. Never say the audience comes
+  from "our database". Pricing per email is in `campaignPricing` in `site.ts` (keep in step with
+  `config/pricing.php` in the app).
 
 It is a separate project from the Y5Leads app and from the emailaat site
 (`C:\Codex\Y5Email`). The look and the build setup follow emailaat, with much less
@@ -39,7 +43,15 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
 
 - `src/config/site.ts`: company details, navigation, logins, product summaries and pricing.
 - `src/config/content.ts`: client logos, venues, industries, reasons, and the journey steps.
-- `src/components/home/HeroSlant.astro`: the home page hero (option A chosen by the CEO, 14 Oct 2026, with
+- `src/components/home/HeroSplit.astro`: the home page hero since 29 Oct 2026 (option B). Three vertical
+  panels, Y5Leads, Y5Campaigns and Y5Ads, with glowing seams. Clicking one opens it to fill the screen with
+  its details and animated graphic (`LeadsFeed`, `CampaignsMail`, `AdsPhones`); the other two shrink to dimmed
+  92px strips with vertical names that light up on hover. "All three" goes back. Home summaries below follow the
+  open panel through `[data-product]`, as before. Below 961px the panels stack. Option A (a video version) is a
+  mockup only.
+- `src/pages/y5campaigns.astro`: the /y5campaigns page. `CampaignPricing.astro` holds the rates and the size picker.
+  The `plum` band class and the `--violet` tokens are the Campaigns colours.
+- `src/components/home/HeroSlant.astro`: the previous home page hero (option A chosen by the CEO, 14 Oct 2026, with
   option D's colours). A straight corner-to-corner divider with an AND badge: Y5Leads top left on dark
   emerald, Y5Ads bottom right on white. At rest only label, name (Y5 logo + word), one line and Explore
   more. Clicking a side (not hovering; changed 19 Oct 2026 at the user's request) swings the divider and

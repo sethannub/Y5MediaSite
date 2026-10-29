@@ -16,6 +16,7 @@ export const site = {
     { label: 'Home', href: '/' },
     { label: 'Y5Ads', href: '/y5ads' },
     { label: 'Y5Leads', href: '/y5leads' },
+    { label: 'Y5Campaigns', href: '/y5campaigns' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ],
@@ -66,6 +67,32 @@ export const products = {
       'Report a bad lead and get your credits back',
     ],
   },
+  campaigns: {
+    name: 'Y5Campaigns',
+    href: '/y5campaigns',
+    tagline: 'Email campaigns, built and sent for you',
+    summary:
+      'Send us your logo, photos and offer, and pick the industry you want to reach. We design the email, send it to the right inboxes across the UAE and show you who opened and clicked.',
+    points: [
+      'Designed by our team from your content',
+      'Sent to the industry you choose',
+      'Nothing goes out until you approve the proof',
+      'Live report of opens and clicks',
+    ],
+  },
+} as const;
+
+// Y5Campaigns pricing, per email. Keep in step with config/pricing.php in the Y5Leads app.
+// 1 credit = AED 1; prices exclude 5% VAT.
+export const campaignPricing = {
+  minEmails: 100000,
+  vat: 5,
+  sizes: [100000, 250000, 500000, 1000000, 2000000],
+  tiers: [
+    { from: 100000, label: '100K to 499K emails', rate: 0.1836 },
+    { from: 500000, label: '500K to 999K emails', rate: 0.1744 },
+    { from: 1000000, label: '1M emails or more', rate: 0.1652 },
+  ],
 } as const;
 
 // Y5Leads pricing. Keep in step with the credit packs in the Y5Leads app (Credits page).
