@@ -2,15 +2,27 @@
 import Logo from './Logo.astro';
 import { site } from '../config/site';
 const path = Astro.url.pathname.replace(/(\.html|\/)$/, '') || '/';
-const pageFor: Record<string, string> = { '/#y5ads': '/y5ads', '/#y5leads': '/y5leads' };
-const isCurrent = (href: string) => path === href || path === pageFor[href];
+type Item = { label: string; href: string; note?: string; children?: readonly Item[] };
+const isCurrent = (item: Item): boolean => path === item.href || (item.children ?? []).some((c) => path === c.href);
 ---
 <header class="nav on-dark" data-nav>
   <Logo />
 
   <nav class="pill" aria-label="Main">
-    {site.nav.map((item) => (
-      <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+    {(site.nav as readonly Item[]).map((item) => item.children ? (
+      <div class="svc-wrap">
+        <button type="button" class="svc" aria-expanded="false" aria-controls="svc-menu" data-svc
+          aria-current={isCurrent(item) ? 'page' : undefined}>
+          {item.label} <span class="caret" aria-hidden="true"></span>
+        </button>
+        <div class="svc-menu" id="svc-menu" hidden data-svc-menu>
+          {item.children.map((c) => (
+            <a href={c.href} aria-current={path === c.href ? 'page' : undefined}><b>{c.label}</b><small>{c.note}</small></a>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <a href={item.href} aria-current={isCurrent(item) ? 'page' : undefined}>{item.label}</a>
     ))}
   </nav>
 
@@ -35,7 +47,12 @@ const isCurrent = (href: string) => path === href || path === pageFor[href];
   </div>
 
   <div class="mobile-menu" id="mobile-menu" hidden>
-    {site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    {(site.nav as readonly Item[]).map((item) => item.children ? (
+      <>
+        <span class="m-group">{item.label}</span>
+        {item.children.map((c) => <a href={c.href}>{c.label}</a>)}
+      </>
+    ) : <a href={item.href}>{item.label}</a>)}
     <span class="m-group">Log in</span>
     {site.logins.filter((l) => l.href).map((l) => <a href={l.href}>{l.label}</a>)}
   </div>
@@ -53,6 +70,10 @@ const isCurrent = (href: string) => path === href || path === pageFor[href];
     panel.hidden = !next;
   };
 
+  const svcBtn = nav.querySelector<HTMLButtonElement>('[data-svc]');
+  const svcMenu = nav.querySelector<HTMLElement>('[data-svc-menu]');
+  if (svcBtn && svcMenu) svcBtn.addEventListener('click', () => toggle(svcBtn, svcMenu));
+
   const loginBtn = nav.querySelector<HTMLButtonElement>('[data-login]')!;
   const loginMenu = nav.querySelector<HTMLElement>('[data-login-menu]')!;
   loginBtn.addEventListener('click', () => toggle(loginBtn, loginMenu));
@@ -64,10 +85,12 @@ const isCurrent = (href: string) => path === href || path === pageFor[href];
 
   document.addEventListener('pointerdown', (e) => {
     if (!(e.target as Element).closest('.login-wrap')) toggle(loginBtn, loginMenu, false);
+    if (svcBtn && svcMenu && !(e.target as Element).closest('.svc-wrap')) toggle(svcBtn, svcMenu, false);
   });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     if (loginBtn.getAttribute('aria-expanded') === 'true') { toggle(loginBtn, loginMenu, false); loginBtn.focus(); }
+    if (svcBtn && svcMenu && svcBtn.getAttribute('aria-expanded') === 'true') { toggle(svcBtn, svcMenu, false); svcBtn.focus(); }
     if (menuBtn.getAttribute('aria-expanded') === 'true') { toggle(menuBtn, menu, false); menuBtn.focus(); }
   });
 </script>
@@ -98,6 +121,32 @@ const isCurrent = (href: string) => path === href || path === pageFor[href];
     background: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .06));
     border-color: rgba(255, 255, 255, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16);
   }
+
+  .svc-wrap { position: relative; }
+  .svc {
+    display: inline-flex; align-items: center; gap: 8px; cursor: pointer; background: transparent;
+    color: var(--on-dark-muted); font-size: var(--text-sm); font-weight: 500;
+    padding: 8px 16px; border-radius: var(--radius-pill); white-space: nowrap;
+    border: 1px solid transparent; transition: background .2s, color .2s, border-color .2s;
+  }
+  .svc:hover, .svc[aria-expanded='true'] { color: var(--white); background: rgba(255, 255, 255, .08); }
+  .svc[aria-current='page'] {
+    color: var(--white);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .06));
+    border-color: rgba(255, 255, 255, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16);
+  }
+  .svc[aria-expanded='true'] .caret { transform: translateY(1px) rotate(-135deg); }
+  .svc-menu {
+    position: absolute; left: 50%; top: calc(100% + 14px); transform: translateX(-50%); width: 260px;
+    display: grid; gap: 2px; padding: 6px; border-radius: 16px;
+    background: var(--forest-2); border: 1px solid var(--glass-border);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6);
+  }
+  .svc-menu[hidden] { display: none; }
+  .svc-menu a { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; color: var(--white); }
+  .svc-menu a:hover, .svc-menu a[aria-current='page'] { background: rgba(255, 255, 255, .07); }
+  .svc-menu b { font-size: 14px; font-weight: 600; }
+  .svc-menu small { font-size: 12px; color: var(--on-dark-faint); }
 
   .actions { display: flex; align-items: center; gap: 8px; }
   .login-wrap { position: relative; }

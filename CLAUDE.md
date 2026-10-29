@@ -44,11 +44,13 @@ motion: no Three.js, no smooth-scroll library, no page transitions.
 - `src/config/site.ts`: company details, navigation, logins, product summaries and pricing.
 - `src/config/content.ts`: client logos, venues, industries, reasons, and the journey steps.
 - `src/components/home/HeroSplit.astro`: the home page hero since 29 Oct 2026 (option B). Three vertical
-  panels, Y5Leads, Y5Campaigns and Y5Ads, with glowing seams. Clicking one opens it to fill the screen with
-  its details and animated graphic (`LeadsFeed`, `CampaignsMail`, `AdsPhones`); the other two shrink to dimmed
-  92px strips with vertical names that light up on hover. "All three" goes back. Home summaries below follow the
-  open panel through `[data-product]`, as before. Below 961px the panels stack. Option A (a video version) is a
-  mockup only.
+  panels in the order Y5Ads, Y5Leads, Y5Campaigns, with glowing seams. It loads with Y5Ads open (there is no
+  equal three-way state on desktop any more); the open panel fills the screen with its details and animated
+  graphic (`AdsPhones`, `LeadsFeed`, `CampaignsMail`), centred in the space right of the copy (`--art-c`). The
+  other two are dimmed 92px strips with vertical names that light up on hover; clicking one opens it. Home
+  summaries below follow the open panel through `[data-product]`. Below 961px the panels stack. Option A (a
+  video version) is a mockup only.
+- The menu groups the three products under a Services dropdown (`children` in `site.nav`, rendered in `Nav.astro`).
 - `src/pages/y5campaigns.astro`: the /y5campaigns page. `CampaignPricing.astro` holds the rates and the size picker.
   The `plum` band class and the `--violet` tokens are the Campaigns colours.
 - `src/components/home/HeroSlant.astro`: the previous home page hero (option A chosen by the CEO, 14 Oct 2026, with
