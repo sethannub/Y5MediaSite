@@ -11,7 +11,7 @@ import { join, extname } from 'node:path';
 const target = process.argv[2];
 if (!target) throw new Error('Give the target folder, e.g. ../Y5LeadsCRM/public/y5media');
 
-const ASSETS = /^\/(_astro|images|fonts|favicon\.ico|favicon\.svg|apple-touch-icon\.png|robots\.txt|sitemap[^/]*\.xml)(\/|$|\?|#)/;
+const ASSETS = /^\/(_astro|images|video|fonts|favicon\.ico|favicon\.svg|apple-touch-icon\.png|robots\.txt|sitemap[^/]*\.xml)(\/|$|\?|#)/;
 const mapPath = (p) => {
   if (!p.startsWith('/') || p.startsWith('//')) return p;
   if (ASSETS.test(p)) return '/y5media' + p;

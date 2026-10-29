@@ -4,12 +4,18 @@
 // open, filling the screen with its details and animated graphic; the other two
 // are dimmed strips with vertical names that light up on hover. Clicking a strip
 // opens that service, and a click on the open panel follows its link. Below
-// 961px the panels stack and show their at-rest copy.
+// 961px the panels stack and show their at-rest copy. With media="video" each
+// panel plays a background video instead of its animated graphic (option C).
+interface Props {
+  media?: 'graphics' | 'video';
+}
+const { media = 'graphics' } = Astro.props;
 import { products } from '../../config/site';
 import LeadsFeed from './LeadsFeed.astro';
 import CampaignsMail from './CampaignsMail.astro';
 import AdsPhones from './AdsPhones.astro';
 const LOGO = '/images/brand/y5-logo.svg';
+const VIDEO: Record<string, string> = { ads: 'ads', leads: 'leads', camp: 'campaigns' };
 const panes = [
   {
     side: 'y5ads', cls: 'ads', word: 'Ads', href: products.wifi.href, kind: 'WiFi Display Ads',
@@ -31,13 +37,22 @@ const panes = [
   },
 ];
 ---
-<section class="hs" aria-label="Our products" data-open="y5ads">
+<section class:list={['hs', { 'is-video': media === 'video' }]} aria-label="Our products" data-open="y5ads">
   {panes.map((p, i) => (
     <a class:list={['pane', p.cls, { 'is-active': p.side === 'y5ads' }]} href={p.href} aria-label={`Explore Y5${p.word}`} data-side={p.side}>
-      {p.cls === 'leads' && <LeadsFeed />}
-      {p.cls === 'camp' && <CampaignsMail />}
-      {p.cls === 'ads' && <AdsPhones />}
-      {p.cls === 'ads' && <span class="halo" aria-hidden="true"><i></i></span>}
+      {media === 'video' ? (
+        <div class="vid" aria-hidden="true">
+          <video src={`/video/hero-${VIDEO[p.cls]}.mp4`} poster={`/video/hero-${VIDEO[p.cls]}.jpg`} muted loop playsinline preload="metadata" data-video></video>
+          <span class="vid-shade"></span>
+        </div>
+      ) : (
+        <>
+          {p.cls === 'leads' && <LeadsFeed />}
+          {p.cls === 'camp' && <CampaignsMail />}
+          {p.cls === 'ads' && <AdsPhones />}
+          {p.cls === 'ads' && <span class="halo" aria-hidden="true"><i></i></span>}
+        </>
+      )}
       {i > 0 && <span class="seam" aria-hidden="true"></span>}
 
       <div class="rest">
@@ -85,10 +100,20 @@ const panes = [
       }
     });
   };
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+  const play = () => {
+    panes.forEach((p) => {
+      const v = p.querySelector<HTMLVideoElement>('[data-video]');
+      if (!v) return;
+      if (p.classList.contains('is-active') && wide.matches && !still.matches) v.play().catch(() => {});
+      else v.pause();
+    });
+  };
   const open = (product: string, animate = true) => {
     hero.dataset.open = product;
     panes.forEach((p) => p.classList.toggle('is-active', p.dataset.side === product));
     show(product, animate);
+    play();
   };
   const fit = () => {
     if (wide.matches) {
@@ -98,6 +123,7 @@ const panes = [
       hero.dataset.open = '';
       panes.forEach((p) => p.classList.remove('is-active'));
       show('', false);
+      play();
     }
   };
 
@@ -245,6 +271,20 @@ const panes = [
   @media (min-width: 1500px) { .hs { --art-s: 1.18; } .detail .sub { font-size: 19px; } }
   @media (min-width: 1800px) { .hs { --art-s: 1.32; } .detail .name { font-size: 96px; } .camp .detail .name { font-size: 76px; } }
   @media (min-width: 2200px) { .hs { --art-s: 1.5; } }
+
+  /* ---------- Option C: background videos ---------- */
+  .vid { position: absolute; inset: 0; }
+  .vid video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: filter .6s; }
+  .vid-shade { position: absolute; inset: 0; }
+  .leads .vid { background: #03140D; }
+  .camp .vid { background: #120828; }
+  .ads .vid { background: #F4F7F3; }
+  .camp .vid video { transform: translateX(16%) scale(1.24); transform-origin: right center; }
+  .leads .vid-shade { background: linear-gradient(90deg, rgba(3, 20, 13, .92) 0%, rgba(3, 20, 13, .7) calc(var(--g-left) + var(--copy-w)), rgba(6, 40, 24, .12) 72%, rgba(6, 40, 24, .25) 100%); }
+  .camp .vid-shade { background: linear-gradient(90deg, rgba(18, 8, 40, .92) 0%, rgba(18, 8, 40, .7) calc(var(--g-left) + var(--copy-w)), rgba(40, 20, 90, .12) 72%, rgba(40, 20, 90, .25) 100%); }
+  .ads .vid-shade { background: linear-gradient(90deg, rgba(244, 247, 243, .95) 0%, rgba(244, 247, 243, .78) calc(var(--g-left) + var(--copy-w)), rgba(236, 246, 226, .08) 72%, rgba(236, 246, 226, .15) 100%); }
+  .hs:not([data-open='']) .pane:not(.is-active) .vid video { filter: grayscale(.8); }
+  .hs:not([data-open='']) .pane:not(.is-active):hover .vid video { filter: none; }
 
   /* ---------- Phones and tablets: stacked, at-rest copy shown ---------- */
   @media (max-width: 960px) {

@@ -1,0 +1,29 @@
+---
+// Option C mockup: the option B hero with background videos instead of the
+// animated graphics, for comparing against the home page.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSplit from '../components/home/HeroSplit.astro';
+import ClientStrip from '../components/home/ClientStrip.astro';
+---
+<BaseLayout title="Hero option C · Videos">
+  <HeroSplit media="video" />
+  <ClientStrip />
+  <nav class="mock-switch" aria-label="Hero options">
+    <span>Hero</span>
+    <a href="/">B · Graphics</a>
+    <a href="/hero-video" aria-current="page">C · Videos</a>
+  </nav>
+</BaseLayout>
+
+<style>
+  .mock-switch {
+    position: fixed; z-index: 60; left: 50%; bottom: 20px; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 4px; padding: 6px; border-radius: 999px;
+    background: rgba(11, 38, 27, .9); border: 1px solid var(--glass-border); box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .6);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); font-size: 13px;
+  }
+  .mock-switch span { color: var(--on-dark-faint); padding: 0 10px; font-weight: 600; }
+  .mock-switch a { color: var(--on-dark-muted); padding: 8px 14px; border-radius: 999px; font-weight: 600; }
+  .mock-switch a:hover { color: var(--white); }
+  .mock-switch a[aria-current='page'] { background: var(--lime); color: #0B1A10; }
+</style>
