@@ -37,3 +37,5 @@ All photos are free-licence (Unsplash License / Pexels License). Commercial use 
 
 `public/images/y5ads/*.webp`, `public/video/portal-steps.webm` and the extra client logos in
 `public/images/clients` were taken from https://y5media.net on 15 Oct 2026.
+
+| ads/ad-sale.webp, ads/ad-money.webp | (crops) | | Cropped from ind-retail.jpg and ind-finance.jpg above for the Y5Ads hero ad screens | 600x800 |

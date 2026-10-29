@@ -3,9 +3,9 @@
 // page, each cycling through ads, on white with soft green motifs. CSS only.
 const ads = [
   { kind: 'img', src: '/images/people/ad-coffee.webp', small: 'Today only', big: 'Any coffee, AED 12', cta: 'Get the offer' },
-  { kind: 'sale', small: 'Weekend sale', big: 'Up to 40% off', cta: 'Shop now' },
+  { kind: 'img', src: '/images/ads/ad-sale.webp', small: 'Weekend sale', big: 'Up to 40% off', cta: 'Shop now' },
   { kind: 'img', src: '/images/hero/y5leads-hd.webp', small: 'New launch', big: 'Creek Vista from AED 1.2M', cta: 'Book a viewing' },
-  { kind: 'money', small: 'Send money home', big: 'Zero fees today', cta: 'Learn more' },
+  { kind: 'img', src: '/images/ads/ad-money.webp', small: 'Send money home', big: 'Zero fees today', cta: 'Learn more' },
 ];
 const slides = (offset: number) => ads.map((a, i) => ({ ...a, delay: (i * 3 + offset) % 12 }));
 ---
@@ -108,8 +108,6 @@ const slides = (offset: number) => ads.map((a, i) => ({ ...a, delay: (i * 3 + of
   @keyframes ap-slide { 0% { opacity: 0; transform: scale(1.06); } 3%, 25% { opacity: 1; transform: none; } 28%, 100% { opacity: 0; } }
   .ap-slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
   .ap-slide::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, .72)); }
-  .ap-slide.sale { background: linear-gradient(160deg, #F59E0B, #DC2626 70%, #7C2D12); }
-  .ap-slide.money { background: linear-gradient(160deg, #0EA5E9, #0F766E 70%, #064E3B); }
   .ap-tag { position: absolute; top: 6px; left: 6px; font: 700 7px var(--font-body); background: rgba(0, 0, 0, .5); padding: 1px 5px; border-radius: 4px; }
   .ap-txt { display: grid; }
   .ap-txt small { font: 500 8px var(--font-body); opacity: .9; }
