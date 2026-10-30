@@ -4,6 +4,7 @@ import { site } from '../config/site';
 const path = Astro.url.pathname.replace(/(\.html|\/)$/, '') || '/';
 type Item = { label: string; href: string; note?: string; children?: readonly Item[] };
 const isCurrent = (item: Item): boolean => path === item.href || (item.children ?? []).some((c) => path === c.href);
+const LOGO = '/images/brand/y5-logo.svg';
 ---
 <header class="nav on-dark" data-nav>
   <Logo />
@@ -17,7 +18,7 @@ const isCurrent = (item: Item): boolean => path === item.href || (item.children 
         </button>
         <div class="svc-menu" id="svc-menu" hidden data-svc-menu>
           {item.children.map((c) => (
-            <a href={c.href} aria-current={path === c.href ? 'page' : undefined}><b>{c.label}</b><small>{c.note}</small></a>
+            <a href={c.href} aria-current={path === c.href ? 'page' : undefined}>{c.label.startsWith('Y5') ? <b class="y5n"><img src={LOGO} alt="Y5" width="326" height="168" />{c.label.slice(2)}</b> : <b>{c.label}</b>}<small>{c.note}</small></a>
           ))}
         </div>
       </div>
@@ -50,7 +51,7 @@ const isCurrent = (item: Item): boolean => path === item.href || (item.children 
     {(site.nav as readonly Item[]).map((item) => item.children ? (
       <>
         <span class="m-group">{item.label}</span>
-        {item.children.map((c) => <a href={c.href}>{c.label}</a>)}
+        {item.children.map((c) => <a href={c.href}>{c.label.startsWith('Y5') ? <span class="y5n"><img src={LOGO} alt="Y5" width="326" height="168" />{c.label.slice(2)}</span> : c.label}</a>)}
       </>
     ) : <a href={item.href}>{item.label}</a>)}
     <span class="m-group">Log in</span>
@@ -147,6 +148,9 @@ const isCurrent = (item: Item): boolean => path === item.href || (item.children 
   .svc-menu a:hover, .svc-menu a[aria-current='page'] { background: rgba(255, 255, 255, .07); }
   .svc-menu b { font-size: 14px; font-weight: 600; }
   .svc-menu small { font-size: 12px; color: var(--on-dark-faint); }
+  .y5n { font-family: var(--font-display); font-weight: 600; letter-spacing: -.04em; white-space: nowrap; }
+  .svc-menu .y5n { font-size: 19px; line-height: 1.1; }
+  .y5n img { display: inline-block; height: .74em; width: auto; margin-right: .03em; vertical-align: -.02em; }
 
   .actions { display: flex; align-items: center; gap: 8px; }
   .login-wrap { position: relative; }
