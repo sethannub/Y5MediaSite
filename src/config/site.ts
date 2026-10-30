@@ -18,9 +18,9 @@ export const site = {
       label: 'Services',
       href: '/#services',
       children: [
-        { label: 'Y5Ads', href: '/y5ads', note: 'Ads on WiFi login screens' },
         { label: 'Y5Leads', href: '/y5leads', note: 'Buyer leads, ready to call' },
         { label: 'Y5Campaigns', href: '/y5campaigns', note: 'Email campaigns, done for you' },
+        { label: 'Y5Ads', href: '/y5ads', note: 'Ads on WiFi login screens' },
       ],
     },
     { label: 'About', href: '/about' },

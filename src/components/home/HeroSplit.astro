@@ -1,7 +1,7 @@
 ---
-// The home page hero (option B, chosen 29 Oct 2026): three vertical panels,
-// Y5Ads, Y5Leads and Y5Campaigns, split by glowing seams. It loads with Y5Ads
-// open, filling the screen with its details and animated graphic; the other two
+// The home page hero (option B, chosen 29 Oct 2026, order set 30 Oct): three
+// vertical panels, Y5Leads, Y5Campaigns and Y5Ads, split by glowing seams. It
+// loads with Y5Leads open, filling the screen with its details and animated graphic; the other two
 // are dimmed strips with vertical names that light up on hover. Clicking a strip
 // opens that service, and a click on the open panel follows its link. Below
 // 961px the panels stack and show their at-rest copy.
@@ -11,12 +11,6 @@ import CampaignsMail from './CampaignsMail.astro';
 import AdsPhones from './AdsPhones.astro';
 const LOGO = '/images/brand/y5-logo.svg';
 const panes = [
-  {
-    side: 'y5ads', cls: 'ads', word: 'Ads', href: products.wifi.href, kind: 'WiFi Display Ads',
-    rest: 'Your ad on the WiFi login screen across the UAE.',
-    text: 'Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation.',
-    feats: [['Banner', '& video'], ['Location', 'targeting'], ['Live', 'reports']],
-  },
   {
     side: 'y5leads', cls: 'leads', word: 'Leads', href: products.leads.href, kind: 'Buyer Leads',
     rest: 'Ready-to-call buyer leads, for every industry.',
@@ -29,11 +23,17 @@ const panes = [
     text: 'Send us your content and pick the industry. We build the email, send it to the right audience and report back.',
     feats: [['Done for you', 'we build & send'], ['Any industry', 'you pick who'], ['Live report', 'opens & clicks']],
   },
+  {
+    side: 'y5ads', cls: 'ads', word: 'Ads', href: products.wifi.href, kind: 'WiFi Display Ads',
+    rest: 'Your ad on the WiFi login screen across the UAE.',
+    text: 'Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation.',
+    feats: [['Banner', '& video'], ['Location', 'targeting'], ['Live', 'reports']],
+  },
 ];
 ---
-<section class="hs" aria-label="Our products" data-open="y5ads">
+<section class="hs" aria-label="Our products" data-open="y5leads">
   {panes.map((p, i) => (
-    <a class:list={['pane', p.cls, { 'is-active': p.side === 'y5ads' }]} href={p.href} aria-label={`Explore Y5${p.word}`} data-side={p.side}>
+    <a class:list={['pane', p.cls, { 'is-active': p.side === 'y5leads' }]} href={p.href} aria-label={`Explore Y5${p.word}`} data-side={p.side}>
       {p.cls === 'leads' && <LeadsFeed />}
       {p.cls === 'camp' && <CampaignsMail />}
       {p.cls === 'ads' && <AdsPhones />}
@@ -71,7 +71,7 @@ const panes = [
   const hero = document.querySelector<HTMLElement>('.hs')!;
   const panes = Array.from(hero.querySelectorAll<HTMLAnchorElement>('[data-side]'));
   const sides = panes.map((p) => p.dataset.side!);
-  const first = 'y5ads';
+  const first = 'y5leads';
 
   const show = (product: string, animate: boolean) => {
     document.querySelectorAll<HTMLElement>('[data-product]').forEach((sec) => {
