@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CampaignsMail from '../components/home/CampaignsMail.astro';
-import FeatureGrid from '../components/FeatureGrid.astro';
 import CampaignPricing from '../components/CampaignPricing.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { products, campaignPricing } from '../config/site';
@@ -10,7 +9,30 @@ import { products, campaignPricing } from '../config/site';
 const low = campaignPricing.tiers[campaignPricing.tiers.length - 1];
 const high = campaignPricing.tiers[0];
 
-const industries = ['Real estate', 'Automotive', 'Retail', 'Healthcare', 'Education', 'Finance', 'Hospitality'];
+// Keep in step with App\Support\CampaignOptions in the Y5Leads app: these are
+// the choices a client makes in the campaign brief.
+const targeting = [
+  {
+    title: 'Industry',
+    text: 'Pick the industry your buyers are in.',
+    chips: ['Real estate', 'Automotive', 'Finance and insurance', 'Healthcare', 'Education', 'Hospitality and travel', 'Retail and e-commerce', 'Technology', 'Construction', 'Professional services'],
+  },
+  {
+    title: 'Location',
+    text: 'Choose one place or several.',
+    chips: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Northern Emirates', 'Rest of GCC'],
+  },
+  {
+    title: 'Audience',
+    text: 'Reach shoppers, decision makers or both.',
+    chips: ['Buyers and shoppers', 'Business owners and managers', 'Both'],
+  },
+  {
+    title: 'Size and timing',
+    text: 'Choose how many people get it, the day it lands and the time of day.',
+    chips: ['100K to 2M+ emails', 'Your send date', 'Morning', 'Afternoon', 'Evening'],
+  },
+];
 
 const steps = [
   { title: 'Send us your content', text: 'Upload your logo, photos and offer, or a ready-made HTML email. Pick the industry and the campaign size.' },
@@ -19,22 +41,50 @@ const steps = [
   { title: 'We send and report', text: 'Your email goes out to the industry you picked. Watch the opens and clicks come in.' },
 ];
 
-const features = [
-  { title: 'Designed for you', text: 'No designer needed. We turn your logo, photos and offer into a clean email that works on every phone.' },
-  { title: 'Choose the industry', text: 'Reach property buyers, car shoppers, retail customers and more, anywhere in the UAE.' },
-  { title: 'Approve before it sends', text: 'Nothing goes out until you approve the proof. Ask for changes until it’s right.' },
-  { title: 'Pay for what goes out', text: 'Credits come off when you approve. Emails we couldn’t send are returned to your balance.' },
-  { title: 'Live report', text: 'Follow the send as it happens, then see opens and clicks when it’s done.' },
-  { title: 'One balance for everything', text: 'The same credits pay for Y5Leads and Y5Campaigns, so you top up once.' },
+const examples = [
+  {
+    tone: 'estate', from: 'Marina Heights', subject: 'Waterfront 2-bed homes from AED 1.8M', img: '/images/industries/real-estate.webp',
+    tag: 'New launch', title: 'Live by the water in Dubai Marina', text: '1, 2 and 3-bed homes with sea views. 60/40 payment plan, handover in 2027.', cta: 'Book a viewing',
+    meta: 'Real estate · Dubai · Buyers',
+  },
+  {
+    tone: 'auto', from: 'Prestige Motors', subject: 'Drive the new SUV this weekend', img: '/images/industries/luxury-cars.webp',
+    tag: 'Test drive event', title: 'This weekend only: 0% finance', text: 'Book a test drive at our Sheikh Zayed Road showroom and get free service for 3 years.', cta: 'Book a test drive',
+    meta: 'Automotive · Dubai, Abu Dhabi · Buyers',
+  },
+  {
+    tone: 'retail', from: 'Souk Style', subject: 'Up to 50% off, 3 days only', img: '/images/industries/retail.webp',
+    tag: 'Weekend sale', title: 'The big summer sale is here', text: 'Fashion, home and beauty, in store and online. Free delivery across the UAE.', cta: 'Shop the sale',
+    meta: 'Retail · All emirates · Shoppers',
+  },
+];
+
+const included = [
+  { title: 'Email design', text: 'We design the email from your logo, photos and offer. Already have an HTML email? We test it and send it as it is.' },
+  { title: 'Works on every screen', text: 'Every email is built to read well on phones, tablets and desktop mail apps.' },
+  { title: 'Subject line', text: 'Write your own, or let our team write one for you.' },
+  { title: 'A proof to approve', text: 'You see the finished email in your dashboard first. Ask for changes until it’s right.' },
+  { title: 'Your sender details', text: 'It comes from your company name, and replies go to the email address you choose.' },
+  { title: 'Sent on your day', text: 'Pick the date and the time of day, morning, afternoon or evening.' },
+  { title: 'Your chosen audience', text: 'Sent to the industry, places and type of people you picked in the brief.' },
+  { title: 'Live report', text: 'Delivered, opened and clicked, in your dashboard while it sends and after.' },
+  { title: 'Unsent emails returned', text: 'Credits for any emails that don’t go out come back to your balance.' },
+];
+
+const reportPoints = [
+  { title: 'Delivered, opened, clicked', text: 'The numbers update while it sends, with the open and click rates worked out for you.' },
+  { title: 'When and how they read it', text: 'Opens and clicks hour by hour, the best time of day, phone or desktop, and which email app they used.' },
+  { title: 'What they clicked', text: 'See which links in your email got the clicks.' },
+  { title: 'Every campaign in one place', text: 'Approve proofs, message our team and follow each campaign from brief to sent.' },
 ];
 
 const faqs = [
-  { q: 'Do I need my own mailing list?', a: 'No. You pick the industry you want to reach and we send your campaign to people in that industry across the UAE.' },
+  { q: 'Do I need my own mailing list?', a: 'No. You pick the industry, places and type of people you want to reach, and we send your campaign to them across the UAE and the GCC.' },
   { q: 'What do I need to send you?', a: 'Your logo, a few photos and the offer you want to promote. If you already have a finished HTML email, you can upload that instead.' },
   { q: 'When am I charged?', a: 'When you approve the proof. If some emails can’t be sent, those credits go back to your balance once the results are in. Cancel before it sends and you get everything back.' },
   { q: 'How big does a campaign have to be?', a: `The smallest campaign is ${campaignPricing.minEmails.toLocaleString('en-US')} emails. The price per email drops at 500,000 and again at 1 million.` },
   { q: 'Can I see the email before it goes out?', a: 'Yes. We upload a proof to your dashboard, and nothing is sent until you approve it.' },
-  { q: 'What will I see in the report?', a: 'How many emails were sent, opened and clicked, live while it sends and in full when it’s done.' },
+  { q: 'Where do I see the results?', a: 'In your Y5Media dashboard. Each campaign shows how many emails were delivered, opened and clicked, live while it sends and in full when it’s done.' },
 ];
 ---
 <BaseLayout title={products.campaigns.name} description="Email campaigns, built and sent for you. Send us your content, pick the industry you want to reach, approve the proof, and see who opened and clicked. From AED 0.1652 per email.">
@@ -55,19 +105,28 @@ const faqs = [
       <small>From</small>
       <b>AED {low.rate}</b>
       <span>per email at 1 million emails or more. AED {high.rate} per email from {campaignPricing.minEmails.toLocaleString('en-US')}.</span>
-      <a href="#pricing">See pricing <span aria-hidden="true">→</span></a>
+      <a href="#pricing">Work out your price <span aria-hidden="true">→</span></a>
     </div>
   </PageHero>
 
   <section class="section audience">
-    <div class="container split">
-      <div>
-        <div class="kicker" data-reveal>Who receives it</div>
-        <h2 data-reveal>You pick the industry. <span class="accent-violet">We find the inboxes.</span></h2>
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker" data-reveal>Who receives it</div>
+          <h2 data-reveal>You pick the audience. <span class="accent-violet">We find the inboxes.</span></h2>
+        </div>
+        <p class="lede" data-reveal>You don’t need a mailing list of your own. Tell us who you want to reach in the brief, and we send your campaign to people who match.</p>
       </div>
-      <div>
-        <p class="lede" data-reveal>Tell us who you want to reach, from property buyers to car shoppers, shoppers, patients or parents. We send your campaign to people in that industry across the UAE, so you don’t need a mailing list of your own.</p>
-        <ul class="chips" data-reveal>{industries.map((i) => <li>{i}</li>)}</ul>
+      <div class="targets">
+        {targeting.map((t, i) => (
+          <article class="target" data-reveal data-reveal-delay={`${i * 0.06}s`}>
+            <span class="t-num">0{i + 1}</span>
+            <h3>{t.title}</h3>
+            <p>{t.text}</p>
+            <ul class="chips">{t.chips.map((c) => <li>{c}</li>)}</ul>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -97,28 +156,84 @@ const faqs = [
     </div>
   </section>
 
-  <FeatureGrid kicker="Inside Y5Campaigns" title="Built for teams" accent="with no time for email." items={features} tone="white" />
+  <section class="section gallery">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker" data-reveal>Emails we build</div>
+          <h2 data-reveal>Clean, on-brand <span class="accent-violet">and made to be clicked.</span></h2>
+        </div>
+        <p class="lede" data-reveal>Send us your photos and offer and we turn them into an email like these. Each one is built for phones first, with one clear button.</p>
+      </div>
+      <div class="emails">
+        {examples.map((e, i) => (
+          <figure class:list={['email', e.tone]} data-reveal data-reveal-delay={`${i * 0.08}s`}>
+            <div class="e-inbox">
+              <span class="e-avatar" aria-hidden="true">{e.from.slice(0, 1)}</span>
+              <span class="e-head"><b>{e.from}</b><span>{e.subject}</span></span>
+            </div>
+            <div class="e-body">
+              <div class="e-brand">{e.from}</div>
+              <img src={e.img} alt="" width="640" height="360" loading="lazy" decoding="async" />
+              <div class="e-copy">
+                <span class="e-tag">{e.tag}</span>
+                <b class="e-title">{e.title}</b>
+                <p>{e.text}</p>
+                <span class="e-cta">{e.cta}</span>
+              </div>
+              <div class="e-foot">You are receiving this because you chose to hear about offers in the UAE. Unsubscribe</div>
+            </div>
+            <figcaption>{e.meta}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="fine" data-reveal>Example designs for illustration. The brands are made up.</p>
+    </div>
+  </section>
 
-  <section class="section report-band">
-    <div class="container report-grid">
+  <section class="section included">
+    <div class="container inc-grid">
       <div>
-        <div class="kicker" data-reveal>Your report</div>
-        <h2 data-reveal>See who opened <span class="accent-violet">and who clicked.</span></h2>
-        <p class="lede" data-reveal>Follow your campaign from your Y5Media dashboard while it sends, then see the results when it’s done.</p>
+        <div class="kicker" data-reveal>What’s included</div>
+        <h2 data-reveal>Everything from design <span class="accent-violet">to the final report.</span></h2>
+        <p class="lede" data-reveal>One price per email covers the whole campaign, design included. You pay from your credit balance, with no monthly plan.</p>
+        <a class="btn btn-dark" href="/contact?interest=y5campaigns" data-reveal>Start a campaign</a>
       </div>
-      <div class="report" data-reveal>
-        <div class="r-top">
-          <span class="r-name"><b>Spring launch</b><small>Real estate buyers · 150,000 emails</small></span>
-          <span class="r-badge">Sending · 62%</span>
+      <ul class="inc-list">
+        {included.map((it, i) => (
+          <li data-reveal data-reveal-delay={`${(i % 3) * 0.05}s`}>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg></span>
+            <span><b>{it.title}</b><span>{it.text}</span></span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section dash">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker" data-reveal>Your Y5Media dashboard</div>
+          <h2 data-reveal>Check your reports <span class="accent-violet">any time you like.</span></h2>
         </div>
-        <div class="r-bar"><span></span></div>
-        <div class="r-stats">
-          <div><small>Sent</small><b>93,000</b></div>
-          <div><small>Opened</small><b>21,390</b></div>
-          <div><small>Clicked</small><b>2,140</b></div>
-        </div>
-        <p class="r-fine">Example figures for illustration.</p>
+        <p class="lede" data-reveal>Every client gets a login to the Y5Media dashboard. It’s where you send a brief, approve the proof and follow your campaign from the first email to the last click.</p>
       </div>
+      <figure class="shot" data-reveal>
+        <span class="bar" aria-hidden="true"><i></i><i></i><i></i><span>leads.y5media.net</span></span>
+        <img src="/images/y5campaigns/dashboard-report.webp" alt="A finished campaign in the Y5Media dashboard: sent to 150,000 people, with delivered, opened and clicked totals and a chart of opens and clicks over time" width="1546" height="656" loading="lazy" decoding="async" />
+      </figure>
+      <div class="shots-2">
+        <figure class="shot" data-reveal>
+          <img src="/images/y5campaigns/dashboard-breakdown.webp" alt="Report breakdown: inbox to click, opens by hour of the day, devices and email apps" width="1084" height="418" loading="lazy" decoding="async" />
+        </figure>
+        <ul class="points">
+          {reportPoints.map((p, i) => (
+            <li data-reveal data-reveal-delay={`${i * 0.06}s`}><b>{p.title}</b><span>{p.text}</span></li>
+          ))}
+        </ul>
+      </div>
+      <p class="fine" data-reveal>Screens from the Y5Media dashboard. The figures are sample data.</p>
     </div>
   </section>
 
@@ -158,12 +273,21 @@ const faqs = [
 
   .kicker { color: var(--violet-ink); }
   .kicker::before { background: var(--violet-ink); }
+  .fine { margin-top: 18px; font-size: 13px; color: var(--gray-500); }
 
+  /* Who receives it */
   .audience { background: #F6F4FB; }
-  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
-  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-  .chips li { font-size: 14px; font-weight: 600; padding: 9px 14px; border-radius: var(--radius-pill); background: var(--white); border: 1px solid #E2DCF3; color: #2A1A55; }
+  .targets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .target { padding: 26px; border-radius: var(--radius-lg); background: var(--white); border: 1px solid #E8E3F5; display: flex; flex-direction: column; gap: 8px; }
+  .t-num { font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--violet-ink); }
+  .target h3 { font-size: 21px; }
+  .target p { color: var(--gray-500); font-size: 15px; }
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chips li { font-size: 13px; font-weight: 600; padding: 7px 12px; border-radius: var(--radius-pill); background: #F3F0FB; border: 1px solid #E2DCF3; color: #2A1A55; }
+  @media (max-width: 1100px) { .targets { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .targets { grid-template-columns: 1fr; } }
 
+  /* How it works */
   .how { background: var(--white); }
   .journey { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px; align-items: center; }
   .steps { list-style: none; display: grid; gap: 10px; }
@@ -176,23 +300,63 @@ const faqs = [
   .stage :global(.cmf-stage) { position: absolute; left: 50%; top: 50%; margin: -210px 0 0 -280px; }
   @media (max-width: 1180px) { .stage :global(.cmf-stage) { transform: scale(.85); } }
 
-  .report-band { background: #F6F4FB; }
-  .report-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
-  .report-grid .lede { margin-top: 18px; }
-  .report { padding: 28px; border-radius: var(--radius-lg); background: var(--white); border: 1px solid #ECE8F7; box-shadow: 0 30px 60px -36px rgba(58, 35, 120, .45); }
-  .r-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-  .r-name { display: grid; gap: 4px; }
-  .r-name b { font-size: 18px; }
-  .r-name small { font-size: 13px; color: var(--gray-500); }
-  .r-badge { font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: var(--radius-pill); background: #EDE7FF; color: #4C2DB0; white-space: nowrap; }
-  .r-bar { height: 10px; border-radius: 5px; background: #F0EDF7; margin: 22px 0; overflow: hidden; }
-  .r-bar span { display: block; width: 62%; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #8B5CF6, var(--violet)); }
-  .r-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-  .r-stats div { padding: 16px; border-radius: 14px; background: #F8F7FC; display: grid; gap: 4px; }
-  .r-stats small { font-size: 12.5px; color: var(--gray-500); }
-  .r-stats b { font-family: var(--font-display); font-size: 26px; font-weight: 600; letter-spacing: -.03em; }
-  .r-fine { margin-top: 16px; font-size: 12.5px; color: var(--gray-500); }
+  /* Email examples */
+  .gallery { background: linear-gradient(180deg, #F6F4FB, #EEE9FA); }
+  .emails { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
+  .email { margin: 0; border-radius: 22px; background: var(--white); border: 1px solid #E2DCF3; box-shadow: 0 34px 60px -40px rgba(58, 35, 120, .55); overflow: hidden; }
+  .email:nth-child(2) { transform: translateY(28px); }
+  .e-inbox { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #EEEAF6; }
+  .e-avatar { width: 34px; height: 34px; flex: none; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px; color: #fff; background: var(--accent-c); }
+  .e-head { display: grid; min-width: 0; }
+  .e-head b { font-size: 14px; }
+  .e-head span { font-size: 13px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .e-body { padding: 16px; background: #F7F6FA; }
+  .e-brand { padding: 12px 14px; border-radius: 12px 12px 0 0; background: var(--brand-bg); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: 15px; letter-spacing: .02em; text-transform: uppercase; }
+  .e-body img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .e-copy { display: grid; justify-items: start; gap: 8px; padding: 18px 16px 20px; background: var(--white); border-radius: 0 0 12px 12px; }
+  .e-tag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-c); }
+  .e-title { font-family: var(--font-display); font-size: 20px; line-height: 1.2; letter-spacing: -.01em; }
+  .e-copy p { font-size: 14px; color: var(--gray-500); }
+  .e-cta { margin-top: 6px; padding: 11px 18px; border-radius: 10px; background: var(--accent-c); color: #fff; font-weight: 600; font-size: 14px; }
+  .e-foot { padding: 12px 6px 0; font-size: 10.5px; color: #9A97A6; text-align: center; }
+  .email figcaption { padding: 12px 16px; font-size: 12.5px; font-weight: 600; color: var(--violet-ink); border-top: 1px solid #EEEAF6; }
+  .estate { --accent-c: #0E5E6F; --brand-bg: #0B3C49; }
+  .auto { --accent-c: #B4232A; --brand-bg: #17171C; }
+  .retail { --accent-c: #C2410C; --brand-bg: #3A2378; }
+  .gallery .fine { margin-top: 48px; }
+  @media (max-width: 1000px) { .emails { grid-template-columns: repeat(2, minmax(0, 1fr)); } .email:nth-child(2) { transform: none; } .email:nth-child(3) { display: none; } }
+  @media (max-width: 640px) { .emails { grid-template-columns: 1fr; } .email:nth-child(3) { display: block; } }
 
+  /* What's included */
+  .included { background: var(--white); }
+  .inc-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.4fr); gap: 56px; align-items: start; }
+  .inc-grid .lede { margin: 18px 0 28px; }
+  .inc-list { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .inc-list li { display: flex; gap: 14px; padding: 20px; border-radius: var(--radius-md); border: 1px solid #ECE8F7; background: #FBFAFE; }
+  .check { width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #EDE7FF; color: var(--violet-ink); }
+  .check svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .inc-list li > span:last-child { display: grid; gap: 4px; }
+  .inc-list b { font-size: 16px; }
+  .inc-list li span span { font-size: 14px; color: var(--gray-500); }
+  @media (max-width: 960px) { .inc-grid { grid-template-columns: 1fr; gap: 32px; } }
+  @media (max-width: 600px) { .inc-list { grid-template-columns: 1fr; } }
+
+  /* Dashboard reports */
+  .dash { background: #F6F4FB; overflow: hidden; }
+  .shot { margin: 0; border-radius: 16px; overflow: hidden; background: var(--white); border: 1px solid #E2DCF3; box-shadow: 0 40px 80px -46px rgba(58, 35, 120, .6); }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shots-2 { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 36px; align-items: center; margin-top: 28px; }
+  .bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: #F1EEF8; border-bottom: 1px solid #E2DCF3; }
+  .bar i { width: 10px; height: 10px; border-radius: 50%; background: #D6CFEA; }
+  .bar span { margin-left: 10px; font-size: 12px; color: var(--gray-500); padding: 3px 12px; border-radius: 999px; background: var(--white); }
+  .points { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; }
+  .points li { display: grid; gap: 6px; padding-top: 16px; border-top: 2px solid #D9D0F5; }
+  .points b { font-size: 16px; }
+  .points span { font-size: 14.5px; color: var(--gray-500); }
+  @media (max-width: 960px) { .shots-2 { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .points { grid-template-columns: 1fr; } }
+
+  /* FAQ */
   .faq { background: var(--white); }
   .faq .grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; }
   .list { display: grid; gap: 10px; }
@@ -204,10 +368,9 @@ const faqs = [
   details p { padding-bottom: 20px; color: var(--gray-500); max-width: 60ch; }
 
   @media (max-width: 960px) {
-    .split, .journey, .report-grid { grid-template-columns: 1fr; }
+    .journey { grid-template-columns: 1fr; }
     .stage { height: 380px; }
     .stage :global(.cmf-stage) { transform: scale(.65); }
   }
   @media (max-width: 860px) { .faq .grid { grid-template-columns: 1fr; } }
-  @media (max-width: 520px) { .r-stats { grid-template-columns: 1fr; } }
 </style>

@@ -1,98 +1,140 @@
 ---
-// Y5Campaigns pricing: the three per-email rates, and a size picker that works
-// out the credits for a campaign. Figures come from campaignPricing in site.ts
-// (keep in step with config/pricing.php in the Y5Leads app).
+// Y5Campaigns pricing: a campaign-size slider like the one on the Credits page
+// of the Y5Media dashboard. It runs from the smallest campaign to 2 million
+// emails, snaps to the price breaks, and the tier buttons under it jump to each
+// break. Figures come from campaignPricing in site.ts (keep in step with
+// config/pricing.php in the Y5Leads app).
 import { campaignPricing } from '../config/site';
-const { tiers, sizes, vat, minEmails } = campaignPricing;
-const rateFor = (n: number) => [...tiers].reverse().find((t) => n >= t.from)!.rate;
+const { tiers, vat, minEmails } = campaignPricing;
+const MAX = 2000000;
 const short = (n: number) => (n >= 1000000 ? `${n / 1000000}M` : `${n / 1000}K`);
 const fmt = (n: number) => n.toLocaleString('en-US');
-const start = sizes[0];
+const segments = tiers.map((t, i) => {
+  const from = Math.max(minEmails, t.from);
+  const to = tiers[i + 1] ? tiers[i + 1].from : MAX;
+  return { from, to, rate: t.rate, label: tiers[i + 1] ? `${short(from)} to ${short(to)}` : `${short(from)} or more` };
+});
+const breaks = segments.slice(1).map((s) => s.from);
+const start = 250000;
+const rateFor = (n: number) => [...tiers].reverse().find((t) => n >= t.from)!.rate;
+const pos = (n: number) => ((n - minEmails) / (MAX - minEmails)) * 100;
+const credits = (n: number) => Math.round(n * rateFor(n));
 ---
-<section class="pricing plum on-dark" id="pricing" data-camp-pricing>
+<section class="pricing plum on-dark" id="pricing" data-camp-pricing data-min={minEmails} data-max={MAX} data-vat={vat} data-breaks={breaks.join(',')}>
   <div class="container">
     <div class="section-head">
       <div>
         <div class="kicker" data-reveal>Y5Campaigns pricing</div>
         <h2 data-reveal>Pay per email. <span class="accent">Bigger campaigns cost less.</span></h2>
       </div>
-      <p class="lede" data-reveal>Credits come off when you approve the proof, and any emails we couldn’t send come back to you. One credit is one dirham, the same balance you use for Y5Leads.</p>
-    </div>
-
-    <div class="tiers">
-      {tiers.map((t, i) => (
-        <article class="tier" data-tier={t.from} aria-current={i === 0 ? 'true' : undefined} data-reveal data-reveal-delay={`${i * 0.08}s`}>
-          <span class="label">{t.label}</span>
-          <p class="big"><small>AED</small>{t.rate}</p>
-          <span class="per">per email</span>
-        </article>
-      ))}
+      <p class="lede" data-reveal>Slide to your campaign size to see what it costs. Credits come off when you approve the proof, and any emails we couldn’t send come back to you. One credit is one dirham, the same balance you use for Y5Leads.</p>
     </div>
 
     <div class="calc" data-reveal>
-      <span class="calc-label" id="camp-size-label">Campaign size</span>
-      <div class="sizes" role="radiogroup" aria-labelledby="camp-size-label">
-        {sizes.map((n, i) => (
-          <button type="button" role="radio" class="size" aria-checked={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}
-            data-size={n} data-rate={rateFor(n)} data-from={[...tiers].reverse().find((t) => n >= t.from)!.from}>{short(n)}</button>
-        ))}
+      <div class="calc-main">
+        <span class="calc-label">Campaign size</span>
+        <p class="count"><b data-out="emails">{fmt(start)}</b> <span>emails</span></p>
+        <div class="track">
+          <label for="camp-size" class="visually-hidden">Campaign size in emails</label>
+          <input id="camp-size" class="range" type="range" min={minEmails} max={MAX} step="10000" value={start}
+            aria-valuetext={`${fmt(start)} emails`} style={`--fill: ${pos(start)}%`} />
+          {breaks.map((b) => <span class="tick" aria-hidden="true" style={`left: ${pos(b)}%`} data-tick={b}></span>)}
+        </div>
+        <div class="scale" aria-hidden="true"><span>{short(minEmails)}</span><span>{short(MAX)}</span></div>
+        <div class="segs">
+          {segments.map((s) => (
+            <button type="button" class="seg" data-from={s.from} data-to={s.to} style={`flex: ${s.to - s.from} 1 0`}
+              aria-pressed={start >= s.from && start < s.to ? 'true' : 'false'}>
+              <span>{s.label}</span>
+              <b>AED {s.rate}</b>
+              <small>per email</small>
+            </button>
+          ))}
+        </div>
       </div>
-      <div class="out" aria-live="polite">
-        <span><span data-out="emails">{fmt(start)}</span> emails × AED <span data-out="rate">{rateFor(start)}</span></span>
-        <b><span data-out="total">{fmt(Math.round(start * rateFor(start)))}</span> credits</b>
+
+      <div class="calc-out" aria-live="polite">
+        <span class="calc-label">Your campaign</span>
+        <p class="line"><span data-out="emails2">{fmt(start)}</span> emails × AED <span data-out="rate">{rateFor(start)}</span></p>
+        <p class="total"><b data-out="credits">{fmt(credits(start))}</b> <span>credits</span></p>
+        <p class="line">AED <span data-out="vat">{fmt(Math.round(credits(start) * (1 + vat / 100)))}</span> with {vat}% VAT</p>
+        <a class="btn btn-violet" href="/contact?interest=y5campaigns">Start a campaign</a>
       </div>
-      <p class="fine">{vat}% VAT is added at checkout. The smallest campaign is {fmt(minEmails)} emails.</p>
     </div>
+    <p class="fine">The smallest campaign is {fmt(minEmails)} emails. Need more than {short(MAX)}? <a href="/contact?interest=y5campaigns">Talk to us</a>.</p>
   </div>
 </section>
 
 <script>
   const root = document.querySelector<HTMLElement>('[data-camp-pricing]');
   if (root) {
-    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.size'));
-    const tiers = Array.from(root.querySelectorAll<HTMLElement>('[data-tier]'));
+    const min = Number(root.dataset.min), max = Number(root.dataset.max), vat = Number(root.dataset.vat);
+    const breaks = (root.dataset.breaks || '').split(',').filter(Boolean).map(Number);
+    const range = root.querySelector<HTMLInputElement>('.range')!;
+    const segs = Array.from(root.querySelectorAll<HTMLButtonElement>('.seg'));
+    const ticks = Array.from(root.querySelectorAll<HTMLElement>('[data-tick]'));
+    const rates = segs.map((s) => ({ from: Number(s.dataset.from), rate: Number(s.querySelector('b')!.textContent!.replace(/[^\d.]/g, '')) }));
     const out = (k: string) => root.querySelector<HTMLElement>(`[data-out="${k}"]`)!;
-    const pick = (btn: HTMLButtonElement, focus = false) => {
-      buttons.forEach((b) => { const on = b === btn; b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1; });
-      const n = Number(btn.dataset.size);
-      const rate = Number(btn.dataset.rate);
-      out('emails').textContent = n.toLocaleString('en-US');
+    const fmt = (n: number) => n.toLocaleString('en-US');
+    const snap = (raw: number) => breaks.find((b) => Math.abs(b - raw) <= 40000) ?? Math.round(raw / 50000) * 50000;
+
+    const set = (value: number) => {
+      const n = Math.min(max, Math.max(min, value));
+      const rate = [...rates].reverse().find((r) => n >= r.from)!.rate;
+      const credits = Math.round(n * rate);
+      range.value = String(n);
+      range.style.setProperty('--fill', `${((n - min) / (max - min)) * 100}%`);
+      range.setAttribute('aria-valuetext', `${fmt(n)} emails`);
+      out('emails').textContent = fmt(n);
+      out('emails2').textContent = fmt(n);
       out('rate').textContent = String(rate);
-      out('total').textContent = Math.round(n * rate).toLocaleString('en-US');
-      tiers.forEach((t) => (t.dataset.tier === btn.dataset.from ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current')));
-      if (focus) btn.focus();
+      out('credits').textContent = fmt(credits);
+      out('vat').textContent = fmt(Math.round(credits * (1 + vat / 100)));
+      segs.forEach((s) => s.setAttribute('aria-pressed', String(n >= Number(s.dataset.from) && (n < Number(s.dataset.to) || s === segs[segs.length - 1]))));
+      ticks.forEach((t) => t.classList.toggle('on', n >= Number(t.dataset.tick)));
     };
-    buttons.forEach((b, i) => {
-      b.addEventListener('click', () => pick(b));
-      b.addEventListener('keydown', (e) => {
-        const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
-        if (!step) return;
-        e.preventDefault();
-        pick(buttons[(i + step + buttons.length) % buttons.length], true);
-      });
-    });
+    range.addEventListener('input', () => set(snap(Number(range.value))));
+    segs.forEach((s) => s.addEventListener('click', () => set(Number(s.dataset.from))));
+    set(Number(range.value));
   }
 </script>
 
 <style>
   .pricing { padding-block: var(--section); }
-  .tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-  .tier { padding: 28px; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); background: var(--glass); transition: background .3s, color .3s, border-color .3s; }
-  .tier[aria-current='true'] { background: var(--violet); color: var(--plum); border-color: var(--violet); }
-  .label { font-size: 13px; font-weight: 600; letter-spacing: .04em; opacity: .8; }
-  .big { margin: 10px 0 2px; font-family: var(--font-display); font-size: clamp(40px, 4vw, 56px); font-weight: 600; line-height: 1; letter-spacing: -.03em; }
-  .big small { font-size: .38em; margin-right: 6px; letter-spacing: 0; opacity: .8; }
-  .per { font-size: 14px; opacity: .75; }
-  .calc { margin-top: 24px; padding: clamp(22px, 3vw, 32px); border-radius: var(--radius-lg); background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .12); }
+  .calc { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); padding: clamp(22px, 3vw, 36px); border-radius: var(--radius-lg); background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .12); }
   .calc-label { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--violet); }
-  .sizes { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 22px; }
-  .size { padding: 11px 18px; border-radius: var(--radius-pill); border: 1px solid rgba(255, 255, 255, .22); background: transparent; color: var(--white); font-weight: 600; font-size: 14px; cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
-  .size:hover { border-color: rgba(255, 255, 255, .5); }
-  .size[aria-checked='true'] { background: var(--violet); color: var(--plum); border-color: var(--violet); }
-  .size:focus-visible { outline-color: var(--violet); }
-  .out { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .12); }
-  .out > span { color: rgba(255, 255, 255, .72); }
-  .out b { font-family: var(--font-display); font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -.03em; }
-  .fine { margin-top: 14px; font-size: 13px; color: rgba(255, 255, 255, .55); }
-  @media (max-width: 860px) { .tiers { grid-template-columns: 1fr; } }
+  .count { margin: 10px 0 6px; display: flex; align-items: baseline; gap: 10px; }
+  .count b { font-family: var(--font-display); font-size: clamp(40px, 4.4vw, 60px); font-weight: 600; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .count span { color: rgba(255, 255, 255, .7); }
+
+  .track { position: relative; padding: 14px 0; }
+  .range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 10px; margin: 0; border-radius: 999px; cursor: pointer; outline: none;
+    background: linear-gradient(90deg, var(--violet) var(--fill), rgba(255, 255, 255, .14) var(--fill)); }
+  .range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 4px solid #8B5CF6; box-shadow: 0 4px 14px rgba(0, 0, 0, .35); }
+  .range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 4px solid #8B5CF6; box-shadow: 0 4px 14px rgba(0, 0, 0, .35); }
+  .range:focus-visible { outline: 2px solid var(--violet); outline-offset: 6px; }
+  .tick { position: absolute; top: 50%; width: 2px; height: 18px; margin: -9px 0 0 -1px; border-radius: 1px; background: rgba(255, 255, 255, .45); pointer-events: none; }
+  .tick.on { background: var(--plum); opacity: .6; }
+  .scale { display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(255, 255, 255, .5); }
+
+  .segs { display: flex; gap: 6px; margin-top: 18px; }
+  .seg { min-width: 0; display: grid; gap: 2px; text-align: left; padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .04); color: var(--white); font: inherit; cursor: pointer; transition: background .25s, color .25s, border-color .25s; }
+  .seg:hover { border-color: rgba(255, 255, 255, .4); }
+  .seg span { font-size: 12.5px; font-weight: 600; opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seg b { font-family: var(--font-display); font-size: clamp(18px, 1.8vw, 24px); font-weight: 600; letter-spacing: -.02em; }
+  .seg small { font-size: 12px; opacity: .65; }
+  .seg[aria-pressed='true'] { background: var(--violet); border-color: var(--violet); color: var(--plum); }
+  .seg:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+
+  .calc-out { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: clamp(18px, 2.4vw, 28px); border-radius: var(--radius-md); background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .1); }
+  .line { color: rgba(255, 255, 255, .72); font-variant-numeric: tabular-nums; }
+  .total { margin: 6px 0 2px; display: flex; align-items: baseline; gap: 8px; }
+  .total b { font-family: var(--font-display); font-size: clamp(34px, 3.4vw, 48px); font-weight: 600; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .total span { color: rgba(255, 255, 255, .7); }
+  .btn-violet { margin-top: auto; background: var(--violet); color: var(--plum); }
+  .calc-out .btn-violet { margin-top: 18px; }
+  .fine { margin-top: 16px; font-size: 13px; color: rgba(255, 255, 255, .55); }
+  .fine a { color: var(--violet); font-weight: 600; }
+  @media (max-width: 960px) { .calc { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .segs { flex-direction: column; } .seg { flex: none !important; } }
 </style>
