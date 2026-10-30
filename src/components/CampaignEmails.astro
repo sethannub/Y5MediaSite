@@ -1,0 +1,160 @@
+---
+// Three sample emails for the Y5Campaigns page, each built the way a real
+// campaign email is: its own brand, layout and type, in an inbox frame that
+// shows the sender line, subject and preview text. The brands are made up.
+---
+<div class="mails">
+  <figure class="mail" data-reveal>
+    <div class="inbox">
+      <span class="av" style="background:#0E2A3B">MH</span>
+      <span class="hd"><b>Marina Heights</b><span class="subj">Phase 2 is now open: waterfront homes from AED 1.8M</span><span class="pre">Sea-view 1 to 3-bed apartments with a 60/40 payment plan…</span></span>
+      <time>9:41</time>
+    </div>
+    <div class="body re">
+      <div class="re-top"><span class="re-logo">MARINA<i>HEIGHTS</i></span><span class="re-loc">Dubai Marina</span></div>
+      <img src="/images/industries/real-estate.webp" alt="" width="1000" height="750" loading="lazy" decoding="async" />
+      <div class="re-copy">
+        <span class="re-eye">Now selling · Phase 2</span>
+        <h3>Waterfront living, from AED 1.8M</h3>
+        <p>Sea-view apartments steps from the Marina Walk, with a private beach deck, infinity pool and a 60/40 payment plan.</p>
+        <table class="re-facts"><tr><td><b>1 to 3</b>Bedrooms</td><td><b>60/40</b>Payment plan</td><td><b>Q4 2027</b>Handover</td></tr></table>
+        <span class="re-cta">Book a private viewing</span>
+        <span class="re-link">Download the brochure →</span>
+      </div>
+      <div class="re-foot">Marina Heights Sales Gallery, Dubai Marina, UAE<br />View in browser · Unsubscribe</div>
+    </div>
+    <figcaption>Real estate · Project launch</figcaption>
+  </figure>
+
+  <figure class="mail" data-reveal data-reveal-delay=".08s">
+    <div class="inbox">
+      <span class="av" style="background:#D7192A">P</span>
+      <span class="hd"><b>Prestige Motors</b><span class="subj">0% finance, this weekend only</span><span class="pre">Test drive any 2026 model at Sheikh Zayed Road, Fri to Sun…</span></span>
+      <time>Fri</time>
+    </div>
+    <div class="body au">
+      <div class="au-top"><span class="au-logo">PRESTIGE<i>MOTORS</i></span></div>
+      <div class="au-hero">
+        <img src="/images/industries/luxury-cars.webp" alt="" width="1000" height="750" loading="lazy" decoding="async" />
+        <div class="au-over"><span class="au-tag">Weekend event</span><b>0% FINANCE</b><span>on every 2026 model</span></div>
+      </div>
+      <div class="au-date"><b>1 – 3 NOV</b><span>Sheikh Zayed Road showroom · 10am to 10pm</span></div>
+      <ul class="au-perks">
+        <li><b>5 years</b>warranty</li>
+        <li><b>3 years</b>free service</li>
+        <li><b>AED 0</b>down payment</li>
+      </ul>
+      <div class="au-btns"><span class="au-cta">Book a test drive</span><span class="au-call">Find the showroom</span></div>
+      <p class="au-fine">Finance subject to bank approval. Offer valid 1 to 3 November on selected models.</p>
+    </div>
+    <figcaption>Automotive · Weekend sales event</figcaption>
+  </figure>
+
+  <figure class="mail" data-reveal data-reveal-delay=".16s">
+    <div class="inbox">
+      <span class="av" style="background:#0F766E">+</span>
+      <span class="hd"><b>Al Safa Medical Centre</b><span class="subj">Sarah, your annual check-up is due</span><span class="pre">Full health check with blood tests and a doctor’s review, now AED 299…</span></span>
+      <time>Tue</time>
+    </div>
+    <div class="body hc">
+      <div class="hc-top"><span class="hc-mark">+</span><span class="hc-name">Al Safa<small>Medical Centre</small></span></div>
+      <div class="hc-copy">
+        <p class="hc-hi">Hi Sarah,</p>
+        <h3>Your yearly health check, now AED 299</h3>
+        <img src="/images/industries/healthcare.webp" alt="" width="1000" height="750" loading="lazy" decoding="async" />
+        <ul class="hc-list">
+          <li>Full blood panel and cholesterol</li>
+          <li>ECG and blood pressure check</li>
+          <li>Results review with a GP</li>
+        </ul>
+        <div class="hc-price"><s>AED 650</s><b>AED 299</b><span>this month only</span></div>
+        <span class="hc-cta">Book my check-up</span>
+        <div class="hc-info"><span><b>Open</b> Saturday to Thursday, 8am to 10pm</span><span><b>Find us</b> Al Wasl Road, Jumeirah</span></div>
+      </div>
+      <div class="hc-foot">DHA licensed facility · Unsubscribe</div>
+    </div>
+    <figcaption>Healthcare · Clinic offer</figcaption>
+  </figure>
+</div>
+
+<style>
+  .mails { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
+  .mail { margin: 0; border-radius: 20px; overflow: hidden; background: var(--white); border: 1px solid #E2DCF3; box-shadow: 0 34px 60px -40px rgba(58, 35, 120, .55); }
+  .mail:nth-child(2) { transform: translateY(32px); }
+  .inbox { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-bottom: 1px solid #EEEAF6; background: var(--white); }
+  .av { width: 36px; height: 36px; flex: none; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 13px; }
+  .hd { display: grid; min-width: 0; flex: 1; gap: 1px; }
+  .hd b { font-size: 14px; }
+  .subj { font-size: 13px; font-weight: 600; color: #1F1A2E; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pre { font-size: 12.5px; color: #8A8698; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  time { font-size: 12px; color: #8A8698; }
+  .body { font-family: Arial, Helvetica, sans-serif; color: #1D1D1F; }
+  .body img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  figcaption { padding: 12px 16px; font-size: 12.5px; font-weight: 600; color: var(--violet-ink); border-top: 1px solid #EEEAF6; }
+
+  /* Real estate: quiet luxury, serif type, navy and gold */
+  .re { background: #FFFFFF; }
+  .re-top { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #0E2A3B; color: #fff; }
+  .re-logo { font-family: Georgia, 'Times New Roman', serif; font-size: 15px; letter-spacing: .32em; }
+  .re-logo i { font-style: normal; color: #C9A46A; margin-left: .32em; }
+  .re-loc { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255, 255, 255, .7); }
+  .re-copy { padding: 22px 22px 24px; text-align: center; }
+  .re-eye { font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: #9A7A45; }
+  .re h3 { margin: 8px 0 10px; font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: 23px; line-height: 1.2; color: #0E2A3B; letter-spacing: 0; }
+  .re p { font-size: 13.5px; line-height: 1.6; color: #55606A; }
+  .re-facts { width: 100%; margin: 18px 0 20px; border-collapse: collapse; border-top: 1px solid #E5E1D8; border-bottom: 1px solid #E5E1D8; }
+  .re-facts td { width: 33.3%; padding: 12px 4px; font-size: 11px; color: #7A848C; text-transform: uppercase; letter-spacing: .08em; }
+  .re-facts td + td { border-left: 1px solid #E5E1D8; }
+  .re-facts b { display: block; margin-bottom: 2px; font-family: Georgia, serif; font-weight: 400; font-size: 17px; color: #0E2A3B; text-transform: none; letter-spacing: 0; }
+  .re-cta { display: inline-block; padding: 13px 26px; background: #0E2A3B; color: #fff; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+  .re-link { display: block; margin-top: 12px; font-size: 13px; color: #9A7A45; text-decoration: underline; }
+  .re-foot { padding: 16px 20px; background: #F4F2EE; font-size: 11px; line-height: 1.6; color: #8B8F93; text-align: center; }
+
+  /* Automotive: dark, loud, red */
+  .au { background: #0D0D10; color: #fff; }
+  .au-top { padding: 16px 20px; border-bottom: 3px solid #D7192A; }
+  .au-logo { font-family: Arial Black, Arial, sans-serif; font-weight: 900; font-style: italic; font-size: 17px; letter-spacing: .04em; }
+  .au-logo i { color: #D7192A; margin-left: 6px; }
+  .au-hero { position: relative; }
+  .au-hero img { aspect-ratio: 4 / 3; filter: saturate(1.1) contrast(1.05); }
+  .au-over { position: absolute; inset: auto 0 0 0; padding: 60px 20px 18px; background: linear-gradient(180deg, transparent, rgba(13, 13, 16, .95)); display: grid; justify-items: start; }
+  .au-tag { font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; background: #D7192A; padding: 4px 8px; }
+  .au-over b { margin-top: 8px; font-family: Arial Black, Arial, sans-serif; font-weight: 900; font-size: 38px; line-height: .95; letter-spacing: -.02em; }
+  .au-over > span:last-child { font-size: 14px; color: rgba(255, 255, 255, .8); }
+  .au-date { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: #1A1A1F; }
+  .au-date b { font-family: Arial Black, Arial, sans-serif; font-size: 15px; color: #D7192A; white-space: nowrap; }
+  .au-date span { font-size: 12px; color: rgba(255, 255, 255, .75); }
+  .au-perks { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); padding: 18px 12px; text-align: center; }
+  .au-perks li { font-size: 11px; color: rgba(255, 255, 255, .65); text-transform: uppercase; letter-spacing: .06em; }
+  .au-perks li + li { border-left: 1px solid #2A2A31; }
+  .au-perks b { display: block; font-size: 17px; color: #fff; text-transform: none; letter-spacing: 0; }
+  .au-btns { display: flex; gap: 8px; padding: 0 20px 18px; }
+  .au-cta { flex: 1; text-align: center; padding: 13px 10px; background: #D7192A; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+  .au-call { flex: 1; text-align: center; padding: 12px 10px; border: 1px solid #4A4A52; font-size: 13px; font-weight: 700; }
+  .au-fine { padding: 14px 20px 18px; font-size: 10.5px; line-height: 1.5; color: #7C7C86; border-top: 1px solid #23232A; }
+
+  /* Healthcare: calm, personal, teal */
+  .hc { background: #F1F6F5; padding-bottom: 0; }
+  .hc-top { display: flex; align-items: center; gap: 10px; padding: 18px 22px; background: #fff; }
+  .hc-mark { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: #0F766E; color: #fff; font-weight: 700; font-size: 20px; line-height: 1; }
+  .hc-name { display: grid; font-weight: 700; font-size: 15px; color: #0B3B37; line-height: 1.1; }
+  .hc-name small { font-weight: 400; font-size: 11px; color: #5D7A77; }
+  .hc-copy { margin: 14px; padding: 20px; background: #fff; border-radius: 14px; }
+  .hc-hi { font-size: 13.5px; color: #4B5E5C; }
+  .hc h3 { margin: 6px 0 14px; font-family: Arial, Helvetica, sans-serif; font-size: 21px; line-height: 1.25; letter-spacing: -.01em; color: #0B3B37; }
+  .hc img { border-radius: 10px; aspect-ratio: 16 / 9; object-position: 70% 30%; }
+  .hc-list { list-style: none; display: grid; gap: 8px; margin: 16px 0; }
+  .hc-list li { position: relative; padding-left: 26px; font-size: 13.5px; color: #2E4442; }
+  .hc-list li::before { content: '✓'; position: absolute; left: 0; top: -1px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: #D7F0EC; color: #0F766E; font-size: 11px; font-weight: 700; }
+  .hc-price { display: flex; align-items: baseline; gap: 10px; padding: 12px 14px; border-radius: 10px; background: #F1F6F5; }
+  .hc-price s { font-size: 13px; color: #8AA19E; }
+  .hc-price b { font-size: 22px; color: #0F766E; }
+  .hc-price span { margin-left: auto; font-size: 11.5px; color: #5D7A77; }
+  .hc-cta { display: block; margin-top: 14px; padding: 13px; border-radius: 999px; background: #0F766E; color: #fff; text-align: center; font-weight: 700; font-size: 14px; }
+  .hc-info { display: grid; gap: 4px; margin-top: 14px; font-size: 12px; color: #4B5E5C; }
+  .hc-info b { color: #0B3B37; margin-right: 4px; }
+  .hc-foot { padding: 4px 22px 18px; font-size: 11px; color: #7E9592; text-align: center; }
+
+  @media (max-width: 1000px) { .mails { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mail:nth-child(2) { transform: none; } }
+  @media (max-width: 640px) { .mails { grid-template-columns: 1fr; } }
+</style>

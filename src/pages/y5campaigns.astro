@@ -3,36 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CampaignsMail from '../components/home/CampaignsMail.astro';
 import CampaignPricing from '../components/CampaignPricing.astro';
+import CampaignEmails from '../components/CampaignEmails.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { products, campaignPricing } from '../config/site';
 
-const low = campaignPricing.tiers[campaignPricing.tiers.length - 1];
-const high = campaignPricing.tiers[0];
-
-// Keep in step with App\Support\CampaignOptions in the Y5Leads app: these are
-// the choices a client makes in the campaign brief.
-const targeting = [
-  {
-    title: 'Industry',
-    text: 'Pick the industry your buyers are in.',
-    chips: ['Real estate', 'Automotive', 'Finance and insurance', 'Healthcare', 'Education', 'Hospitality and travel', 'Retail and e-commerce', 'Technology', 'Construction', 'Professional services'],
-  },
-  {
-    title: 'Location',
-    text: 'Choose one place or several.',
-    chips: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Northern Emirates', 'Rest of GCC'],
-  },
-  {
-    title: 'Audience',
-    text: 'Reach shoppers, decision makers or both.',
-    chips: ['Buyers and shoppers', 'Business owners and managers', 'Both'],
-  },
-  {
-    title: 'Size and timing',
-    text: 'Choose how many people get it, the day it lands and the time of day.',
-    chips: ['100K to 2M+ emails', 'Your send date', 'Morning', 'Afternoon', 'Evening'],
-  },
+// The four industries the page leads with, and the open and click rates a
+// campaign in each can expect. These are marketing ranges agreed with the
+// business (30 Oct 2026), not live figures.
+const industries = [
+  { name: 'Real estate', img: '/images/industries/real-estate.webp', text: 'Buyers and investors looking at new launches and ready homes.', open: [25, 30], click: 5.0 },
+  { name: 'Automotive', img: '/images/industries/luxury-cars.webp', text: 'Drivers shopping for a new or used car, finance or a service.', open: [22, 27], click: 4.2 },
+  { name: 'Healthcare', img: '/images/industries/healthcare.webp', text: 'Patients and families choosing clinics, check-ups and treatments.', open: [21, 26], click: 3.8 },
+  { name: 'Education', img: '/images/industries/education.webp', text: 'Parents and students comparing schools, courses and universities.', open: [20, 25], click: 3.5 },
 ];
+const SCALE = 35;
 
 const steps = [
   { title: 'Send us your content', text: 'Upload your logo, photos and offer, or a ready-made HTML email. Pick the industry and the campaign size.' },
@@ -41,32 +25,13 @@ const steps = [
   { title: 'We send and report', text: 'Your email goes out to the industry you picked. Watch the opens and clicks come in.' },
 ];
 
-const examples = [
-  {
-    tone: 'estate', from: 'Marina Heights', subject: 'Waterfront 2-bed homes from AED 1.8M', img: '/images/industries/real-estate.webp',
-    tag: 'New launch', title: 'Live by the water in Dubai Marina', text: '1, 2 and 3-bed homes with sea views. 60/40 payment plan, handover in 2027.', cta: 'Book a viewing',
-    meta: 'Real estate · Dubai · Buyers',
-  },
-  {
-    tone: 'auto', from: 'Prestige Motors', subject: 'Drive the new SUV this weekend', img: '/images/industries/luxury-cars.webp',
-    tag: 'Test drive event', title: 'This weekend only: 0% finance', text: 'Book a test drive at our Sheikh Zayed Road showroom and get free service for 3 years.', cta: 'Book a test drive',
-    meta: 'Automotive · Dubai, Abu Dhabi · Buyers',
-  },
-  {
-    tone: 'retail', from: 'Souk Style', subject: 'Up to 50% off, 3 days only', img: '/images/industries/retail.webp',
-    tag: 'Weekend sale', title: 'The big summer sale is here', text: 'Fashion, home and beauty, in store and online. Free delivery across the UAE.', cta: 'Shop the sale',
-    meta: 'Retail · All emirates · Shoppers',
-  },
-];
-
 const included = [
   { title: 'Email design', text: 'We design the email from your logo, photos and offer. Already have an HTML email? We test it and send it as it is.' },
   { title: 'Works on every screen', text: 'Every email is built to read well on phones, tablets and desktop mail apps.' },
-  { title: 'Subject line', text: 'Write your own, or let our team write one for you.' },
   { title: 'A proof to approve', text: 'You see the finished email in your dashboard first. Ask for changes until it’s right.' },
-  { title: 'Your sender details', text: 'It comes from your company name, and replies go to the email address you choose.' },
+  { title: 'Tested before it sends', text: 'We check every link and image, and how the email looks in the main email apps.' },
   { title: 'Sent on your day', text: 'Pick the date and the time of day, morning, afternoon or evening.' },
-  { title: 'Your chosen audience', text: 'Sent to the industry, places and type of people you picked in the brief.' },
+  { title: 'Your chosen industry', text: 'Sent to people in the industry you picked in the brief.' },
   { title: 'Live report', text: 'Delivered, opened and clicked, in your dashboard while it sends and after.' },
   { title: 'Unsent emails returned', text: 'Credits for any emails that don’t go out come back to your balance.' },
 ];
@@ -101,11 +66,8 @@ const faqs = [
       <a class="btn btn-primary" href="/contact?interest=y5campaigns">Start a campaign</a>
       <a class="btn btn-glass" href="#pricing">See pricing</a>
     </Fragment>
-    <div class="price-card" slot="side">
-      <small>From</small>
-      <b>AED {low.rate}</b>
-      <span>per email at 1 million emails or more. AED {high.rate} per email from {campaignPricing.minEmails.toLocaleString('en-US')}.</span>
-      <a href="#pricing">Work out your price <span aria-hidden="true">→</span></a>
+    <div class="hero-art" slot="side" aria-hidden="true">
+      <CampaignsMail />
     </div>
   </PageHero>
 
@@ -114,20 +76,52 @@ const faqs = [
       <div class="section-head">
         <div>
           <div class="kicker" data-reveal>Who receives it</div>
-          <h2 data-reveal>You pick the audience. <span class="accent-violet">We find the inboxes.</span></h2>
+          <h2 data-reveal>Pick your industry. <span class="accent-violet">We find the inboxes.</span></h2>
         </div>
-        <p class="lede" data-reveal>You don’t need a mailing list of your own. Tell us who you want to reach in the brief, and we send your campaign to people who match.</p>
+        <p class="lede" data-reveal>You don’t need a mailing list of your own. Choose the industry your buyers are in, and we send your campaign to people in it.</p>
       </div>
-      <div class="targets">
-        {targeting.map((t, i) => (
-          <article class="target" data-reveal data-reveal-delay={`${i * 0.06}s`}>
-            <span class="t-num">0{i + 1}</span>
-            <h3>{t.title}</h3>
-            <p>{t.text}</p>
-            <ul class="chips">{t.chips.map((c) => <li>{c}</li>)}</ul>
+      <div class="inds">
+        {industries.map((ind, i) => (
+          <article class="ind" data-reveal data-reveal-delay={`${i * 0.06}s`}>
+            <img src={ind.img} alt="" width="1000" height="750" loading="lazy" decoding="async" />
+            <div class="ind-copy">
+              <h3>{ind.name}</h3>
+              <p>{ind.text}</p>
+            </div>
           </article>
         ))}
       </div>
+      <p class="more" data-reveal>Also available: finance and insurance, hospitality and travel, retail, technology, construction and professional services.</p>
+    </div>
+  </section>
+
+  <section class="section rates">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker" data-reveal>What to expect</div>
+          <h2 data-reveal>Open rates <span class="accent-violet">by industry.</span></h2>
+        </div>
+        <p class="lede" data-reveal>Typical results for a Y5Campaigns send. Your own figures depend on your offer, the design and the day it lands.</p>
+      </div>
+      <div class="rate-table" role="table" aria-label="Typical open and click rates by industry">
+        <div class="rate-row rate-head" role="row">
+          <span role="columnheader">Industry</span>
+          <span role="columnheader">Open rate</span>
+          <span role="columnheader">Click rate</span>
+        </div>
+        {industries.map((ind, i) => (
+          <div class="rate-row" role="row" data-reveal data-reveal-delay={`${i * 0.06}s`}>
+            <span class="rate-name" role="cell"><img src={ind.img} alt="" width="1000" height="750" loading="lazy" decoding="async" />{ind.name}</span>
+            <span class="rate-open" role="cell">
+              <b>{ind.open[0]}–{ind.open[1]}%</b>
+              <span class="rbar" aria-hidden="true"><i style={`left: ${(ind.open[0] / SCALE) * 100}%; width: ${((ind.open[1] - ind.open[0]) / SCALE) * 100}%`}></i><em style={`width: ${(ind.open[0] / SCALE) * 100}%`}></em></span>
+            </span>
+            <span class="rate-click" role="cell"><b>{ind.click.toFixed(1)}%</b><small>of people reached</small></span>
+          </div>
+        ))}
+      </div>
+      <p class="fine" data-reveal>Typical ranges, not a guarantee.</p>
     </div>
   </section>
 
@@ -140,19 +134,15 @@ const faqs = [
         </div>
         <p class="lede" data-reveal>You do two things: send us your content and approve the proof. We do the rest.</p>
       </div>
-      <div class="journey">
-        <ol class="steps">
-          {steps.map((s, i) => (
-            <li data-reveal data-reveal-delay={`${i * 0.06}s`}>
-              <span class="num">0{i + 1}</span>
-              <span class="st"><b>{s.title}</b><span>{s.text}</span></span>
-            </li>
-          ))}
-        </ol>
-        <figure class="stage" data-reveal>
-          <CampaignsMail />
-        </figure>
-      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li data-reveal data-reveal-delay={`${i * 0.06}s`}>
+            <span class="num">0{i + 1}</span>
+            <b>{s.title}</b>
+            <span>{s.text}</span>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
@@ -163,30 +153,9 @@ const faqs = [
           <div class="kicker" data-reveal>Emails we build</div>
           <h2 data-reveal>Clean, on-brand <span class="accent-violet">and made to be clicked.</span></h2>
         </div>
-        <p class="lede" data-reveal>Send us your photos and offer and we turn them into an email like these. Each one is built for phones first, with one clear button.</p>
+        <p class="lede" data-reveal>Every brand gets its own design, built from your photos, colours and offer. Here are three we might send for a property launch, a car showroom and a clinic.</p>
       </div>
-      <div class="emails">
-        {examples.map((e, i) => (
-          <figure class:list={['email', e.tone]} data-reveal data-reveal-delay={`${i * 0.08}s`}>
-            <div class="e-inbox">
-              <span class="e-avatar" aria-hidden="true">{e.from.slice(0, 1)}</span>
-              <span class="e-head"><b>{e.from}</b><span>{e.subject}</span></span>
-            </div>
-            <div class="e-body">
-              <div class="e-brand">{e.from}</div>
-              <img src={e.img} alt="" width="640" height="360" loading="lazy" decoding="async" />
-              <div class="e-copy">
-                <span class="e-tag">{e.tag}</span>
-                <b class="e-title">{e.title}</b>
-                <p>{e.text}</p>
-                <span class="e-cta">{e.cta}</span>
-              </div>
-              <div class="e-foot">You are receiving this because you chose to hear about offers in the UAE. Unsubscribe</div>
-            </div>
-            <figcaption>{e.meta}</figcaption>
-          </figure>
-        ))}
-      </div>
+      <CampaignEmails />
       <p class="fine" data-reveal>Example designs for illustration. The brands are made up.</p>
     </div>
   </section>
@@ -260,16 +229,13 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  .price-card {
-    display: grid; gap: 6px; padding: 32px; border-radius: var(--radius-lg); max-width: 380px; margin-left: auto;
-    background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  }
-  .price-card small { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--violet); }
-  .price-card b { font-family: var(--font-display); font-size: clamp(42px, 4.4vw, 60px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
-  .price-card span { color: rgba(255, 255, 255, .72); }
-  .price-card a { margin-top: 12px; font-weight: 600; color: var(--violet); }
-  @media (max-width: 960px) { .price-card { margin-left: 0; } }
+  .hero-art { position: relative; height: 460px; }
+  .hero-art :global(.cmf) { background: none; }
+  .hero-art :global(.cmf)::after, .hero-art :global(.cmf-photo), .hero-art :global(.cmf-trail) { display: none; }
+  .hero-art :global(.cmf-stage) { position: absolute; left: 50%; top: 50%; margin: -210px 0 0 -280px; }
+  @media (max-width: 1180px) { .hero-art :global(.cmf-stage) { transform: scale(.85); } }
+  @media (max-width: 960px) { .hero-art { height: 360px; } .hero-art :global(.cmf-stage) { transform: scale(.7); } }
+  @media (max-width: 520px) { .hero-art { height: 280px; } .hero-art :global(.cmf-stage) { transform: scale(.55); } }
 
   .kicker { color: var(--violet-ink); }
   .kicker::before { background: var(--violet-ink); }
@@ -277,62 +243,60 @@ const faqs = [
 
   /* Who receives it */
   .audience { background: #F6F4FB; }
-  .targets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  .target { padding: 26px; border-radius: var(--radius-lg); background: var(--white); border: 1px solid #E8E3F5; display: flex; flex-direction: column; gap: 8px; }
-  .t-num { font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--violet-ink); }
-  .target h3 { font-size: 21px; }
-  .target p { color: var(--gray-500); font-size: 15px; }
-  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .chips li { font-size: 13px; font-weight: 600; padding: 7px 12px; border-radius: var(--radius-pill); background: #F3F0FB; border: 1px solid #E2DCF3; color: #2A1A55; }
-  @media (max-width: 1100px) { .targets { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 600px) { .targets { grid-template-columns: 1fr; } }
+  .inds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .ind { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 3 / 4; background: #1B1036; }
+  .ind img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out); }
+  .ind:hover img { transform: scale(1.05); }
+  .ind::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22, 11, 51, 0) 35%, rgba(22, 11, 51, .92)); }
+  .ind-copy { position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; padding: 22px; color: #fff; display: grid; gap: 6px; }
+  .ind h3 { font-size: 24px; color: #fff; }
+  .ind p { font-size: 14.5px; color: rgba(255, 255, 255, .8); }
+  .more { margin-top: 20px; font-size: 14.5px; color: var(--gray-500); }
+  @media (max-width: 1000px) { .inds { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .inds { grid-template-columns: 1fr; } .ind { aspect-ratio: 4 / 3; } }
+
+  /* Open rates by industry */
+  .rates { background: var(--white); }
+  .rate-table { border: 1px solid #ECE8F7; border-radius: var(--radius-lg); overflow: hidden; }
+  .rate-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, .8fr); gap: 24px; align-items: center; padding: 18px 24px; }
+  .rate-row + .rate-row { border-top: 1px solid #ECE8F7; }
+  .rate-head { padding-block: 12px; background: #F8F7FC; font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gray-500); }
+  .rate-name { display: flex; align-items: center; gap: 14px; font-family: var(--font-display); font-weight: 600; font-size: 18px; }
+  .rate-name img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
+  .rate-open { display: grid; grid-template-columns: 88px minmax(0, 1fr); align-items: center; gap: 16px; }
+  .rate-open b, .rate-click b { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+  .rbar { position: relative; height: 12px; border-radius: 6px; background: #F0EDF7; overflow: hidden; }
+  .rbar em { position: absolute; left: 0; top: 0; bottom: 0; background: #C9B6FF; border-radius: 6px 0 0 6px; }
+  .rbar i { position: absolute; top: 0; bottom: 0; background: var(--violet-ink); border-radius: 0 6px 6px 0; }
+  .rate-click { display: grid; gap: 2px; }
+  .rate-click small { font-size: 12.5px; color: var(--gray-500); }
+  @media (max-width: 760px) {
+    .rate-head { display: none; }
+    .rate-row { grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+    .rate-name { grid-column: 1 / -1; }
+    .rate-open { grid-template-columns: 1fr; gap: 6px; }
+  }
 
   /* How it works */
-  .how { background: var(--white); }
-  .journey { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px; align-items: center; }
-  .steps { list-style: none; display: grid; gap: 10px; }
-  .steps li { display: flex; gap: 16px; padding: 20px 22px; border-radius: var(--radius-md); border: 1px solid #ECE8F7; background: #F8F7FC; }
-  .num { font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--violet-ink); padding-top: 2px; }
-  .st { display: grid; gap: 4px; }
-  .st b { font-size: 17px; }
-  .st span { font-size: 15px; color: var(--gray-500); }
-  .stage { position: relative; height: 500px; border-radius: var(--radius-lg); overflow: hidden; }
-  .stage :global(.cmf-stage) { position: absolute; left: 50%; top: 50%; margin: -210px 0 0 -280px; }
-  @media (max-width: 1180px) { .stage :global(.cmf-stage) { transform: scale(.85); } }
+  .how { background: #F6F4FB; }
+  .steps { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; counter-reset: none; }
+  .steps li { display: grid; align-content: start; gap: 8px; padding: 24px; border-radius: var(--radius-md); border: 1px solid #E8E3F5; background: var(--white); }
+  .num { font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--violet-ink); }
+  .steps b { font-size: 18px; }
+  .steps li > span:last-child { font-size: 15px; color: var(--gray-500); }
+  @media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
 
   /* Email examples */
-  .gallery { background: linear-gradient(180deg, #F6F4FB, #EEE9FA); }
-  .emails { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
-  .email { margin: 0; border-radius: 22px; background: var(--white); border: 1px solid #E2DCF3; box-shadow: 0 34px 60px -40px rgba(58, 35, 120, .55); overflow: hidden; }
-  .email:nth-child(2) { transform: translateY(28px); }
-  .e-inbox { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #EEEAF6; }
-  .e-avatar { width: 34px; height: 34px; flex: none; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px; color: #fff; background: var(--accent-c); }
-  .e-head { display: grid; min-width: 0; }
-  .e-head b { font-size: 14px; }
-  .e-head span { font-size: 13px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .e-body { padding: 16px; background: #F7F6FA; }
-  .e-brand { padding: 12px 14px; border-radius: 12px 12px 0 0; background: var(--brand-bg); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: 15px; letter-spacing: .02em; text-transform: uppercase; }
-  .e-body img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
-  .e-copy { display: grid; justify-items: start; gap: 8px; padding: 18px 16px 20px; background: var(--white); border-radius: 0 0 12px 12px; }
-  .e-tag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-c); }
-  .e-title { font-family: var(--font-display); font-size: 20px; line-height: 1.2; letter-spacing: -.01em; }
-  .e-copy p { font-size: 14px; color: var(--gray-500); }
-  .e-cta { margin-top: 6px; padding: 11px 18px; border-radius: 10px; background: var(--accent-c); color: #fff; font-weight: 600; font-size: 14px; }
-  .e-foot { padding: 12px 6px 0; font-size: 10.5px; color: #9A97A6; text-align: center; }
-  .email figcaption { padding: 12px 16px; font-size: 12.5px; font-weight: 600; color: var(--violet-ink); border-top: 1px solid #EEEAF6; }
-  .estate { --accent-c: #0E5E6F; --brand-bg: #0B3C49; }
-  .auto { --accent-c: #B4232A; --brand-bg: #17171C; }
-  .retail { --accent-c: #C2410C; --brand-bg: #3A2378; }
-  .gallery .fine { margin-top: 48px; }
-  @media (max-width: 1000px) { .emails { grid-template-columns: repeat(2, minmax(0, 1fr)); } .email:nth-child(2) { transform: none; } .email:nth-child(3) { display: none; } }
-  @media (max-width: 640px) { .emails { grid-template-columns: 1fr; } .email:nth-child(3) { display: block; } }
+  .gallery { background: var(--white); }
+  .gallery .fine { margin-top: 52px; }
 
   /* What's included */
-  .included { background: var(--white); }
+  .included { background: #F6F4FB; }
   .inc-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.4fr); gap: 56px; align-items: start; }
   .inc-grid .lede { margin: 18px 0 28px; }
   .inc-list { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .inc-list li { display: flex; gap: 14px; padding: 20px; border-radius: var(--radius-md); border: 1px solid #ECE8F7; background: #FBFAFE; }
+  .inc-list li { display: flex; gap: 14px; padding: 20px; border-radius: var(--radius-md); border: 1px solid #E8E3F5; background: var(--white); }
   .check { width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #EDE7FF; color: var(--violet-ink); }
   .check svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
   .inc-list li > span:last-child { display: grid; gap: 4px; }
@@ -342,7 +306,7 @@ const faqs = [
   @media (max-width: 600px) { .inc-list { grid-template-columns: 1fr; } }
 
   /* Dashboard reports */
-  .dash { background: #F6F4FB; overflow: hidden; }
+  .dash { background: var(--white); overflow: hidden; }
   .shot { margin: 0; border-radius: 16px; overflow: hidden; background: var(--white); border: 1px solid #E2DCF3; box-shadow: 0 40px 80px -46px rgba(58, 35, 120, .6); }
   .shot img { display: block; width: 100%; height: auto; }
   .shots-2 { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 36px; align-items: center; margin-top: 28px; }
@@ -367,10 +331,5 @@ const faqs = [
   details[open] summary::after { transform: rotate(45deg); }
   details p { padding-bottom: 20px; color: var(--gray-500); max-width: 60ch; }
 
-  @media (max-width: 960px) {
-    .journey { grid-template-columns: 1fr; }
-    .stage { height: 380px; }
-    .stage :global(.cmf-stage) { transform: scale(.65); }
-  }
   @media (max-width: 860px) { .faq .grid { grid-template-columns: 1fr; } }
 </style>
