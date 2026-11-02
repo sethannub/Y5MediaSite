@@ -24,7 +24,7 @@ export const site = {
         { label: 'Y5Ads', href: '/y5ads', note: 'Ads on WiFi login screens' },
       ],
     },
-    { label: 'Industries', href: '/#industries' },
+    { label: 'Industries', href: '/industries' },
     { label: 'Contact', href: '/contact' },
   ],
 

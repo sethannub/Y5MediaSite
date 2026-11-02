@@ -1,0 +1,453 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+type Fit = 1 | 2 | 3;
+
+const services = [
+  { key: 'leads', name: 'Y5Leads', href: '/y5leads', exLabel: 'Example lead' },
+  { key: 'camp', name: 'Y5Campaigns', href: '/y5campaigns', exLabel: 'Example subject' },
+  { key: 'ads', name: 'Y5Ads', href: '/y5ads', exLabel: 'Where it shows' },
+] as const;
+
+const FIT: Record<Fit, string> = { 3: 'Best fit', 2: 'Strong fit', 1: 'Also works' };
+
+// fit, ex and uses are in service order: Y5Leads, Y5Campaigns, Y5Ads.
+const industries: {
+  name: string; img: string; pos?: string; title: string; decide: string;
+  fit: [Fit, Fit, Fit]; ex: [string, string, string]; uses: [string[], string[], string[]];
+}[] = [
+  { name: 'Real Estate', img: '/images/industries/real-estate.webp', title: 'Buyers and investors, ready for a viewing.', fit: [3, 2, 2],
+    decide: 'Buyers compare projects for weeks and speak to several agents. The one who calls first, with the right project, usually wins the viewing.',
+    ex: ['Palm Residences · AED 2M–3M', 'Now launching: Palm Residences', 'Homes · Malls · Cafés'],
+    uses: [['Matched to project and budget', 'Call or WhatsApp in one tap'], ['Launch emails to buyers', 'Payment-plan offers'], ['Launch video on the WiFi login', 'One tap to your project page']] },
+  { name: 'Luxury Cars', img: '/images/industries/luxury-cars.webp', title: 'Drivers ready to book a test drive.', fit: [3, 1, 2],
+    decide: 'Car buyers shortlist online, then visit one or two showrooms. Be on the shortlist, and call before the other dealer does.',
+    ex: ['New SUV range · AED 180K–250K', 'Book a test drive this weekend', 'Malls · Cafés · Homes'],
+    uses: [['Test-drive requests', 'Book the drive the same day'], ['New model launches', 'Year-end offers'], ['Full-screen video for a new model', 'In malls with showrooms']] },
+  { name: 'Hospitality & Travel', img: '/images/industries/hospitality.webp', title: 'Guests planning their next stay.', fit: [1, 3, 2],
+    decide: 'Stays and holidays are booked by season and often on impulse. The offer that lands while people plan their weekend gets the booking.',
+    ex: ['Corporate stay · 20 guests', 'Your weekend escape', 'Cafés · Malls · Homes'],
+    uses: [['Group and corporate bookings', 'Event enquiries'], ['Staycation packages', 'Long-weekend offers'], ['Offers on café and mall WiFi', 'One tap to booking']] },
+  { name: 'Retail & E-commerce', img: '/images/industries/retail.webp', pos: '50% 35%', title: 'Shoppers, while they’re out shopping.', fit: [1, 2, 3],
+    decide: 'Footfall comes from people nearby with time to browse. Reach them in the mall they are already in, the moment they connect.',
+    ex: ['Sofa set · AED 15K–25K', 'The weekend sale starts Friday', 'Malls · Cafés · Staff housing'],
+    uses: [['Buyers for big purchases', 'See what they want first'], ['Sale announcements', 'Traffic to your online shop'], ['Your offer on the mall WiFi', 'Timed around sales']] },
+  { name: 'Banking & Finance', img: '/images/industries/finance.webp', title: 'Customers comparing before they apply.', fit: [3, 1, 2],
+    decide: 'Financial products are researched before anyone applies. Speaking to people while they compare turns an enquiry into an account.',
+    ex: ['Mortgage enquiry · AED 1.5M', 'Open a business account', 'Staff housing · Malls'],
+    uses: [['Loan, card and mortgage enquiries', 'Call back while they compare'], ['Business account offers', 'Product launches'], ['Remittance offers in staff housing', 'Branch promotions']] },
+  { name: 'Healthcare', img: '/images/industries/healthcare.webp', title: 'Patients looking for care, near your clinic.', fit: [3, 1, 2],
+    decide: 'Clinics need booked appointments, not just awareness. Patients ask a few clinics, then book with the one that calls back first.',
+    ex: ['Dental implants · AED 5K–10K', 'Full health check-up this month', 'Homes · Staff housing'],
+    uses: [['Treatment enquiries', 'Bad lead? Credits back'], ['Health packages', 'New specialist news'], ['Check-up offers in communities', 'Packages in staff housing']] },
+  { name: 'Education', img: '/images/industries/education.webp', title: 'Students and parents, ready to enrol.', fit: [3, 2, 1],
+    decide: 'Families compare schools and courses for months before they commit. Be in the conversation early, and call when they ask.',
+    ex: ['Grade 3 · Fees AED 40K–60K', 'Open day this Saturday', 'Homes · Malls · Cafés'],
+    uses: [['Admission enquiries', 'Book campus visits'], ['Open days and intakes', 'Early-bird offers'], ['Open days on WiFi at home', 'One tap to admissions']] },
+  { name: 'B2B & Corporate', img: '/images/industries/corporate.webp', title: 'Reach the people who sign off.', fit: [2, 3, 1],
+    decide: 'Business buyers decide in small groups and take their time. Being in front of the right decision makers matters more than reaching everyone.',
+    ex: ['Office fit-out · 4,000 sq ft', 'Cut your fleet costs', 'Malls · Cafés'],
+    uses: [['Enquiries for your services', 'Call back while they compare'], ['Emails to decision makers', 'Event invites'], ['Brand awareness in malls and cafés']] },
+];
+
+const ranked = (fit: [Fit, Fit, Fit]) => [0, 1, 2].sort((a, b) => fit[b] - fit[a]);
+
+const jobs = [
+  { key: 'leads', name: 'Y5Leads', href: '/y5leads', text: 'Buyers who asked about what you sell, matched to your product and ready to call.',
+    rows: [['The job', 'Get you on the phone with a buyer'], ['You pay', 'AED 250 for each lead you unlock'], ['Best for', 'Real estate, cars, finance, healthcare, education']] },
+  { key: 'camp', name: 'Y5Campaigns', href: '/y5campaigns', text: 'Email campaigns we design and send for you, to people in the industry you pick.',
+    rows: [['The job', 'Put your offer in front of a whole industry'], ['You pay', 'Per email sent, from 100,000 emails'], ['Best for', 'Hospitality, B2B, launches in any industry']] },
+  { key: 'ads', name: 'Y5Ads', href: '/y5ads', text: 'Your banner or video on the WiFi login screen in malls, cafés, homes and staff accommodation.',
+    rows: [['The job', 'Be seen where people spend their day'], ['You pay', 'Priced per campaign. Ask us for a quote'], ['Best for', 'Retail, hospitality, launches people should see']] },
+];
+
+// Keep in step with the open and click rates on the Y5Campaigns page (agreed 30 Oct 2026).
+const rates = [
+  { name: 'Real estate', open: [25, 30], click: 5.0 },
+  { name: 'Automotive', open: [22, 27], click: 4.2 },
+  { name: 'Healthcare', open: [21, 26], click: 3.8 },
+  { name: 'Education', open: [20, 25], click: 3.5 },
+];
+const SCALE = 35;
+---
+<BaseLayout title="Industries" description="Which Y5Media service fits your industry: Y5Leads for ready buyers, Y5Campaigns for the right inboxes, Y5Ads on WiFi login screens across the UAE.">
+  <PageHero
+    kicker="Industries"
+    title="The right service"
+    accent="for how your industry sells."
+    text="Some businesses need calls from ready buyers. Some need to land in the right inboxes. Some need to be seen where people spend their day. Find your industry to see where to start."
+  >
+    <Fragment slot="buttons">
+      <a class="btn btn-primary" href="#industry-guide">Find your industry <span aria-hidden="true">↓</span></a>
+      <a class="btn btn-ghost" href="/contact">Talk to us</a>
+    </Fragment>
+    <div class="collage" slot="side" aria-hidden="true">
+      <div class="glow"></div>
+      <div class="tile t-leads">
+        <div class="frame">
+          <video src="/video/industries-leads.mp4" muted loop autoplay playsinline preload="metadata"></video>
+          <div class="cap"><b><i></i>Y5Leads</b><small>Calls from ready buyers</small></div>
+        </div>
+        <div class="chip chip-lead"><span>✓ Unlocked</span><b>Palm Residences</b><small>Budget AED 2M–3M</small></div>
+      </div>
+      <div class="tile t-camp">
+        <div class="frame">
+          <video src="/video/industries-campaigns.mp4" muted loop autoplay playsinline preload="metadata"></video>
+          <div class="cap"><b><i></i>Y5Campaigns</b><small>Your offer in the right inboxes</small></div>
+        </div>
+        <div class="chip chip-rate">25–30% open rate</div>
+      </div>
+      <div class="tile t-ads">
+        <div class="frame">
+          <video src="/video/industries-ads.mp4" muted loop autoplay playsinline preload="metadata"></video>
+          <div class="cap"><b><i></i>Y5Ads</b><small>Seen on the WiFi login</small></div>
+        </div>
+      </div>
+    </div>
+  </PageHero>
+
+  <section class="section guide" id="industry-guide">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker" data-reveal>Industry by industry</div>
+          <h2 data-reveal>What works for <span class="accent">your industry.</span></h2>
+        </div>
+        <p class="lede" data-reveal>Pick your industry. Each one shows the service to start with, and how the other two help.</p>
+      </div>
+
+      <div class="ix" data-ix data-reveal>
+        <div class="panel">
+          <div class="list" role="tablist" aria-label="Industries" aria-orientation="vertical">
+            {industries.map((ind, i) => {
+              const best = services[ranked(ind.fit)[0]];
+              return (
+                <button type="button" class="pick" role="tab" id={`ix-tab-${i}`} aria-controls={`ix-panel-${i}`}
+                  aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-i={i}>
+                  <img src={ind.img} alt="" width="1000" height="750" loading="lazy" decoding="async" style={ind.pos && `object-position:${ind.pos}`} />
+                  <span class="pick-copy"><b>{ind.name}</b><small><i class={`dot ${best.key}`}></i>Start with {best.name}</small></span>
+                  <span class="bar" aria-hidden="true"></span>
+                </button>
+              );
+            })}
+          </div>
+          <div class="panel-foot">
+            <span class="count"><b data-ix-count>01</b> / {String(industries.length).padStart(2, '0')}</span>
+            <span class="arrows">
+              <button type="button" class="arrow" data-ix-prev aria-label="Previous industry"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 11l5-5 5 5" /></svg></button>
+              <button type="button" class="arrow" data-ix-next aria-label="Next industry"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 7l5 5 5-5" /></svg></button>
+            </span>
+          </div>
+        </div>
+
+        <div class="stage">
+          {industries.map((ind, i) => (
+            <img class="stage-bg" src={ind.img} alt="" width="1000" height="750" loading="lazy" decoding="async"
+              data-bg={i} data-active={i === 0 ? '' : undefined} style={ind.pos && `object-position:${ind.pos}`} />
+          ))}
+          <div class="shade"></div>
+          {industries.map((ind, i) => (
+            <div class="slide" role="tabpanel" id={`ix-panel-${i}`} aria-labelledby={`ix-tab-${i}`} data-slide={i}
+              data-active={i === 0 ? '' : undefined} hidden={i !== 0}>
+              <div class="slide-copy">
+                <div class="slide-kicker">{ind.name}</div>
+                <h3>{ind.title}</h3>
+                <p>{ind.decide}</p>
+              </div>
+              <div class="cards">
+                {ranked(ind.fit).map((k) => {
+                  const s = services[k];
+                  const best = ind.fit[k] === 3;
+                  return (
+                    <a class:list={['svc-card', s.key, { best }]} href={s.href}>
+                      <span class="fit">{FIT[ind.fit[k]]}</span>
+                      <b class="svc-name">{s.name}</b>
+                      <ul>{ind.uses[k].map((u) => <li>{u}</li>)}</ul>
+                      <span class="ex"><small>{s.exLabel}</small><b>{ind.ex[k]}</b></span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section jobs">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker" data-reveal>Side by side</div>
+          <h2 data-reveal>Three services, <span class="accent">three jobs.</span></h2>
+        </div>
+        <p class="lede" data-reveal>Use one on its own, or put them together. Each does a different job, so most clients start with one and add a second later.</p>
+      </div>
+      <div class="job-grid">
+        {jobs.map((j, i) => (
+          <article class:list={['job', j.key]} data-reveal data-reveal-delay={`${i * 0.08}s`}>
+            <h3><i></i>{j.name}</h3>
+            <p>{j.text}</p>
+            <dl>
+              {j.rows.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+            </dl>
+            <a href={j.href}>Explore {j.name} <span aria-hidden="true">→</span></a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section rates on-dark">
+    <div class="container rates-grid">
+      <div class="rates-copy">
+        <div class="kicker" data-reveal>Y5Campaigns results</div>
+        <h2 data-reveal>Open and click rates <span class="violet">by industry.</span></h2>
+        <p class="lede" data-reveal>Typical results for a Y5Campaigns send. Your own figures depend on your offer, the design and the day it lands.</p>
+        <p class="ask" data-reveal>Another industry? Ask us for its figures before you book.</p>
+        <a class="btn btn-violet" href="/y5campaigns#pricing" data-reveal>See Y5Campaigns pricing <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="rate-cards">
+        {rates.map((r, i) => (
+          <div class="rate" data-reveal data-reveal-delay={`${i * 0.06}s`}>
+            <b class="rate-name">{r.name}</b>
+            <div class="rate-open">
+              <small>Open rate</small>
+              <strong>{r.open[0]}–{r.open[1]}%</strong>
+              <span class="rbar" aria-hidden="true"><em style={`width:${(r.open[0] / SCALE) * 100}%`}></em><i style={`left:${(r.open[0] / SCALE) * 100}%;width:${((r.open[1] - r.open[0]) / SCALE) * 100}%`}></i></span>
+            </div>
+            <div class="rate-click"><small>Click rate</small><strong>{r.click.toFixed(1)}%</strong></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Not sure where to start?" text="Tell us your industry and your goal. We’ll suggest one service or a mix, and what it would cost." />
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-ix]');
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('.pick')];
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const bgs = [...root.querySelectorAll<HTMLElement>('[data-bg]')];
+    const count = root.querySelector<HTMLElement>('[data-ix-count]')!;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+
+    const show = (i: number, focus = false) => {
+      current = (i + tabs.length) % tabs.length;
+      tabs.forEach((t, n) => {
+        const on = n === current;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      slides.forEach((s, n) => {
+        const on = n === current;
+        s.hidden = !on;
+        s.toggleAttribute('data-active', on);
+      });
+      bgs.forEach((b, n) => b.toggleAttribute('data-active', n === current));
+      count.textContent = String(current + 1).padStart(2, '0');
+      if (focus) tabs[current].focus();
+    };
+
+    tabs.forEach((t, n) => {
+      t.addEventListener('click', () => show(n));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); show(current + 1, true); }
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1, true); }
+      });
+      t.querySelector('.bar')!.addEventListener('animationend', () => { if (n === current) show(current + 1); });
+    });
+    root.querySelector('[data-ix-prev]')!.addEventListener('click', () => show(current - 1));
+    root.querySelector('[data-ix-next]')!.addEventListener('click', () => show(current + 1));
+
+    if (!still) {
+      root.classList.add('is-auto');
+      const pause = (on: boolean) => root.classList.toggle('is-paused', on);
+      root.addEventListener('pointerenter', () => pause(true));
+      root.addEventListener('pointerleave', () => pause(false));
+      root.addEventListener('focusin', () => pause(true));
+      root.addEventListener('focusout', (e) => { if (!root.contains(e.relatedTarget as Node)) pause(false); });
+      const io = new IntersectionObserver(([entry]) => root.classList.toggle('is-offscreen', !entry.isIntersecting), { threshold: 0.2 });
+      io.observe(root);
+    }
+  }
+</script>
+
+<style>
+  .collage { position: relative; height: 520px; }
+  .glow { position: absolute; left: 10%; top: 12%; width: 70%; height: 70%; border-radius: 50%; background: radial-gradient(closest-side, rgba(166, 231, 42, .22), transparent); filter: blur(30px); }
+  .tile { position: absolute; animation: float-a 7s ease-in-out infinite; }
+  .t-leads { left: 0; top: 30px; z-index: 2; width: 54%; height: 420px; }
+  .t-camp { right: 0; top: 0; width: 48%; height: 230px; animation: float-b 8s ease-in-out infinite; }
+  .t-ads { right: 5%; bottom: 0; width: 44%; height: 250px; animation-duration: 9s; animation-delay: 1s; }
+  .frame { position: relative; width: 100%; height: 100%; border-radius: 26px; overflow: hidden; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7), 0 0 60px -20px var(--tile-glow); border: 1px solid var(--tile-edge); }
+  .frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, var(--tile-shade)); }
+  .t-leads { --tile-glow: rgba(196, 242, 90, .45); --tile-edge: rgba(196, 242, 90, .35); --tile-shade: rgba(11, 38, 27, .85); }
+  .t-camp { --tile-glow: rgba(201, 182, 255, .5); --tile-edge: rgba(201, 182, 255, .4); --tile-shade: rgba(22, 11, 51, .85); }
+  .t-ads { --tile-glow: rgba(238, 246, 230, .45); --tile-edge: rgba(238, 246, 230, .45); --tile-shade: rgba(11, 38, 27, .6); }
+  .t-ads video { transform: scaleX(-1); }
+  .cap { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 12px; display: grid; gap: 2px; padding: 12px 14px; border-radius: 15px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .cap b { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 600; font-size: 17px; letter-spacing: -.02em; }
+  .cap i { width: 8px; height: 8px; border-radius: 50%; }
+  .cap small { font-size: 12.5px; }
+  .t-leads .cap { background: rgba(11, 38, 27, .72); border: 1px solid rgba(196, 242, 90, .25); color: var(--white); }
+  .t-leads .cap i { background: #C4F25A; }
+  .t-leads .cap small { color: var(--on-dark-muted); }
+  .t-camp .cap { background: rgba(22, 11, 51, .72); border: 1px solid rgba(201, 182, 255, .3); color: var(--white); }
+  .t-camp .cap i { background: var(--violet); }
+  .t-camp .cap small { color: #D9CFF5; }
+  .t-ads .cap { background: rgba(238, 246, 230, .92); color: #0B1A10; }
+  .t-ads .cap i { background: var(--green-ink); }
+  .t-ads .cap small { color: var(--gray-600); }
+  .chip { position: absolute; z-index: 2; border-radius: 13px; box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .6); }
+  .chip-lead { right: -28px; top: 44px; display: grid; gap: 2px; padding: 10px 14px; background: var(--white); color: #0B1A10; }
+  .chip-lead span { font-size: 11px; font-weight: 600; color: var(--green-ink); }
+  .chip-lead b { font-size: 13px; font-weight: 600; }
+  .chip-lead small { font-size: 11px; color: var(--gray-500); }
+  .chip-rate { left: -36px; top: -14px; padding: 8px 12px; background: var(--violet); color: var(--plum); font-size: 12px; font-weight: 600; }
+  @keyframes float-a { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes float-b { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+  .guide { background: radial-gradient(50rem 28rem at 85% 0%, rgba(117, 182, 48, .10), transparent 70%), radial-gradient(40rem 24rem at 0% 100%, rgba(201, 182, 255, .10), transparent 70%), var(--paper); }
+  .ix { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; margin-top: 44px; }
+  .panel { display: grid; align-content: start; gap: 6px; padding: 10px; border-radius: 26px; background: var(--white); box-shadow: 0 30px 60px -36px rgba(11, 38, 27, .45), 0 0 0 1px var(--gray-100); }
+  .list { display: grid; gap: 2px; }
+  .pick { position: relative; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 0; border-radius: 16px; background: transparent; cursor: pointer; text-align: left; color: var(--ink); overflow: hidden; transition: background .25s, color .25s, box-shadow .25s; }
+  .pick:hover { background: var(--gray-50); }
+  .pick[aria-selected='true'] { background: var(--forest); color: var(--white); box-shadow: 0 18px 30px -18px rgba(11, 38, 27, .8); }
+  .pick img { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; flex: none; }
+  .pick-copy { display: grid; gap: 2px; min-width: 0; }
+  .pick-copy b { font-size: 15px; font-weight: 600; }
+  .pick-copy small { display: flex; align-items: center; gap: 6px; font-size: 12px; opacity: .75; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .dot.leads { background: #9BD43A; }
+  .dot.camp { background: #9C86E8; }
+  .dot.ads { background: var(--green-ink); box-shadow: 0 0 0 2px #EEF6E6; }
+  .bar { position: absolute; left: 12px; right: 12px; bottom: 5px; height: 2px; border-radius: 1px; background: rgba(196, 242, 90, .9); transform: scaleX(0); transform-origin: left; }
+  .pick[aria-selected='true'] .bar { transform: scaleX(1); }
+  .is-auto .pick[aria-selected='true'] .bar { transform: scaleX(0); animation: ix-fill 7s linear forwards; }
+  .is-paused .pick[aria-selected='true'] .bar, .is-offscreen .pick[aria-selected='true'] .bar { animation-play-state: paused; }
+  @keyframes ix-fill { to { transform: scaleX(1); } }
+  .panel-foot { display: flex; align-items: center; justify-content: space-between; padding: 12px 10px 4px; border-top: 1px solid var(--gray-100); }
+  .count { font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--gray-500); }
+  .count b { color: var(--ink); }
+  .arrows { display: flex; gap: 8px; }
+  .arrow { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--gray-200); background: var(--white); color: var(--ink); cursor: pointer; display: grid; place-items: center; transition: background .2s; }
+  .arrow:hover { background: var(--gray-100); }
+  .arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  .stage { position: relative; display: grid; min-height: 680px; border-radius: 26px; overflow: hidden; background: #03140D; color: var(--white); box-shadow: 0 50px 90px -40px rgba(11, 38, 27, .7); }
+  .stage-bg { grid-area: 1 / 1; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1); transition: opacity 1.1s ease, transform 7s linear; }
+  .stage-bg[data-active] { opacity: 1; transform: scale(1.06); }
+  .shade { grid-area: 1 / 1; z-index: 1; background: linear-gradient(180deg, rgba(3, 20, 13, .35) 0%, rgba(3, 20, 13, .55) 35%, rgba(3, 20, 13, .94) 72%); }
+  .slide { grid-area: 1 / 1; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; gap: 26px; padding: 40px 44px 44px; }
+  .slide[hidden] { display: none; }
+  .slide-copy, .cards { animation: ix-in .8s var(--ease-out) both; }
+  .cards { animation-delay: .12s; }
+  @keyframes ix-in { from { opacity: 0; transform: translateY(28px); } }
+  .slide-copy { display: grid; gap: 14px; max-width: 640px; }
+  .slide-kicker { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
+  .slide h3 { font-size: clamp(30px, 3.2vw, 44px); line-height: 1.04; letter-spacing: -.035em; }
+  .slide p { font-size: 16px; line-height: 1.6; color: #C9D8CF; }
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .svc-card { display: grid; gap: 10px; align-content: start; padding: 18px; border-radius: 18px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: 0 18px 40px -24px rgba(0, 0, 0, .6); transition: transform .3s var(--ease-out); }
+  .svc-card:hover { transform: translateY(-4px); }
+  .svc-card.leads { --acc: #C4F25A; background: rgba(11, 38, 27, .86); color: var(--white); --muted: #B9CDBF; --ex: rgba(255, 255, 255, .07); --tag: rgba(255, 255, 255, .12); --tag-ink: #DCE7E0; --best-ink: #0B1A10; }
+  .svc-card.camp { --acc: var(--violet); background: rgba(22, 11, 51, .88); color: var(--white); --muted: #C8BCEB; --ex: rgba(255, 255, 255, .07); --tag: rgba(255, 255, 255, .12); --tag-ink: #E4DDFA; --best-ink: var(--plum); }
+  .svc-card.ads { --acc: var(--green-ink); background: rgba(238, 246, 230, .95); color: #0B1A10; --muted: var(--gray-600); --ex: rgba(11, 38, 27, .06); --tag: rgba(11, 38, 27, .08); --tag-ink: var(--green-ink); --best-ink: var(--white); }
+  .svc-card.best { box-shadow: 0 0 0 1.5px var(--acc), 0 24px 50px -24px rgba(0, 0, 0, .7); }
+  .svc-card.ads.best { --best-bg: var(--forest); }
+  .fit { justify-self: start; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--tag); color: var(--tag-ink); }
+  .best .fit { background: var(--best-bg, var(--acc)); color: var(--best-ink); }
+  .svc-name { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: -.025em; }
+  .svc-card ul { list-style: none; display: grid; gap: 5px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+  .svc-card li { display: flex; gap: 7px; }
+  .svc-card li::before { content: '✓'; color: var(--acc); }
+  .ex { display: grid; gap: 2px; padding: 9px 11px; border-radius: 10px; background: var(--ex); }
+  .ex small { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .ex b { font-size: 13px; font-weight: 600; }
+
+  .job-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 44px; }
+  .job { position: relative; overflow: hidden; display: grid; gap: 22px; align-content: start; padding: 34px; border-radius: 26px; transition: transform .35s var(--ease-out); }
+  .job:hover { transform: translateY(-6px); }
+  .job::before { content: ''; position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(closest-side, var(--halo), transparent); pointer-events: none; }
+  .job > * { position: relative; }
+  .job h3 { display: flex; align-items: center; gap: 10px; font-size: 28px; letter-spacing: -.03em; }
+  .job h3 i { width: 10px; height: 10px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 14px var(--acc); }
+  .job p { font-size: 16px; line-height: 1.6; color: var(--muted); }
+  .job dl { display: grid; gap: 14px; padding: 18px; border-radius: 16px; background: var(--box); border: 1px solid var(--box-edge); }
+  .job dt { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
+  .job dd { margin: 3px 0 0; font-size: 15px; }
+  .job > a { font-size: 15px; font-weight: 600; color: var(--link); }
+  .job.leads { --acc: #C4F25A; --halo: rgba(196, 242, 90, .35); --muted: #B9CDBF; --label: var(--on-dark-faint); --box: rgba(255, 255, 255, .05); --box-edge: rgba(255, 255, 255, .08); --link: #C4F25A; background: linear-gradient(160deg, #123826 0%, var(--forest) 55%); color: var(--white); box-shadow: 0 40px 70px -40px rgba(11, 38, 27, .8); }
+  .job.camp { --acc: var(--violet); --halo: rgba(201, 182, 255, .4); --muted: #C8BCEB; --label: #A897D6; --box: rgba(255, 255, 255, .05); --box-edge: rgba(255, 255, 255, .08); --link: var(--violet); background: linear-gradient(160deg, #24154D 0%, var(--plum) 55%); color: var(--white); box-shadow: 0 40px 70px -40px rgba(22, 11, 51, .85); }
+  .job.ads { --acc: var(--green-ink); --halo: rgba(117, 182, 48, .28); --muted: var(--gray-600); --label: var(--gray-500); --box: rgba(255, 255, 255, .7); --box-edge: #DCEBCF; --link: var(--green-ink); background: linear-gradient(160deg, var(--white) 0%, #EEF6E6 60%); color: #0B1A10; box-shadow: 0 40px 70px -40px rgba(11, 38, 27, .4), inset 0 0 0 1px #DCEBCF; }
+  .job.ads h3 i { box-shadow: none; }
+
+  .rates { color: var(--white); background: radial-gradient(50rem 30rem at 100% 0%, rgba(201, 182, 255, .20), transparent 65%), var(--plum); }
+  .rates .kicker { color: var(--violet); }
+  .rates .kicker::before { background: var(--violet); border-radius: 50%; box-shadow: 0 0 12px var(--violet); }
+  .rates .lede { color: #D9CFF5; }
+  .violet { color: var(--violet); }
+  .rates-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 72px; }
+  .rates-copy { display: grid; gap: 18px; align-content: start; }
+  .rates-copy h2 { font-size: var(--text-h2); }
+  .ask { font-size: 15px; line-height: 1.6; color: #B7A9E0; }
+  .btn-violet { justify-self: start; background: var(--violet); color: var(--plum); }
+  .btn-violet:hover { box-shadow: 0 18px 40px -16px rgba(201, 182, 255, .7); }
+  .rate-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-content: start; }
+  .rate { display: grid; gap: 20px; padding: 26px; border-radius: 22px; background: linear-gradient(160deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .03)); border: 1px solid rgba(201, 182, 255, .18); box-shadow: 0 30px 60px -36px rgba(0, 0, 0, .7); }
+  .rate-name { font-size: 16px; font-weight: 600; color: #E4DDFA; }
+  .rate small { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #B7A9E0; }
+  .rate-open { display: grid; gap: 10px; }
+  .rate-open strong { font-family: var(--font-display); font-weight: 600; font-size: 44px; line-height: 1; letter-spacing: -.035em; }
+  .rbar { position: relative; height: 6px; border-radius: 3px; background: rgba(201, 182, 255, .14); }
+  .rbar em, .rbar i { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+  .rbar em { left: 0; background: rgba(201, 182, 255, .4); }
+  .rbar i { background: var(--violet); box-shadow: 0 0 10px rgba(201, 182, 255, .8); }
+  .rate-click { display: flex; align-items: baseline; justify-content: space-between; padding-top: 14px; border-top: 1px solid rgba(201, 182, 255, .14); }
+  .rate-click small { letter-spacing: 0; text-transform: none; font-weight: 500; font-size: 13px; }
+  .rate-click strong { font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -.02em; }
+
+  @media (max-width: 1100px) {
+    .cards { grid-template-columns: 1fr; }
+    .job-grid { grid-template-columns: 1fr; }
+    .rates-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 960px) {
+    .collage { height: 440px; max-width: 560px; }
+    .t-leads { height: 360px; }
+  }
+  @media (max-width: 900px) {
+    .ix { grid-template-columns: 1fr; }
+    .panel { padding: 8px; }
+    .list { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 6px; }
+    .pick { flex: none; scroll-snap-align: start; }
+    .pick-copy small { display: none; }
+    .stage { min-height: 0; }
+    .slide { padding: 120px 20px 20px; }
+  }
+  @media (max-width: 560px) {
+    .collage { height: 380px; }
+    .t-leads { height: 300px; width: 58%; }
+    .t-camp { height: 180px; }
+    .t-ads { height: 190px; }
+    .chip { display: none; }
+    .cap small { display: none; }
+    .rate-cards { grid-template-columns: 1fr; }
+    .job { padding: 26px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tile, .slide-copy, .cards { animation: none; }
+    .stage-bg { transition: opacity .3s; transform: none; }
+    .stage-bg[data-active] { transform: none; }
+  }
+</style>
