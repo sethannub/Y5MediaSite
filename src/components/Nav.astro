@@ -27,8 +27,6 @@ const LOGO = '/images/brand/y5-logo.svg';
     ))}
   </nav>
 
-  <span class="divider" aria-hidden="true"></span>
-
   <div class="actions">
     <div class="auth" data-auth data-side="signup">
       <span class="ind" aria-hidden="true"></span>
@@ -129,7 +127,7 @@ const LOGO = '/images/brand/y5-logo.svg';
     box-shadow: 0 12px 32px -12px rgba(0, 0, 0, .45);
   }
   .nav > :global(.logo) { margin-right: auto; }
-  .links { display: flex; align-items: center; gap: 2px; }
+  .links { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; }
   .links > a, .svc {
     display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 10px;
     color: var(--on-dark-muted); font-size: 15px; font-weight: 500; white-space: nowrap;
@@ -137,7 +135,6 @@ const LOGO = '/images/brand/y5-logo.svg';
   }
   .links > a:hover, .svc:hover, .svc[aria-expanded='true'] { color: var(--white); background: rgba(255, 255, 255, .07); }
   .links > a[aria-current='page'], .svc[aria-current='page'] { color: var(--white); background: rgba(255, 255, 255, .10); }
-  .divider { width: 1px; height: 24px; margin: 0 14px; background: rgba(255, 255, 255, .16); }
 
   .svc-wrap { position: relative; }
   .svc { gap: 8px; cursor: pointer; background: transparent; border: 0; }
@@ -159,21 +156,21 @@ const LOGO = '/images/brand/y5-logo.svg';
 
   .actions { display: flex; align-items: center; gap: 8px; }
   .auth {
-    --seg-big: 116px; --seg-small: 82px;
-    position: relative; display: flex; align-items: center; height: 46px; box-sizing: border-box; padding: 4px;
-    border-radius: 13px; border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .04);
+    --seg-big: 96px; --seg-small: 68px;
+    position: relative; display: flex; align-items: center; height: 40px; box-sizing: border-box; padding: 3px;
+    border-radius: 11px; border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .04);
   }
   .ind {
-    position: absolute; top: 4px; bottom: 4px; left: 4px; width: var(--seg-big); border-radius: 9px;
+    position: absolute; top: 3px; bottom: 3px; left: 3px; width: var(--seg-big); border-radius: 8px;
     background: var(--green); box-shadow: 0 6px 18px -6px rgba(117, 182, 48, .7);
     transform: translateX(var(--seg-small)); transition: transform .38s var(--ease-out);
   }
   .auth[data-side='login'] .ind { transform: translateX(0); }
   .login-wrap { position: relative; }
   .seg {
-    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    height: 36px; padding: 0; border: 0; background: transparent; cursor: pointer; white-space: nowrap;
-    font-size: 15px; font-weight: 600; color: var(--on-dark-muted);
+    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    height: 32px; padding: 0; border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+    font-size: 13.5px; font-weight: 600; color: var(--on-dark-muted);
     transition: width .38s var(--ease-out), color .25s;
   }
   .login { width: var(--seg-small); }
@@ -225,7 +222,7 @@ const LOGO = '/images/brand/y5-logo.svg';
   .m-group { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--on-dark-faint); padding: 12px 16px 4px; }
 
   @media (max-width: 1080px) {
-    .links, .divider { display: none; }
+    .links { display: none; }
     .menu-btn { display: grid; }
   }
   @media (max-width: 480px) { .auth { display: none; } }
