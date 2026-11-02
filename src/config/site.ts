@@ -14,6 +14,7 @@ export const site = {
 
   nav: [
     { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
     {
       label: 'Services',
       href: '/#services',
@@ -23,11 +24,13 @@ export const site = {
         { label: 'Y5Ads', href: '/y5ads', note: 'Ads on WiFi login screens' },
       ],
     },
-    { label: 'About', href: '/about' },
+    { label: 'Industries', href: '/#industries' },
     { label: 'Contact', href: '/contact' },
   ],
 
   cta: { label: 'Talk to us', href: '/contact' },
+
+  signup: { label: 'Sign up', href: 'https://leads.y5media.net/register' },
 
   logins: [
     { label: 'Y5Leads', note: 'Buyer leads', href: 'https://leads.y5media.net/login' },
