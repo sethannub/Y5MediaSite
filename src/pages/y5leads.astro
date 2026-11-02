@@ -31,6 +31,10 @@ const faqs = [
 ];
 
 function perLeadText() { return aed(leadPricing.perLead); }
+
+const scale = leadPricing.packs[leadPricing.packs.length - 1];
+const scalePerLead = leadPricing.perLead * (1 - scale.discount / 100);
+const scaleLeads = Math.floor(scale.credits / leadPricing.perLead);
 ---
 <BaseLayout title={products.leads.name} description="Buyer leads for every industry, from property to luxury cars, matched to your projects. Unlock only the leads you want, from AED 250 a lead, and report a bad lead for a refund.">
   <PageHero
@@ -46,10 +50,17 @@ function perLeadText() { return aed(leadPricing.perLead); }
       <a class="btn btn-glass" href="#pricing">See pricing</a>
     </Fragment>
     <div class="price-card" slot="side">
-      <small>Standard rate</small>
-      <b>{aed(leadPricing.perLead)}</b>
-      <span>per lead, up to {leadPricing.packs[leadPricing.packs.length - 1].discount}% less with credit packs</span>
-      <a href="#pricing">See pricing <span aria-hidden="true">→</span></a>
+      <div class="pc-top">
+        <small>{scale.name} package</small>
+        <em>Save {scale.discount}%</em>
+      </div>
+      <div class="pc-price"><b>{aed(scalePerLead)}</b><span>per lead</span></div>
+      <p class="pc-was">Standard rate <s>{aed(leadPricing.perLead)}</s></p>
+      <dl class="pc-facts">
+        <div><dt>Credits</dt><dd>{scale.credits.toLocaleString('en-US')}</dd></div>
+        <div><dt>Covers</dt><dd>{scaleLeads}+ leads</dd></div>
+      </dl>
+      <a href="#pricing">See all packages <span aria-hidden="true">→</span></a>
     </div>
   </PageHero>
 
@@ -106,14 +117,23 @@ function perLeadText() { return aed(leadPricing.perLead); }
 
 <style>
   .price-card {
-    display: grid; gap: 6px; padding: 32px; border-radius: var(--radius-lg); max-width: 380px; margin-left: auto;
+    display: grid; gap: 14px; padding: 30px 32px; border-radius: var(--radius-lg); max-width: 400px; margin-left: auto;
     background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   }
-  .price-card small { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--lime); }
-  .price-card b { font-family: var(--font-display); font-size: clamp(48px, 5vw, 68px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
-  .price-card span { color: var(--on-dark-muted); }
-  .price-card a { margin-top: 12px; font-weight: 600; color: var(--lime); }
+  .pc-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .pc-top small { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--lime); }
+  .pc-top em { font-style: normal; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: var(--radius-pill); background: var(--lime); color: var(--forest); }
+  .pc-price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .pc-price b { font-family: var(--font-display); font-size: clamp(48px, 5vw, 68px); font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+  .pc-price span { color: var(--on-dark-muted); }
+  .pc-was { margin-top: -6px; font-size: 14px; color: var(--on-dark-faint); }
+  .pc-was s { color: var(--on-dark-muted); text-decoration-thickness: 1.5px; }
+  .pc-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 14px; border-top: 1px solid var(--glass-border); }
+  .pc-facts div { padding: 12px 14px; border-radius: var(--radius-sm); background: rgba(255, 255, 255, .06); }
+  .pc-facts dt { font-size: 12px; color: var(--on-dark-faint); }
+  .pc-facts dd { margin: 2px 0 0; font-family: var(--font-display); font-size: 20px; font-weight: 600; letter-spacing: -.02em; }
+  .price-card > a { margin-top: 2px; font-weight: 600; color: var(--lime); }
   @media (max-width: 960px) { .price-card { margin-left: 0; } }
 
   .shot-band { padding-top: 0; background: var(--white); }
