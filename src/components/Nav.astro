@@ -23,30 +23,31 @@ const LOGO = '/images/brand/y5-logo.svg';
         </div>
       </div>
     ) : (
-      <a href={item.href} aria-current={isCurrent(item) ? 'page' : undefined}>{item.label}</a>
+      <>
+        <a href={item.href} aria-current={isCurrent(item) ? 'page' : undefined}>{item.label}</a>
+        {item.label === 'Industries' && (
+          <div class="login-wrap">
+            <button type="button" class="svc login" aria-expanded="false" aria-controls="login-menu" data-login>
+              Log in <span class="caret" aria-hidden="true"></span>
+            </button>
+            <div class="login-menu" id="login-menu" hidden data-login-menu>
+              {site.logins.map((l) => l.href ? (
+                <a href={l.href}><b>{l.label}</b><small>{l.note}</small></a>
+              ) : (
+                <span class="soon"><b>{l.label}</b><small>Ask us for your login link</small></span>
+              ))}
+            </div>
+          </div>
+        )}
+      </>
     ))}
   </nav>
 
   <div class="actions">
-    <div class="auth" data-auth data-side="signup">
-      <span class="ind" aria-hidden="true"></span>
-      <div class="login-wrap">
-        <button type="button" class="seg login" aria-expanded="false" aria-controls="login-menu" data-login>
-          Log in <span class="caret" aria-hidden="true"></span>
-        </button>
-        <div class="login-menu" id="login-menu" hidden data-login-menu>
-          {site.logins.map((l) => l.href ? (
-            <a href={l.href}><b>{l.label}</b><small>{l.note}</small></a>
-          ) : (
-            <span class="soon"><b>{l.label}</b><small>Ask us for your login link</small></span>
-          ))}
-        </div>
-      </div>
-      <a class="seg signup" href={site.signup.href} data-signup>
-        {site.signup.label}
-        <svg class="arrow" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
-      </a>
-    </div>
+    <a class="signup" href={site.signup.href}>
+      {site.signup.label}
+      <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu">
       <span class="visually-hidden">Menu</span>
       <span class="bars" aria-hidden="true"></span>
@@ -84,17 +85,7 @@ const LOGO = '/images/brand/y5-logo.svg';
 
   const loginBtn = nav.querySelector<HTMLButtonElement>('[data-login]')!;
   const loginMenu = nav.querySelector<HTMLElement>('[data-login-menu]')!;
-  const auth = nav.querySelector<HTMLElement>('[data-auth]')!;
-  const signup = nav.querySelector<HTMLElement>('[data-signup]')!;
-  const setSide = (side: 'login' | 'signup') => { auth.dataset.side = side; };
-  const restSide = () => setSide(loginBtn.getAttribute('aria-expanded') === 'true' ? 'login' : 'signup');
-  loginBtn.addEventListener('click', () => { toggle(loginBtn, loginMenu); restSide(); });
-  loginBtn.addEventListener('pointerenter', () => setSide('login'));
-  loginBtn.addEventListener('focus', () => setSide('login'));
-  signup.addEventListener('pointerenter', () => setSide('signup'));
-  signup.addEventListener('focus', () => setSide('signup'));
-  auth.addEventListener('pointerleave', restSide);
-  auth.addEventListener('focusout', (e) => { if (!auth.contains(e.relatedTarget as Node)) restSide(); });
+  loginBtn.addEventListener('click', () => toggle(loginBtn, loginMenu));
 
   const menuBtn = nav.querySelector<HTMLButtonElement>('.menu-btn')!;
   const menu = document.getElementById('mobile-menu')!;
@@ -102,12 +93,12 @@ const LOGO = '/images/brand/y5-logo.svg';
   menu.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) toggle(menuBtn, menu, false); });
 
   document.addEventListener('pointerdown', (e) => {
-    if (!(e.target as Element).closest('.login-wrap')) { toggle(loginBtn, loginMenu, false); if (!auth.matches(':hover')) restSide(); }
+    if (!(e.target as Element).closest('.login-wrap')) toggle(loginBtn, loginMenu, false);
     if (svcBtn && svcMenu && !(e.target as Element).closest('.svc-wrap')) toggle(svcBtn, svcMenu, false);
   });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    if (loginBtn.getAttribute('aria-expanded') === 'true') { toggle(loginBtn, loginMenu, false); loginBtn.focus(); restSide(); }
+    if (loginBtn.getAttribute('aria-expanded') === 'true') { toggle(loginBtn, loginMenu, false); loginBtn.focus(); }
     if (svcBtn && svcMenu && svcBtn.getAttribute('aria-expanded') === 'true') { toggle(svcBtn, svcMenu, false); svcBtn.focus(); }
     if (menuBtn.getAttribute('aria-expanded') === 'true') { toggle(menuBtn, menu, false); menuBtn.focus(); }
   });
@@ -151,36 +142,19 @@ const LOGO = '/images/brand/y5-logo.svg';
   .y5n img { display: inline-block; height: .74em; width: auto; margin-right: .03em; vertical-align: -.02em; }
 
   .actions { display: flex; align-items: center; gap: 8px; }
-  .auth {
-    --seg-big: 96px; --seg-small: 68px;
-    position: relative; display: flex; align-items: center; height: 40px; box-sizing: border-box; padding: 3px;
-    border-radius: 11px; border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .04);
+  .signup {
+    display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 18px; border-radius: 10px;
+    background: var(--green); color: var(--forest); font-size: 14px; font-weight: 600; white-space: nowrap;
+    box-shadow: 0 8px 20px -10px rgba(117, 182, 48, .8); transition: background .2s, transform .2s;
   }
-  .ind {
-    position: absolute; top: 3px; bottom: 3px; left: 3px; width: var(--seg-big); border-radius: 8px;
-    background: var(--green); box-shadow: 0 6px 18px -6px rgba(117, 182, 48, .7);
-    transform: translateX(var(--seg-small)); transition: transform .38s var(--ease-out);
-  }
-  .auth[data-side='login'] .ind { transform: translateX(0); }
+  .signup:hover { background: var(--lime); }
+  .signup svg { transition: transform .25s var(--ease-out); }
+  .signup:hover svg { transform: translateX(3px); }
   .login-wrap { position: relative; }
-  .seg {
-    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    height: 32px; padding: 0; border: 0; background: transparent; cursor: pointer; white-space: nowrap;
-    font-size: 13.5px; font-weight: 600; color: var(--on-dark-muted);
-    transition: width .38s var(--ease-out), color .25s;
-  }
-  .login { width: var(--seg-small); }
-  .signup { width: var(--seg-big); color: var(--forest); }
-  .auth[data-side='login'] .login { width: var(--seg-big); color: var(--forest); }
-  .auth[data-side='login'] .signup { width: var(--seg-small); color: var(--on-dark-muted); }
-  .login .caret, .signup .arrow { transition: opacity .25s, transform .38s var(--ease-out); }
-  .login .caret { opacity: 0; }
-  .auth[data-side='login'] .login .caret { opacity: 1; }
-  .auth[data-side='login'] .signup .arrow { opacity: 0; transform: translateX(-6px); }
   .caret { width: 7px; height: 7px; border-right: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
   .login[aria-expanded='true'] .caret { transform: translateY(1px) rotate(-135deg); }
   .login-menu {
-    position: absolute; left: -5px; top: calc(100% + 14px); width: 240px;
+    position: absolute; left: 50%; transform: translateX(-50%); top: calc(100% + 14px); width: 240px;
     display: grid; gap: 2px; padding: 6px; border-radius: 16px;
     background: var(--forest-2); border: 1px solid var(--glass-border);
     box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6);
@@ -221,5 +195,5 @@ const LOGO = '/images/brand/y5-logo.svg';
     .links { display: none; }
     .menu-btn { display: grid; }
   }
-  @media (max-width: 480px) { .auth { display: none; } }
+  @media (max-width: 380px) { .signup { padding: 0 14px; } .signup svg { display: none; } }
 </style>
