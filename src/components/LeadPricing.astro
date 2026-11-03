@@ -55,11 +55,13 @@ const fmt = (n: number) => n.toLocaleString('en-US');
               data-leads={r.leads + (r.last ? '+' : '')} data-before={aed(r.before)}
               data-discount={r.discount} data-save={'−' + aed(r.save)} data-pay={aed(r.pay)} data-tax={aed(r.tax)}
               data-total={aed(r.total)} data-each={aed(r.each)} data-name={r.name}
+              data-valid={r.validMonths ? `${r.validMonths} months` : ''}
             >
-              <span class="off">{r.discount}% off</span>
+              <span class:list={['off', { std: !r.discount }]}>{r.discount ? `${r.discount}% off` : 'Standard rate'}</span>
               <b>{r.name}</b>
               <span class="cr">{fmt(r.credits)}{r.last ? '+' : ''} credits</span>
               <span class="ld">about {r.leads} leads</span>
+              {r.validMonths > 0 && <span class="vd">Discount valid {r.validMonths} months</span>}
             </button>
           ))}
         </div>
@@ -83,6 +85,7 @@ const fmt = (n: number) => n.toLocaleString('en-US');
             <div class="sub"><dt>You pay</dt><dd data-out="pay">{aed(start.pay)}</dd></div>
             <div><dt>VAT {vat}%</dt><dd data-out="tax">{aed(start.tax)}</dd></div>
             <div class="total"><dt>Total</dt><dd data-out="total">{aed(start.total)}</dd></div>
+            <div class="valid" data-valid-row hidden={!start.validMonths}><dt>Pack rate valid for</dt><dd data-out="valid">{start.validMonths ? `${start.validMonths} months` : ''}</dd></div>
           </dl>
           <div class="actions">
             <a class="btn btn-primary" href="/contact?interest=y5leads">Get started <span aria-hidden="true">→</span></a>
@@ -107,7 +110,9 @@ const fmt = (n: number) => n.toLocaleString('en-US');
       const d = b.dataset;
       out('name', d.name!); out('each', d.each!); out('leads', d.leads!);
       out('before', d.before!); out('discount', d.discount!); out('save', d.save!); out('pay', d.pay!);
-      out('tax', d.tax!); out('total', d.total!);
+      out('tax', d.tax!); out('total', d.total!); out('valid', d.valid || '');
+      const validRow = root.querySelector<HTMLElement>('[data-valid-row]');
+      if (validRow) validRow.hidden = !d.valid;
       if (fill) fill.style.width = `${(Number(d.discount) / max) * 100}%`;
     };
     packs.forEach((b, i) => {
@@ -164,6 +169,8 @@ const fmt = (n: number) => n.toLocaleString('en-US');
   .pack b { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
   .cr { font-size: 14px; color: var(--on-dark-muted); font-variant-numeric: tabular-nums; }
   .ld { font-size: 12.5px; color: var(--on-dark-faint); }
+  .vd { font-size: 11.5px; font-weight: 600; color: var(--lime); margin-top: 4px; }
+  .off.std { background: rgba(255, 255, 255, .12); color: var(--on-dark-muted); }
 
   .meter { position: relative; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, .1); margin: 4px 6px 18px; }
   .fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--green), var(--lime)); transition: width .6s var(--ease-out); box-shadow: 0 0 14px rgba(166, 231, 42, .5); }
@@ -177,6 +184,8 @@ const fmt = (n: number) => n.toLocaleString('en-US');
   .each b { font-family: var(--font-display); font-size: 18px; color: var(--green-ink); }
   dl { display: grid; gap: 7px; font-variant-numeric: tabular-nums; }
   dl div { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+  dl div[hidden] { display: none; }
+  .valid dt, .valid dd { font-size: 13px; color: var(--gray-500); }
   dt { color: var(--gray-500); }
   dd { font-weight: 500; }
   .save dd, .save dt { color: var(--green-ink); font-weight: 600; }
@@ -196,6 +205,6 @@ const fmt = (n: number) => n.toLocaleString('en-US');
   @media (max-width: 560px) {
     .packs { grid-template-columns: 1fr; }
     .pack { grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; }
-    .off { grid-row: span 3; margin: 0; }
+    .off { grid-row: span 4; margin: 0; }
   }
 </style>

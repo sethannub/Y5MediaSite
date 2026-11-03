@@ -104,15 +104,16 @@ export const campaignPricing = {
   ],
 } as const;
 
-// Y5Leads pricing. Keep in step with the credit packs in the Y5Leads app (Credits page).
-// 1 credit = AED 1; prices exclude 5% VAT.
+// Y5Leads pricing. 1 credit = AED 1; prices exclude 5% VAT.
+// New packs from 3 Nov 2026 are on the website only; the Y5Leads app's Credits page
+// still sells the old packs until it is updated to match.
 export const leadPricing = {
   perLead: 250,
   vat: 5,
   packs: [
-    { name: 'Starter', credits: 2500, discount: 5 },
-    { name: 'Growth', credits: 5000, discount: 10 },
-    { name: 'Scale', credits: 7500, discount: 15 },
+    { name: 'Starter', credits: 1000, discount: 0, validMonths: 0 },
+    { name: 'Growth', credits: 5000, discount: 20, validMonths: 2 },
+    { name: 'Scale', credits: 10000, discount: 40, validMonths: 3 },
   ],
 } as const;
 
