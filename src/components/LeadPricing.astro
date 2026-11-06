@@ -21,6 +21,9 @@ const rows = packs.map((p, i) => {
 });
 const scale = rows[rows.length - 1];
 const start = scale;
+const rateLabel = (r: typeof rows[number]) => (r.discount ? `${r.name} rate` : 'Standard rate');
+const ratePer = (r: typeof rows[number]) => (r.discount ? `per lead with the ${r.name} pack` : 'per lead you unlock');
+const rateBullet = (r: typeof rows[number]) => (r.last ? '30+ verified leads' : `${r.leads} verified leads`);
 const fmt = (n: number) => n.toLocaleString('en-US');
 const num = (n: number) => Math.round(n).toLocaleString('en-US');
 ---
@@ -36,11 +39,11 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
 
     <div class="grid">
       <article class="rate" data-reveal>
-        <span class="label">{scale.name} rate</span>
-        <p class="big"><span class="dh-big" role="img" aria-label="AED"></span>{num(scale.each)}</p>
-        <p class="per">per lead with the {scale.name} pack</p>
+        <span class="label" data-out="rate-label">{rateLabel(start)}</span>
+        <p class="big"><span class="dh-big" role="img" aria-label="AED"></span><span data-out="each">{num(start.each)}</span></p>
+        <p class="per" data-out="rate-per">{ratePer(start)}</p>
         <ul>
-          <li>30+ verified leads</li>
+          <li data-out="rate-bullet">{rateBullet(start)}</li>
           <li>Leads matched to your projects</li>
           <li>Names hidden until you unlock</li>
           <li>Bad lead? Report it for a refund</li>
@@ -59,6 +62,7 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
               data-discount={r.discount} data-save={num(r.save)} data-pay={num(r.pay)} data-tax={num(r.tax)}
               data-total={num(r.total)} data-each={num(r.each)} data-name={r.name}
               data-valid={r.validMonths ? `${r.validMonths} months` : ''}
+              data-rate-label={rateLabel(r)} data-rate-per={ratePer(r)} data-rate-bullet={rateBullet(r)}
             >
               <span class:list={['off', { std: !r.discount }]}>{r.discount ? `${r.discount}% off` : 'Standard rate'}</span>
               <b>{r.name}</b>
@@ -114,6 +118,7 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
       out('name', d.name!); out('each', d.each!); out('leads', d.leads!);
       out('before', d.before!); out('discount', d.discount!); out('save', d.save!); out('pay', d.pay!);
       out('tax', d.tax!); out('total', d.total!); out('valid', d.valid || '');
+      out('rate-label', d.rateLabel!); out('rate-per', d.ratePer!); out('rate-bullet', d.rateBullet!);
       const validRow = root.querySelector<HTMLElement>('[data-valid-row]');
       if (validRow) validRow.hidden = !d.valid;
       if (fill) fill.style.width = `${(Number(d.discount) / max) * 100}%`;
