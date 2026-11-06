@@ -2,7 +2,7 @@
 // Y5Leads pricing: the standard rate on the left, and a pack picker on the right
 // whose receipt shows exactly what each pack costs and saves. Figures come from
 // leadPricing in site.ts (keep in step with the app's credit packs).
-import { leadPricing, aed, site } from '../config/site';
+import { leadPricing, site } from '../config/site';
 interface Props {
   more?: boolean;
 }
@@ -19,8 +19,10 @@ const rows = packs.map((p, i) => {
     each: perLead * (1 - p.discount / 100),
   };
 });
-const start = rows[1] ?? rows[0];
+const scale = rows[rows.length - 1];
+const start = scale;
 const fmt = (n: number) => n.toLocaleString('en-US');
+const num = (n: number) => Math.round(n).toLocaleString('en-US');
 ---
 <section class="pricing forest on-dark" id="pricing" data-pricing>
   <div class="container">
@@ -34,10 +36,11 @@ const fmt = (n: number) => n.toLocaleString('en-US');
 
     <div class="grid">
       <article class="rate" data-reveal>
-        <span class="label">Standard rate</span>
-        <p class="big"><small>AED</small>{perLead}</p>
-        <p class="per">per lead you unlock</p>
+        <span class="label">{scale.name} rate</span>
+        <p class="big"><span class="dh-big" role="img" aria-label="AED"></span>{num(scale.each)}</p>
+        <p class="per">per lead with the {scale.name} pack</p>
         <ul>
+          <li>30+ verified leads</li>
           <li>Leads matched to your projects</li>
           <li>Names hidden until you unlock</li>
           <li>Bad lead? Report it for a refund</li>
@@ -52,9 +55,9 @@ const fmt = (n: number) => n.toLocaleString('en-US');
             <button
               type="button" role="radio" class="pack" data-pack={r.key}
               aria-checked={r.key === start.key ? 'true' : 'false'} tabindex={r.key === start.key ? 0 : -1}
-              data-leads={r.leads + (r.last ? '+' : '')} data-before={aed(r.before)}
-              data-discount={r.discount} data-save={'−' + aed(r.save)} data-pay={aed(r.pay)} data-tax={aed(r.tax)}
-              data-total={aed(r.total)} data-each={aed(r.each)} data-name={r.name}
+              data-leads={r.leads + (r.last ? '+' : '')} data-before={num(r.before)}
+              data-discount={r.discount} data-save={num(r.save)} data-pay={num(r.pay)} data-tax={num(r.tax)}
+              data-total={num(r.total)} data-each={num(r.each)} data-name={r.name}
               data-valid={r.validMonths ? `${r.validMonths} months` : ''}
             >
               <span class:list={['off', { std: !r.discount }]}>{r.discount ? `${r.discount}% off` : 'Standard rate'}</span>
@@ -75,16 +78,16 @@ const fmt = (n: number) => n.toLocaleString('en-US');
           <div class="r-head">
             <span><b data-out="name">{start.name}</b> pack</span>
             <span class="each">
-              <span>Each lead <b data-out="each">{aed(start.each)}</b></span>
+              <span>Each lead <b class="dh" data-out="each">{num(start.each)}</b></span>
               <span class="count"><span data-out="leads">{start.leads}</span> leads</span>
             </span>
           </div>
           <dl>
-            <div><dt>Price at the standard rate</dt><dd data-out="before">{aed(start.before)}</dd></div>
-            <div class="save"><dt>Pack discount (<span data-out="discount">{start.discount}</span>%)</dt><dd data-out="save">−{aed(start.save)}</dd></div>
-            <div class="sub"><dt>You pay</dt><dd data-out="pay">{aed(start.pay)}</dd></div>
-            <div><dt>VAT {vat}%</dt><dd data-out="tax">{aed(start.tax)}</dd></div>
-            <div class="total"><dt>Total</dt><dd data-out="total">{aed(start.total)}</dd></div>
+            <div><dt>Price at the standard rate</dt><dd><span class="dh" data-out="before">{num(start.before)}</span></dd></div>
+            <div class="save"><dt>Pack discount (<span data-out="discount">{start.discount}</span>%)</dt><dd>−<span class="dh" data-out="save">{num(start.save)}</span></dd></div>
+            <div class="sub"><dt>You pay</dt><dd><span class="dh" data-out="pay">{num(start.pay)}</span></dd></div>
+            <div><dt>VAT {vat}%</dt><dd><span class="dh" data-out="tax">{num(start.tax)}</span></dd></div>
+            <div class="total"><dt>Total</dt><dd><span class="dh" data-out="total">{num(start.total)}</span></dd></div>
             <div class="valid" data-valid-row hidden={!start.validMonths}><dt>Pack rate valid for</dt><dd data-out="valid">{start.validMonths ? `${start.validMonths} months` : ''}</dd></div>
           </dl>
           <div class="actions">
@@ -145,6 +148,9 @@ const fmt = (n: number) => n.toLocaleString('en-US');
   .label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
   .big { font-family: var(--font-display); font-weight: 700; font-size: clamp(72px, 8vw, 120px); line-height: .9; letter-spacing: -.05em; margin-top: 18px; display: flex; align-items: flex-start; gap: 8px; }
   .big small { font-size: .26em; letter-spacing: 0; margin-top: .45em; }
+  .dh-big { width: .42em; height: .38em; margin-top: .2em; flex: none; background: currentColor; -webkit-mask: url('/images/brand/dirham.svg') center / contain no-repeat; mask: url('/images/brand/dirham.svg') center / contain no-repeat; }
+  .dh { white-space: nowrap; }
+  .dh::before { content: ''; display: inline-block; width: .78em; height: .7em; margin-right: .22em; vertical-align: -.04em; background: currentColor; -webkit-mask: url('/images/brand/dirham.svg') center / contain no-repeat; mask: url('/images/brand/dirham.svg') center / contain no-repeat; }
   .per { font-weight: 600; margin-top: 8px; }
   .rate ul { list-style: none; display: grid; gap: 10px; margin: 28px 0 24px; font-weight: 500; }
   .rate li { display: flex; gap: 10px; align-items: baseline; }
