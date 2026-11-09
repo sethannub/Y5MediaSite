@@ -111,9 +111,10 @@ export const leadPricing = {
   perLead: 250,
   vat: 5,
   packs: [
-    { name: 'Starter', credits: 1000, discount: 0, validMonths: 0 },
-    { name: 'Growth', credits: 5000, discount: 20, validMonths: 2 },
-    { name: 'Scale', credits: 10000, discount: 40, validMonths: 3 },
+    // Limited Trial: time-limited onboarding offer, shows the standard rate struck through.
+    { name: 'Limited Trial', credits: 1000, discount: 40, validMonths: 0, projects: 1, offer: 'Limited-time onboarding offer', showWas: true },
+    { name: 'Growth', credits: 5000, discount: 20, validMonths: 2, projects: 2, offer: '', showWas: false },
+    { name: 'Scale', credits: 10000, discount: 40, validMonths: 3, projects: 4, offer: '', showWas: false },
   ],
 } as const;
 

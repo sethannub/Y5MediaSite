@@ -24,6 +24,8 @@ const start = scale;
 const rateLabel = (r: typeof rows[number]) => (r.discount ? `${r.name} rate` : 'Standard rate');
 const ratePer = (r: typeof rows[number]) => (r.discount ? `per lead with the ${r.name} pack` : 'per lead you unlock');
 const rateBullet = (r: typeof rows[number]) => (r.last ? '30+ verified leads' : `${r.leads} verified leads`);
+const rateCampaigns = (r: typeof rows[number]) => `${r.projects} Project Campaign${r.projects === 1 ? '' : 's'}`;
+const ticks = [...new Set([0, ...rows.map((r) => r.discount)])];
 const fmt = (n: number) => n.toLocaleString('en-US');
 const num = (n: number) => Math.round(n).toLocaleString('en-US');
 ---
@@ -40,10 +42,11 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
     <div class="grid">
       <article class="rate" data-reveal>
         <span class="label" data-out="rate-label">{rateLabel(start)}</span>
-        <p class="big"><span class="dh-big" role="img" aria-label="AED"></span><span data-out="each">{num(start.each)}</span></p>
+        <p class="big"><span class="dh-big" role="img" aria-label="AED"></span><span data-out="each">{num(start.each)}</span><del class="was" data-was aria-label={`Was AED ${num(perLead)}`} hidden={!start.showWas}><span class="dh">{num(perLead)}</span></del></p>
         <p class="per" data-out="rate-per">{ratePer(start)}</p>
         <ul>
           <li data-out="rate-bullet">{rateBullet(start)}</li>
+          <li><span class="campaigns" data-out="rate-campaigns">{rateCampaigns(start)}</span></li>
           <li>Leads matched to your projects</li>
           <li>Names hidden until you unlock</li>
           <li>Bad lead? Report it for a refund</li>
@@ -63,11 +66,13 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
               data-total={num(r.total)} data-each={num(r.each)} data-name={r.name}
               data-valid={r.validMonths ? `${r.validMonths} months` : ''}
               data-rate-label={rateLabel(r)} data-rate-per={ratePer(r)} data-rate-bullet={rateBullet(r)}
+              data-rate-campaigns={rateCampaigns(r)} data-show-was={r.showWas ? '1' : ''}
             >
               <span class:list={['off', { std: !r.discount }]}>{r.discount ? `${r.discount}% off` : 'Standard rate'}</span>
               <b>{r.name}</b>
               <span class="cr">{fmt(r.credits)}{r.last ? '+' : ''} credits</span>
               <span class="ld">about {r.leads} leads</span>
+              {r.offer && <span class="vd">{r.offer}</span>}
               {r.validMonths > 0 && <span class="vd">Discount valid {r.validMonths} months</span>}
             </button>
           ))}
@@ -75,7 +80,7 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
 
         <div class="meter" aria-hidden="true">
           <div class="fill" data-fill style={`width: ${(start.discount / rows[rows.length - 1].discount) * 100}%`}></div>
-          {rows.map((r) => <span class="tick" style={`left: ${(r.discount / rows[rows.length - 1].discount) * 100}%`}>{r.discount}%</span>)}
+          {ticks.map((t) => <span class="tick" style={`left: ${(t / rows[rows.length - 1].discount) * 100}%`}>{t}%</span>)}
         </div>
 
         <div class="receipt" aria-live="polite">
@@ -119,6 +124,9 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
       out('before', d.before!); out('discount', d.discount!); out('save', d.save!); out('pay', d.pay!);
       out('tax', d.tax!); out('total', d.total!); out('valid', d.valid || '');
       out('rate-label', d.rateLabel!); out('rate-per', d.ratePer!); out('rate-bullet', d.rateBullet!);
+      out('rate-campaigns', d.rateCampaigns!);
+      const was = root.querySelector<HTMLElement>('[data-was]');
+      if (was) was.hidden = !d.showWas;
       const validRow = root.querySelector<HTMLElement>('[data-valid-row]');
       if (validRow) validRow.hidden = !d.valid;
       if (fill) fill.style.width = `${(Number(d.discount) / max) * 100}%`;
@@ -156,6 +164,9 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
   .dh-big { width: .5em; height: .45em; margin-top: .14em; margin-right: .04em; flex: none; background: currentColor; -webkit-mask: url('/images/brand/dirham-bold.svg') center / contain no-repeat; mask: url('/images/brand/dirham-bold.svg') center / contain no-repeat; }
   .dh { white-space: nowrap; }
   .dh::before { content: ''; display: inline-block; width: .78em; height: .7em; margin-right: .22em; vertical-align: -.04em; background: currentColor; -webkit-mask: url('/images/brand/dirham.svg') center / contain no-repeat; mask: url('/images/brand/dirham.svg') center / contain no-repeat; }
+  .was { position: relative; align-self: center; margin-left: .3em; font-size: .36em; font-weight: 600; letter-spacing: -.02em; line-height: 1; color: #1D3320; text-decoration: none; }
+  .was::after { content: ''; position: absolute; left: -4%; right: -4%; top: 52%; height: .09em; background: currentColor; border-radius: 999px; transform: rotate(-8deg); }
+  .campaigns { display: inline-block; padding: 3px 12px; border-radius: 999px; background: #0B1A10; color: #FFE135; font-weight: 700; }
   .per { font-weight: 600; margin-top: 8px; }
   .rate ul { list-style: none; display: grid; gap: 10px; margin: 28px 0 24px; font-weight: 500; }
   .rate li { display: flex; gap: 10px; align-items: baseline; }
