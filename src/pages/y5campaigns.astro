@@ -5,7 +5,7 @@ import CampaignsMail from '../components/home/CampaignsMail.astro';
 import CampaignPricing from '../components/CampaignPricing.astro';
 import CampaignEmails from '../components/CampaignEmails.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { products, campaignPricing } from '../config/site';
+import { site, products, campaignPricing } from '../config/site';
 
 // The four industries the page leads with, and the open and click rates a
 // campaign in each can expect. These are marketing ranges agreed with the
@@ -63,7 +63,7 @@ const faqs = [
     full
   >
     <Fragment slot="buttons">
-      <a class="btn btn-primary" href="/contact?interest=y5campaigns">Start a campaign</a>
+      <a class="btn btn-primary" href={site.platform}>Start a campaign</a>
       <a class="btn btn-glass" href="#pricing">See pricing</a>
     </Fragment>
     <div class="hero-art" slot="side" aria-hidden="true">
@@ -166,7 +166,7 @@ const faqs = [
         <div class="kicker" data-reveal>What’s included</div>
         <h2 data-reveal>Everything from design <span class="accent-violet">to the final report.</span></h2>
         <p class="lede" data-reveal>One price per email covers the whole campaign, design included. You pay from your credit balance, with no monthly plan.</p>
-        <a class="btn btn-dark" href="/contact?interest=y5campaigns" data-reveal>Start a campaign</a>
+        <a class="btn btn-dark" href={site.platform} data-reveal>Start a campaign</a>
       </div>
       <ul class="inc-list">
         {included.map((it, i) => (

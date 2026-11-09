@@ -1,4 +1,5 @@
 ---
+import { site } from '../../config/site';
 ---
 <section class="section ads-setup on-dark">
   <img class="bg" src="/images/y5ads/campaign-setup.webp" alt="" width="1920" height="1500" loading="lazy" />
@@ -10,7 +11,7 @@
         Target your audience with banner, video and SMS marketing, and run WiFi ads for the dates you choose in the
         locations you pick. Any manager in your company can do it.
       </p>
-      <a class="btn" href="/contact?interest=y5ads" data-reveal>Start your campaign <span aria-hidden="true">→</span></a>
+      <a class="btn" href={site.platform} data-reveal>Start your campaign <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>

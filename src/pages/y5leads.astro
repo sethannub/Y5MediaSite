@@ -46,7 +46,7 @@ const scaleLeads = Math.floor(scale.credits / leadPricing.perLead);
     full
   >
     <Fragment slot="buttons">
-      <a class="btn btn-primary" href="/contact?interest=y5leads">Get started</a>
+      <a class="btn btn-primary" href={site.platform}>Get started</a>
       <a class="btn btn-glass" href="#pricing">See pricing</a>
     </Fragment>
     <div class="price-card" slot="side">
@@ -72,7 +72,7 @@ const scaleLeads = Math.floor(scale.credits / leadPricing.perLead);
     tone="light"
     stageKind="wide"
     stepMs={5200}
-    cta={{ label: 'Get started', href: '/contact?interest=y5leads' }}
+    cta={{ label: 'Get started', href: site.platform }}
     secondary={{ label: 'See pricing', href: '#pricing' }}
   >
     <ClaimFilm slot="stage" />

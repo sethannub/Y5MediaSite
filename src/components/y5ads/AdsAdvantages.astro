@@ -1,8 +1,9 @@
 ---
+import { site } from '../../config/site';
 interface Props {
   cta?: { label: string; href: string };
 }
-const { cta = { label: 'Launch campaign', href: '/contact?interest=y5ads' } } = Astro.props;
+const { cta = { label: 'Launch campaign', href: site.platform } } = Astro.props;
 const icons = {
   target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>',
   pin: '<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',

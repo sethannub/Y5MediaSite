@@ -30,6 +30,9 @@ export const site = {
 
   cta: { label: 'Talk to us', href: '/contact' },
 
+  // Where every product's start button goes: all campaigns run through this platform.
+  platform: 'https://leads.y5media.net',
+
   signup: { label: 'Sign up', href: 'https://leads.y5media.net/register' },
 
   logins: [

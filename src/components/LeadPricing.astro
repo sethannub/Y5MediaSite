@@ -100,7 +100,7 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
             <div class="valid" data-valid-row hidden={!start.validMonths}><dt>Pack rate valid for</dt><dd data-out="valid">{start.validMonths ? `${start.validMonths} months` : ''}</dd></div>
           </dl>
           <div class="actions">
-            <a class="btn btn-primary" href="/contact?interest=y5leads">Get started <span aria-hidden="true">→</span></a>
+            <a class="btn btn-primary" href={site.platform}>Get started <span aria-hidden="true">→</span></a>
           </div>
         </div>
         <p class="note">Need more than {fmt(rows[rows.length - 1].credits)} credits or a custom rate? <a href={site.cta.href}>Talk to us</a>.</p>

@@ -4,7 +4,7 @@
 // emails, snaps to the price breaks, and the tier buttons under it jump to each
 // break. Figures come from campaignPricing in site.ts (keep in step with
 // config/pricing.php in the Y5Leads app).
-import { campaignPricing } from '../config/site';
+import { site, campaignPricing } from '../config/site';
 const { tiers, vat, minEmails } = campaignPricing;
 const MAX = 2000000;
 const short = (n: number) => (n >= 1000000 ? `${n / 1000000}M` : `${n / 1000}K`);
@@ -58,7 +58,7 @@ const credits = (n: number) => Math.round(n * rateFor(n));
         <p class="line"><span data-out="emails2">{fmt(start)}</span> emails × AED <span data-out="rate">{rateFor(start)}</span></p>
         <p class="total"><b data-out="credits">{fmt(credits(start))}</b> <span>credits</span></p>
         <p class="line">AED <span data-out="vat">{fmt(Math.round(credits(start) * (1 + vat / 100)))}</span> with {vat}% VAT</p>
-        <a class="btn btn-violet" href="/contact?interest=y5campaigns">Start a campaign</a>
+        <a class="btn btn-violet" href={site.platform}>Start a campaign</a>
       </div>
     </div>
     <p class="fine">The smallest campaign is {fmt(minEmails)} emails. Need more than {short(MAX)}? <a href="/contact?interest=y5campaigns">Talk to us</a>.</p>
