@@ -3,10 +3,8 @@ import { site } from '../config/site';
 const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
 const interests = [
   { value: 'y5leads', label: 'Y5Leads (buyer leads)' },
-  { value: 'y5ads', label: 'Y5Ads (WiFi advertising)' },
   { value: 'y5campaigns', label: 'Y5Campaigns (email campaigns)' },
-  { value: 'both', label: 'More than one' },
-  { value: 'other', label: 'Something else' },
+  { value: 'y5ads', label: 'Y5Ads (WiFi advertising)' },
 ];
 ---
 <div class="form-card" data-contact>
@@ -43,7 +41,7 @@ const interests = [
         <div class="choices">
           {interests.map((it, i) => (
             <label class="choice">
-              <input type="radio" name="interest" value={it.value} id={`cf-interest-${it.value}`} required checked={it.value === 'other'} />
+              <input type="radio" name="interest" value={it.value} id={`cf-interest-${it.value}`} required checked={i === 0} />
               <span>{it.label}</span>
             </label>
           ))}
