@@ -115,7 +115,7 @@ export const leadPricing = {
   vat: 5,
   packs: [
     // Limited Trial: time-limited onboarding offer, shows the standard rate struck through.
-    { name: 'Limited Trial', credits: 1000, discount: 40, validMonths: 0, projects: 1, offer: 'Limited-time onboarding offer', showWas: true },
+    { name: 'Limited Trial', credits: 1000, discount: 60, validMonths: 0, projects: 1, offer: 'Limited-time onboarding offer', showWas: true },
     { name: 'Growth', credits: 5000, discount: 20, validMonths: 2, projects: 2, offer: '', showWas: false },
     { name: 'Scale', credits: 10000, discount: 40, validMonths: 3, projects: 4, offer: '', showWas: false },
   ],
