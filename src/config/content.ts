@@ -81,7 +81,7 @@ export const wifiSteps = [
 export const leadSteps = [
   { title: 'New leads arrive', text: 'Buyers matched to your projects appear in your list, names hidden.' },
   { title: 'Check before you pay', text: 'See the project and budget first. Open any lead to look closer.' },
-  { title: 'Unlock from AED 100', text: 'Click Unlock, then click again to confirm. The lead is yours.' },
+  { title: 'Unlock from AED 150', text: 'Click Unlock, then click again to confirm. The lead is yours.' },
   { title: 'Call, WhatsApp or copy', text: 'The number appears with one-tap Call, WhatsApp and Copy buttons.' },
   { title: 'Everything on your dashboard', text: 'Credits, projects and every lead you’ve unlocked, in one place.' },
 ];
