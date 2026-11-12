@@ -4,7 +4,7 @@ export const site = {
   name: 'Y5Media',
   tagline: 'WiFi advertising and lead generation in the UAE',
   description:
-    'Y5Media helps brands reach people across the UAE with Y5Ads in malls, cafés, homes and staff accommodation, and delivers buyer leads for every industry, from property to luxury cars, through Y5Leads.',
+    'Y5Media delivers buyer leads for every industry, from property to luxury cars, through Y5Leads, and helps brands reach people across the UAE with Y5Ads in malls, cafés, homes and staff accommodation.',
 
   analytics: {
     ga4Id: (import.meta.env.PUBLIC_GA4_ID as string | undefined) ?? '',
@@ -71,10 +71,10 @@ export const products = {
     href: '/y5leads',
     tagline: 'Buyer leads for every industry, ready to call',
     summary:
-      'Customers interested in what you sell are matched to your product or service and delivered to your Y5Leads dashboard. Unlock the ones you want, and we can push them to your own CRM.',
+      'Customers interested in what you sell are matched to your product or service and delivered straight to your Y5Leads dashboard, ready to call, and we can push them to your own CRM.',
     points: [
       'Leads matched to your projects and budget',
-      'Pay only for the leads you unlock',
+      'Leads open in your portal as they arrive',
       'Call, WhatsApp or copy to your CRM in one click',
       'Report a bad lead and get your credits back',
     ],
@@ -115,7 +115,7 @@ export const leadPricing = {
   vat: 5,
   packs: [
     // Limited Trial: time-limited onboarding offer, shows the standard rate struck through.
-    { name: 'Limited Trial', credits: 1000, discount: 60, validMonths: 0, projects: 1, offer: 'Limited-time onboarding offer', showWas: true },
+    { name: 'Limited Trial', credits: 1000, discount: 60, validMonths: 1, projects: 1, offer: 'Limited-time onboarding offer', showWas: true },
     { name: 'Growth', credits: 5000, discount: 20, validMonths: 2, projects: 2, offer: '', showWas: false },
     { name: 'Scale', credits: 10000, discount: 40, validMonths: 3, projects: 4, offer: '', showWas: false },
   ],

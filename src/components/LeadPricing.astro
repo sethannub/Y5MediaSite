@@ -22,12 +22,13 @@ const rows = packs.map((p, i) => {
 const scale = rows[rows.length - 1];
 const start = scale;
 const rateLabel = (r: typeof rows[number]) => (r.discount ? `${r.name} rate` : 'Standard rate');
-const ratePer = (r: typeof rows[number]) => (r.discount ? `per lead with the ${r.name} pack` : 'per lead you unlock');
+const ratePer = (r: typeof rows[number]) => (r.discount ? `per lead with the ${r.name} pack` : 'per lead');
 const rateBullet = (r: typeof rows[number]) => (r.last ? '30+ verified leads' : `${r.leads} verified leads`);
 const rateCampaigns = (r: typeof rows[number]) => `${r.projects} Project Campaign${r.projects === 1 ? '' : 's'}`;
 const ticks = [...new Set([0, ...rows.map((r) => r.discount)])].sort((a, b) => a - b);
 const maxOff = Math.max(...rows.map((r) => r.discount));
 const fmt = (n: number) => n.toLocaleString('en-US');
+const months = (n: number) => `${n} Month${n === 1 ? '' : 's'}`;
 const num = (n: number) => Math.round(n).toLocaleString('en-US');
 ---
 <section class="pricing forest on-dark" id="pricing" data-pricing>
@@ -37,7 +38,7 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
         <div class="kicker" data-reveal>Y5Leads pricing</div>
         <h2 data-reveal>One price per lead. <span class="accent">Bigger packs, bigger savings.</span></h2>
       </div>
-      <p class="lede" data-reveal>Credits are only spent when you unlock a lead. One credit is one dirham.</p>
+      <p class="lede" data-reveal>Credits are spent on the leads delivered to your portal. One credit is one dirham.</p>
     </div>
 
     <div class="grid">
@@ -49,7 +50,6 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
           <li data-out="rate-bullet">{rateBullet(start)}</li>
           <li><span class="campaigns" data-out="rate-campaigns">{rateCampaigns(start)}</span></li>
           <li>Leads matched to your projects</li>
-          <li>Names hidden until you unlock</li>
           <li>Bad lead? Report it for a refund</li>
           <li>Email alert when new leads arrive</li>
         </ul>
@@ -65,7 +65,7 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
               data-leads={r.leads + (r.last ? '+' : '')} data-before={num(r.before)}
               data-discount={r.discount} data-save={num(r.save)} data-pay={num(r.pay)} data-tax={num(r.tax)}
               data-total={num(r.total)} data-each={num(r.each)} data-name={r.name}
-              data-valid={r.validMonths ? `${r.validMonths} months` : ''}
+              data-valid={r.validMonths ? months(r.validMonths) : ''}
               data-rate-label={rateLabel(r)} data-rate-per={ratePer(r)} data-rate-bullet={rateBullet(r)}
               data-rate-campaigns={rateCampaigns(r)} data-show-was={r.showWas ? '1' : ''}
             >
@@ -74,7 +74,7 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
               <span class="cr">{fmt(r.pay)}{r.last ? '+' : ''} credits</span>
               <span class="ld">about {r.leads} leads</span>
               {r.offer && <span class="vd">{r.offer}</span>}
-              {r.validMonths > 0 && <span class="vd">Discount valid {r.validMonths} months</span>}
+              {r.validMonths > 0 && <span class="vd">Package valid for: {months(r.validMonths)}</span>}
             </button>
           ))}
         </div>
@@ -98,13 +98,12 @@ const num = (n: number) => Math.round(n).toLocaleString('en-US');
             <div class="sub"><dt>You pay</dt><dd><span class="dh" data-out="pay">{num(start.pay)}</span></dd></div>
             <div><dt>VAT {vat}%</dt><dd><span class="dh" data-out="tax">{num(start.tax)}</span></dd></div>
             <div class="total"><dt>Total</dt><dd><span class="dh" data-out="total">{num(start.total)}</span></dd></div>
-            <div class="valid" data-valid-row hidden={!start.validMonths}><dt>Pack rate valid for</dt><dd data-out="valid">{start.validMonths ? `${start.validMonths} months` : ''}</dd></div>
+            <div class="valid" data-valid-row hidden={!start.validMonths}><dt>Package valid for</dt><dd data-out="valid">{start.validMonths ? months(start.validMonths) : ''}</dd></div>
           </dl>
           <div class="actions">
             <a class="btn btn-primary" href={site.platform}>Get started <span aria-hidden="true">→</span></a>
           </div>
         </div>
-        <p class="note">Need more than {fmt(rows[rows.length - 1].pay)} credits or a custom rate? <a href={site.cta.href}>Talk to us</a>.</p>
       </div>
     </div>
 

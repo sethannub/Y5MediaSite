@@ -67,8 +67,8 @@ export const industries = [
 export const reasons = [
   { title: 'Targeted reach', text: 'Reach people in the places that matter to you, from malls and cafés to homes and staff accommodation.' },
   { title: 'Built around results', text: 'Every campaign starts from a clear goal: more people seeing your brand, more visits, or more enquiries.' },
-  { title: 'Numbers you can check', text: 'Impressions, clicks and devices for Y5Ads. Every lead and every credit for Y5Leads.' },
-  { title: 'Use one or both', text: 'Run Y5Ads, Y5Leads, or both together, based on your audience and budget.' },
+  { title: 'Numbers you can check', text: 'Every lead and every credit for Y5Leads. Impressions, clicks and devices for Y5Ads.' },
+  { title: 'Use one or both', text: 'Run Y5Leads, Y5Ads, or both together, based on your audience and budget.' },
 ];
 
 export const wifiSteps = [
@@ -79,11 +79,11 @@ export const wifiSteps = [
 ];
 
 export const leadSteps = [
-  { title: 'New leads arrive', text: 'Buyers matched to your projects appear in your list, names hidden.' },
-  { title: 'Check before you pay', text: 'See the project and budget first. Open any lead to look closer.' },
-  { title: 'Unlock from AED 150', text: 'Click Unlock, then click again to confirm. The lead is yours.' },
+  { title: 'New leads arrive', text: 'Buyers matched to your projects appear in your portal straight away.' },
+  { title: 'Open any lead', text: 'See the name, number, project and budget in full.' },
+  { title: 'Ready to call', text: 'Every lead opens in your portal the moment it arrives.' },
   { title: 'Call, WhatsApp or copy', text: 'The number appears with one-tap Call, WhatsApp and Copy buttons.' },
-  { title: 'Everything on your dashboard', text: 'Credits, projects and every lead you’ve unlocked, in one place.' },
+  { title: 'Everything on your dashboard', text: 'Credits, projects and every lead you’ve received, in one place.' },
 ];
 
 export const industryPages = [
@@ -97,7 +97,7 @@ export const industryPages = [
     lede: 'Property buyers compare projects for weeks and speak to several agents. We put the ones who match your development in front of you first, and keep your launch in view while they decide.',
     benefits: [
       'Buyers matched to each project and budget range',
-      'See the project and budget before you pay',
+      'Every lead shows the project and budget',
       'Your launch on WiFi where buyers live and shop',
       'Call or WhatsApp in one tap, or send leads to your CRM',
     ],
@@ -114,7 +114,7 @@ export const industryPages = [
     lede: 'Car buyers shortlist models online, then visit only one or two showrooms. We reach them while they are choosing, and get the ones ready to buy on your phone first.',
     benefits: [
       'Leads for the models and price bands you sell',
-      'Unlock only the serious buyers',
+      'Leads open in your portal as they arrive',
       'Full-screen video ads give a new model the whole screen',
       'Book the test drive the same day',
     ],
@@ -166,7 +166,7 @@ export const industryPages = [
     lede: 'Families and students compare schools, universities and courses for months before they commit. We reach them while they research, and send you the ones asking about your programmes.',
     benefits: [
       'Enquiries for your schools, courses and programmes',
-      'See the programme and fee range before you pay',
+      'Every enquiry shows the programme and fee range',
       'Open days and new intakes on WiFi where families live',
       'Call or WhatsApp in one tap to book a campus visit',
     ],
@@ -179,5 +179,5 @@ export const companyTimeline = [
   { year: '2020', title: 'Y5Media opens in Dubai', text: 'Starting with WiFi display advertising for UAE brands.' },
   { year: '2022', title: 'The WiFi network grows', text: '500+ locations and 50K+ hotspots across malls, cafés, residential communities and staff accommodation.' },
   { year: '2023', title: 'Brands across the UAE', text: 'Telecoms, banks, retailers and FMCG brands advertise with us, from e& and du to PepsiCo and McDonald’s.' },
-  { year: '2024', title: 'Y5Leads launches', text: 'Verified buyer leads for every industry, delivered to a dashboard where clients unlock only the ones they want.' },
+  { year: '2024', title: 'Y5Leads launches', text: 'Verified buyer leads for every industry, delivered straight to each client’s dashboard.' },
 ];
