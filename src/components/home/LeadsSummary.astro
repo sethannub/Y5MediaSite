@@ -7,7 +7,7 @@ const points = [
   { b: 'Refunds', s: 'Report a bad lead, get your credits back' },
 ];
 ---
-<section class="section leads-sum forest on-dark" id="y5leads-summary">
+<section class="section leads-sum" id="y5leads-summary">
   <div class="container grid">
     <div class="copy">
       <div class="kicker" data-reveal>Y5Leads · Buyer leads</div>
@@ -23,7 +23,7 @@ const points = [
       </ul>
       <div class="buttons" data-reveal>
         <a class="btn btn-primary" href={products.leads.href}>Learn more <span aria-hidden="true">→</span></a>
-        <a class="btn btn-ghost" href="/y5leads#pricing">See pricing</a>
+        <a class="btn btn-outline" href="/y5leads#pricing">See pricing</a>
       </div>
     </div>
     <figure class="shot" data-reveal>
@@ -33,14 +33,15 @@ const points = [
 </section>
 
 <style>
+  .leads-sum { background: var(--white); color: var(--ink); }
   .grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
   .lede { margin: 18px 0 28px; }
   .points { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 30px; }
-  .points li { display: grid; gap: 4px; padding: 18px 20px; border-radius: var(--radius-md); background: var(--glass); border: 1px solid var(--glass-border); }
-  .points b { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--lime); }
-  .points span { font-size: 14px; color: var(--on-dark-muted); }
+  .points li { display: grid; gap: 4px; padding: 18px 20px; border-radius: var(--radius-md); background: #F4F7F3; border: 1px solid var(--gray-200); }
+  .points b { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--green-ink); }
+  .points span { font-size: 14px; color: var(--gray-500); }
   .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
-  .shot { border-radius: var(--radius-lg); padding: 12px; background: rgba(255, 255, 255, .06); border: 1px solid var(--glass-border); transform: perspective(1400px) rotateY(-8deg); box-shadow: 0 50px 90px -40px rgba(0, 0, 0, .8); }
+  .shot { border-radius: var(--radius-lg); padding: 12px; background: #F4F7F3; border: 1px solid var(--gray-200); transform: perspective(1400px) rotateY(-8deg); box-shadow: 0 50px 90px -40px rgba(11, 26, 16, .45); }
   .shot img { width: 100%; height: auto; border-radius: 14px; display: block; }
   @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } .shot { transform: none; } }
   @media (max-width: 520px) { .points { grid-template-columns: 1fr; } }
