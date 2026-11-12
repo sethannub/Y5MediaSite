@@ -80,9 +80,8 @@ export const wifiSteps = [
 
 export const leadSteps = [
   { title: 'New leads arrive', text: 'Buyers matched to your projects appear in your portal straight away.' },
-  { title: 'Open any lead', text: 'See the name, number, project and budget in full.' },
-  { title: 'Ready to call', text: 'Every lead opens in your portal the moment it arrives.' },
-  { title: 'Call, WhatsApp or copy', text: 'The number appears with one-tap Call, WhatsApp and Copy buttons.' },
+  { title: 'Open any lead', text: 'See the name, number, budget and notes in full.' },
+  { title: 'Call, WhatsApp or copy', text: 'One tap to call, WhatsApp or email, or copy the lead to your CRM.' },
   { title: 'Everything on your dashboard', text: 'Credits, projects and every lead you’ve received, in one place.' },
 ];
 
